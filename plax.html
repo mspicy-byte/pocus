@@ -54,41 +54,35 @@
     .grid button:hover {
       background-color: #005fa3;
     }
+
     .iphone {
       max-width: 300px;
-    }
-    .iphone img {
-      width: 100%;
-      border-radius: 20px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
 
     .video-container {
       position: relative;
-      width: 300px;
-      aspect-ratio: 9 / 19.5; /* Rough ratio for an iPhone shape */
-  }
-  
-    .video-container video {
-      position: absolute;
-      top: 10%;  /* Adjust to align with screen */
-      left: 14%;
-      width: 80%;
-      height: 80%;
-      object-fit: cover;
-      z-index: 1;
-      border-radius: 15px;
-  }
-  
-    .video-container img {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
-      z-index: 2;
-      pointer-events: none;
+      aspect-ratio: 360 / 722;
     }
 
+    .phone-frame {
+      position: relative;
+      width: 100%;
+      z-index: 2;
+      display: block;
+    }
+
+    .screen-content {
+      position: absolute;
+      top: 9%;
+      left: 8%;
+      width: 84%;
+      height: 81%;
+      object-fit: cover;
+      border-radius: 12px;
+      z-index: 1;
+      background-color: black;
+    }
   </style>
 </head>
 <body>
@@ -106,12 +100,18 @@
       <button>13</button><button>14</button><button>15</button><button>16</button>
     </div>
 
-   <div class="iphone">
+    <div class="iphone">
       <div class="video-container">
-      <video src="demo.mp4" autoplay loop muted playsinline></video>
-      <img src="iphone.png" alt="POCUS iPhone display">
-  </div>
-</div>
+        <!-- Use <video> for MP4 -->
+        <video class="screen-content" src="demo.mp4" autoplay loop muted playsinline></video>
+        
+        <!-- Use <img> for GIF instead -->
+        <!-- <img class="screen-content" src="demo.gif" alt="Demo"> -->
+
+        <img class="phone-frame" src="iphone.png" alt="iPhone frame">
+      </div>
+    </div>
   </div>
 </body>
 </html>
+

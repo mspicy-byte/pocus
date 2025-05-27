@@ -2,26 +2,85 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Start Learning - POCUS Teaching</title>
+  <title>Parasteneral Long Axis - POCUS Teaching</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 50px;
-      background-color: #f0f8ff;
+      margin: 0;
+      background-color: #f9f9f9;
     }
-    a {
-      display: inline-block;
-      margin-top: 20px;
-      text-decoration: none;
-      color: #007acc;
-      font-weight: bold;
+    header {
+      background-color: #1a1a1a;
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+    header p {
+      margin-top: 10px;
+      font-size: 1.1em;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .content {
+      display: flex;
+      padding: 30px;
+      gap: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 80px);
+      grid-template-rows: repeat(4, 80px);
+      gap: 15px;
+    }
+    .grid button {
+      width: 80px;
+      height: 80px;
+      background-color: #007acc;
+      border: none;
+      color: white;
+      font-size: 1em;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .grid button:hover {
+      background-color: #005fa3;
+    }
+    .iphone {
+      max-width: 300px;
+    }
+    .iphone img {
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
   </style>
 </head>
 <body>
-  <h1>Start Learning</h1>
-  <p>Welcome to the learning section! You can add modules, videos, or images here.</p>
-  <a href="index.html">← Back to Home</a>
+  <header>
+    <h1>Parasternal Long Axis</h1>
+    <p>Use the following movements to find a view of the left ventricle, mitral valve, aortic valve and aortic artery. This view can give us a rough idea of heart ejection fraction. Press any of the buttons to begin.</p>
+  </header>
+
+  <div class="content">
+    <div class="grid">
+      <!-- 16 buttons -->
+      <button>1</button><button>2</button><button>3</button><button>4</button>
+      <button>5</button><button>6</button><button>7</button><button>8</button>
+      <button>9</button><button>10</button><button>11</button><button>12</button>
+      <button>13</button><button>14</button><button>15</button><button>16</button>
+    </div>
+    <div class="iphone">
+      <img src="your-iphone-image.png" alt="POCUS iPhone display">
+    </div>
+  </div>
 </body>
 </html>

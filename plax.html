@@ -62,6 +62,33 @@
       border-radius: 20px;
       box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
+
+    .video-container {
+      position: relative;
+      width: 300px;
+      aspect-ratio: 9 / 19.5; /* Rough ratio for an iPhone shape */
+  }
+  
+    .video-container video {
+      position: absolute;
+      top: 14.5%;  /* Adjust to align with screen */
+      left: 14%;
+      width: 72%;
+      height: 71%;
+      object-fit: cover;
+      z-index: 1;
+      border-radius: 15px;
+  }
+  
+    .video-container img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
+
   </style>
 </head>
 <body>
@@ -78,9 +105,13 @@
       <button>9</button><button>10</button><button>11</button><button>12</button>
       <button>13</button><button>14</button><button>15</button><button>16</button>
     </div>
-    <div class="iphone">
+
+   <div class="iphone">
+      <div class="video-container">
+      <video src="demo.mp4" autoplay loop muted playsinline></video>
       <img src="iphone.png" alt="POCUS iPhone display">
-    </div>
+  </div>
+</div>
   </div>
 </body>
 </html>

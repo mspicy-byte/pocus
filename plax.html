@@ -191,9 +191,12 @@ const tensor = [
       }
 
       // Change source and reload video
-      video.src = url;
+      const video = document.getElementById("main-video");
+      const source = video.querySelector("source");
+      source.src = url;
       video.load();
       video.play();
+
 
       console.log(`Showing video: ${url}`);
     }

@@ -9,16 +9,19 @@
       margin: 0;
       background-color: #f9f9f9;
     }
+
     header {
       background-color: #1a1a1a;
       color: white;
       padding: 30px;
       text-align: center;
     }
+
     header h1 {
       margin: 0;
       font-size: 2.5em;
     }
+
     header p {
       margin-top: 10px;
       font-size: 1.1em;
@@ -26,20 +29,23 @@
       margin-left: auto;
       margin-right: auto;
     }
+
     .content {
       display: flex;
-      padding: 30px;
-      gap: 40px;
       flex-wrap: wrap;
       justify-content: center;
       align-items: flex-start;
+      gap: 40px;
+      padding: 30px;
     }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(4, 80px);
-      grid-template-rows: repeat(3, 80px);
+      grid-template-rows: repeat(2, 80px);
       gap: 15px;
     }
+
     .grid button {
       width: 80px;
       height: 80px;
@@ -51,6 +57,7 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
+
     .grid button:hover {
       background-color: #005fa3;
     }
@@ -103,7 +110,7 @@
       <button onclick="move(1, 0, 0, 0)">Next Set (S+)</button>
     </div>
 
-    <!-- First iPhone -->
+    <!-- First iPhone (Dynamic) -->
     <div class="iphone">
       <div class="video-container">
         <video id="main-video" class="screen-content" autoplay loop muted playsinline>
@@ -113,8 +120,8 @@
         <img class="phone-frame" src="iphone.png" alt="iPhone frame" />
       </div>
     </div>
-    
-    <!-- Second iPhone (static video) -->
+
+    <!-- Second iPhone (Static) -->
     <div class="iphone">
       <div class="video-container">
         <video id="second-video" class="screen-content" autoplay loop muted playsinline>
@@ -124,9 +131,9 @@
         <img class="phone-frame" src="iphone.png" alt="iPhone frame" />
       </div>
     </div>
- </div>
+  </div>
 
-  <script>
+<script>
     // 4D tensor: [set][z][y][x]
 const tensor = [
   [ // Set 0

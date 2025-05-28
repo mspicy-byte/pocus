@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Parasteneral Long Axis - POCUS Teaching</title>
+  <meta charset="UTF-8" />
+  <title>Parasternal Long Axis - POCUS Teaching</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -37,7 +37,7 @@
     .grid {
       display: grid;
       grid-template-columns: repeat(4, 80px);
-      grid-template-rows: repeat(auto-fill, 80px);
+      grid-template-rows: repeat(3, 80px);
       gap: 15px;
     }
     .grid button {
@@ -46,13 +46,10 @@
       background-color: #007acc;
       border: none;
       color: white;
-      font-size: 0.9em;
+      font-size: 1em;
       border-radius: 10px;
       cursor: pointer;
       transition: background-color 0.3s ease;
-      word-wrap: break-word;
-      padding: 5px;
-      text-align: center;
     }
     .grid button:hover {
       background-color: #005fa3;
@@ -104,88 +101,118 @@
       <button onclick="move(0, 0, 0, 1)">Right (X+)</button>
       <button onclick="move(-1, 0, 0, 0)">Prev Set (S-)</button>
       <button onclick="move(1, 0, 0, 0)">Next Set (S+)</button>
-
     </div>
 
     <div class="iphone">
       <div class="video-container">
-        <video class="screen-content" src="demo.mp4" autoplay loop muted playsinline></video>
-        <img class="phone-frame" src="iphone.png" alt="iPhone frame">
+        <video id="main-video" class="screen-content" autoplay loop muted playsinline>
+          <source src="s0z1y1x1.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <img class="phone-frame" src="iphone.png" alt="iPhone frame" />
       </div>
     </div>
-
-    <div class="iphone">
-      <div class="video-container">
-        <video class="screen-content" src="demo2.mp4" autoplay loop muted playsinline></video>
-        <img class="phone-frame" src="iphone.png" alt="iPhone frame">
-      </div>
-    </div>
-
-    
   </div>
 
-  <!--------------------JAVASCRIPT---------------------------------->
-<script>
+  <script>
+    // 4D tensor: [set][z][y][x]
+    const tensor = [
+      [ // Set 0
+        [
+          ["s0z0y0x0.mp4", "s0z0y0x1.mp4", "s0z0y0x2.mp4"],
+          ["s0z0y1x0.mp4", "s0z0y1x1.mp4", "s0z0y1x2.mp4"],
+          ["s0z0y2x0.mp4", "s0z0y2x1.mp4", "s0z0y2x2.mp4"]
+        ],
+        [
+          ["s0z1y0x0.mp4", "s0z1y0x1.mp4", "s0z1y0x2.mp4"],
+          ["s0z1y1x0.mp4", "s0z1y1x1.mp4", "s0z1y1x2.mp4"],
+          ["s0z1y2x0.mp4", "s0z1y2x1.mp4", "s0z1y2x2.mp4"]
+        ],
+        [
+          ["s0z2y0x0.mp4", "s0z2y0x1.mp4", "s0z2y0x2.mp4"],
+          ["s0z2y1x0.mp4", "s0z2y1x1.mp4", "s0z2y1x2.mp4"],
+          ["s0z2y2x0.mp4", "s0z2y2x1.mp4", "s0z2y2x2.mp4"]
+        ]
+      ],
+      [ // Set 1
+        [
+          ["s1z0y0x0.mp4", "s1z0y0x1.mp4", "s1z0y0x2.mp4"],
+          ["s1z0y1x0.mp4", "s1z0y1x1.mp4", "s1z0y1x2.mp4"],
+          ["s1z0y2x0.mp4", "s1z0y2x1.mp4", "s1z0y2x2.mp4"]
+        ],
+        [
+          ["s1z1y0x0.mp4", "s1z1y0x1.mp4", "s1z1y0x2.mp4"],
+          ["s1z1y1x0.mp4", "s1z1y1x1.mp4", "s1z1y1x2.mp4"],
+          ["s1z1y2x0.mp4", "s1z1y2x1.mp4", "s1z1y2x2.mp4"]
+        ],
+        [
+          ["s1z2y0x0.mp4", "s1z2y0x1.mp4", "s1z2y0x2.mp4"],
+          ["s1z2y1x0.mp4", "s1z2y1x1.mp4", "s1z2y1x2.mp4"],
+          ["s1z2y2x0.mp4", "s1z2y2x1.mp4", "s1z2y2x2.mp4"]
+        ]
+      ],
+      [ // Set 2
+        [
+          ["s2z0y0x0.mp4", "s2z0y0x1.mp4", "s2z0y0x2.mp4"],
+          ["s2z0y1x0.mp4", "s2z0y1x1.mp4", "s2z0y1x2.mp4"],
+          ["s2z0y2x0.mp4", "s2z0y2x1.mp4", "s2z0y2x2.mp4"]
+        ],
+        [
+          ["s2z1y0x0.mp4", "s2z1y0x1.mp4", "s2z1y0x2.mp4"],
+          ["s2z1y1x0.mp4", "s2z1y1x1.mp4", "s2z1y1x2.mp4"],
+          ["s2z1y2x0.mp4", "s2z1y2x1.mp4", "s2z1y2x2.mp4"]
+        ],
+        [
+          ["s2z2y0x0.mp4", "s2z2y0x1.mp4", "s2z2y0x2.mp4"],
+          ["s2z2y1x0.mp4", "s2z2y1x1.mp4", "s2z2y1x2.mp4"],
+          ["s2z2y2x0.mp4", "s2z2y2x1.mp4", "s2z2y2x2.mp4"]
+        ]
+      ]
+    ];
 
-  const tensor = [
-  [ // Set 0
-    [ ["s0z0y0x0.mp4", "s0z0y0x1.mp4", "s0z0y0x2.mp4"],
-      ["s0z0y1x0.mp4", "s0z0y1x1.mp4", "s0z0y1x2.mp4"],
-      ["s0z0y2x0.mp4", "s0z0y2x1.mp4", "s0z0y2x2.mp4"] ],
-    [ ["s0z1y0x0.mp4", "s0z1y0x1.mp4", "s0z1y0x2.mp4"],
-      ["s0z1y1x0.mp4", "s0z1y1x1.mp4", "s0z1y1x2.mp4"],
-      ["s0z1y2x0.mp4", "s0z1y2x1.mp4", "s0z1y2x2.mp4"] ],
-    [ ["s0z2y0x0.mp4", "s0z2y0x1.mp4", "s0z2y0x2.mp4"],
-      ["s0z2y1x0.mp4", "s0z2y1x1.mp4", "s0z2y1x2.mp4"],
-      ["s0z2y2x0.mp4", "s0z2y2x1.mp4", "s0z2y2x2.mp4"] ]
-  ],
-  [ // Set 1 — repeat same structure with different video paths
-    [ ["s1z0y0x0.mp4", "s1z0y0x1.mp4", "s1z0y0x2.mp4"],
-      ["s1z0y1x0.mp4", "s1z0y1x1.mp4", "s1z0y1x2.mp4"],
-      ["s1z0y2x0.mp4", "s1z0y2x1.mp4", "s1z0y2x2.mp4"] ],
-    [ ["s1z1y0x0.mp4", "s1z1y0x1.mp4", "s1z1y0x2.mp4"],
-      ["s1z1y1x0.mp4", "s1z1y1x1.mp4", "s1z1y1x2.mp4"],
-      ["s1z1y2x0.mp4", "s1z1y2x1.mp4", "s1z1y2x2.mp4"] ],
-    [ ["s1z2y0x0.mp4", "s1z2y0x1.mp4", "s1z2y0x2.mp4"],
-      ["s1z2y1x0.mp4", "s1z2y1x1.mp4", "s1z2y1x2.mp4"],
-      ["s1z2y2x0.mp4", "s1z2y2x1.mp4", "s1z2y2x2.mp4"] ]
-  ],
-  [ // Set 2 — and again
-    [ ["s2z0y0x0.mp4", "s2z0y0x1.mp4", "s2z0y0x2.mp4"],
-      ["s2z0y1x0.mp4", "s2z0y1x1.mp4", "s2z0y1x2.mp4"],
-      ["s2z0y2x0.mp4", "s2z0y2x1.mp4", "s2z0y2x2.mp4"] ],
-    [ ["s2z1y0x0.mp4", "s2z1y0x1.mp4", "s2z1y0x2.mp4"],
-      ["s2z1y1x0.mp4", "s2z1y1x1.mp4", "s2z1y1x2.mp4"],
-      ["s2z1y2x0.mp4", "s2z1y2x1.mp4", "s2z1y2x2.mp4"] ],
-    [ ["s2z2y0x0.mp4", "s2z2y0x1.mp4", "s2z2y0x2.mp4"],
-      ["s2z2y1x0.mp4", "s2z2y1x1.mp4", "s2z2y1x2.mp4"],
-      ["s2z2y2x0.mp4", "s2z2y2x1.mp4", "s2z2y2x2.mp4"] ]
-  ]
-];
+    // Current position in 4D space
+    let position = { s: 0, z: 1, y: 1, x: 1 };
 
-  let position = { s: 0, z: 1, y: 1, x: 1 };
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
 
-  // this clamps movement so users dont go off the grid 
-  function move(ds, dz, dy, dx) {
-  position.s = Math.max(0, Math.min(2, position.s + ds));
-  position.z = Math.max(0, Math.min(2, position.z + dz));
-  position.y = Math.max(0, Math.min(2, position.y + dy));
-  position.x = Math.max(0, Math.min(2, position.x + dx));
-  updateVideo();
-}
-  
-  function updateVideo() {
-  const url = tensor[position.s][position.z][position.y][position.x];
-  const video = document.getElementById("main-video");
-  video.src = url;
-  video.load();  // Reload the source
-  video.play();  // Autoplay might be blocked without user interaction
-}
+    function updateVideo() {
+      const video = document.getElementById("main-video");
+      const { s, z, y, x } = position;
 
-</script>
-  
+      // Get the URL from tensor
+      const url = tensor[s][z][y][x];
+      if (!url) {
+        console.warn("Video URL missing for position", position);
+        return;
+      }
+
+      // Change source and reload video
+      video.src = url;
+      video.load();
+      video.play();
+
+      console.log(`Showing video: ${url}`);
+    }
+
+    function move(ds, dz, dy, dx) {
+      position.s = clamp(position.s + ds, 0, tensor.length - 1);
+      position.z = clamp(position.z + dz, 0, tensor[0].length - 1);
+      position.y = clamp(position.y + dy, 0, tensor[0][0].length - 1);
+      position.x = clamp(position.x + dx, 0, tensor[0][0][0].length - 1);
+
+      updateVideo();
+    }
+
+    // Initialize on page load
+    window.onload = () => {
+      updateVideo();
+    };
+  </script>
 </body>
 </html>
+
 
 
 

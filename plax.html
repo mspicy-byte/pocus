@@ -96,16 +96,15 @@
 
   <div class="content">
     <div class="grid">
-      <button>up</button>
-      <button>down</button>
-      <button>left</button>
-      <button>right</button>
-      <button>clockwise</button>
-      <button>counter_CW</button>
-      <button>Tilt_up</button>
-      <button>Tilt_down</button>
-      <button>rock_right</button>
-      <button>rock_left</button>
+      <button onclick="move(0, -1, 0, 0)">Up (Z-)</button>
+      <button onclick="move(0, 1, 0, 0)">Down (Z+)</button>
+      <button onclick="move(0, 0, -1, 0)">Forward (Y-)</button>
+      <button onclick="move(0, 0, 1, 0)">Back (Y+)</button>
+      <button onclick="move(0, 0, 0, -1)">Left (X-)</button>
+      <button onclick="move(0, 0, 0, 1)">Right (X+)</button>
+      <button onclick="move(-1, 0, 0, 0)">Prev Set (S-)</button>
+      <button onclick="move(1, 0, 0, 0)">Next Set (S+)</button>
+
     </div>
 
     <div class="iphone">
@@ -124,5 +123,70 @@
 
     
   </div>
+
+  <!--------------------JAVASCRIPT---------------------------------->
+<script>
+
+  const tensor = [
+  [ // Set 0
+    [ ["s0z0y0x0.mp4", "s0z0y0x1.mp4", "s0z0y0x2.mp4"],
+      ["s0z0y1x0.mp4", "s0z0y1x1.mp4", "s0z0y1x2.mp4"],
+      ["s0z0y2x0.mp4", "s0z0y2x1.mp4", "s0z0y2x2.mp4"] ],
+    [ ["s0z1y0x0.mp4", "s0z1y0x1.mp4", "s0z1y0x2.mp4"],
+      ["s0z1y1x0.mp4", "s0z1y1x1.mp4", "s0z1y1x2.mp4"],
+      ["s0z1y2x0.mp4", "s0z1y2x1.mp4", "s0z1y2x2.mp4"] ],
+    [ ["s0z2y0x0.mp4", "s0z2y0x1.mp4", "s0z2y0x2.mp4"],
+      ["s0z2y1x0.mp4", "s0z2y1x1.mp4", "s0z2y1x2.mp4"],
+      ["s0z2y2x0.mp4", "s0z2y2x1.mp4", "s0z2y2x2.mp4"] ]
+  ],
+  [ // Set 1 — repeat same structure with different video paths
+    [ ["s1z0y0x0.mp4", "s1z0y0x1.mp4", "s1z0y0x2.mp4"],
+      ["s1z0y1x0.mp4", "s1z0y1x1.mp4", "s1z0y1x2.mp4"],
+      ["s1z0y2x0.mp4", "s1z0y2x1.mp4", "s1z0y2x2.mp4"] ],
+    [ ["s1z1y0x0.mp4", "s1z1y0x1.mp4", "s1z1y0x2.mp4"],
+      ["s1z1y1x0.mp4", "s1z1y1x1.mp4", "s1z1y1x2.mp4"],
+      ["s1z1y2x0.mp4", "s1z1y2x1.mp4", "s1z1y2x2.mp4"] ],
+    [ ["s1z2y0x0.mp4", "s1z2y0x1.mp4", "s1z2y0x2.mp4"],
+      ["s1z2y1x0.mp4", "s1z2y1x1.mp4", "s1z2y1x2.mp4"],
+      ["s1z2y2x0.mp4", "s1z2y2x1.mp4", "s1z2y2x2.mp4"] ]
+  ],
+  [ // Set 2 — and again
+    [ ["s2z0y0x0.mp4", "s2z0y0x1.mp4", "s2z0y0x2.mp4"],
+      ["s2z0y1x0.mp4", "s2z0y1x1.mp4", "s2z0y1x2.mp4"],
+      ["s2z0y2x0.mp4", "s2z0y2x1.mp4", "s2z0y2x2.mp4"] ],
+    [ ["s2z1y0x0.mp4", "s2z1y0x1.mp4", "s2z1y0x2.mp4"],
+      ["s2z1y1x0.mp4", "s2z1y1x1.mp4", "s2z1y1x2.mp4"],
+      ["s2z1y2x0.mp4", "s2z1y2x1.mp4", "s2z1y2x2.mp4"] ],
+    [ ["s2z2y0x0.mp4", "s2z2y0x1.mp4", "s2z2y0x2.mp4"],
+      ["s2z2y1x0.mp4", "s2z2y1x1.mp4", "s2z2y1x2.mp4"],
+      ["s2z2y2x0.mp4", "s2z2y2x1.mp4", "s2z2y2x2.mp4"] ]
+  ]
+];
+
+  let position = { s: 0, z: 1, y: 1, x: 1 };
+
+  // this clamps movement so users dont go off the grid 
+  function move(ds, dz, dy, dx) {
+  position.s = Math.max(0, Math.min(2, position.s + ds));
+  position.z = Math.max(0, Math.min(2, position.z + dz));
+  position.y = Math.max(0, Math.min(2, position.y + dy));
+  position.x = Math.max(0, Math.min(2, position.x + dx));
+  updateVideo();
+}
+  
+  function updateVideo() {
+  const url = tensor[position.s][position.z][position.y][position.x];
+  const video = document.getElementById("main-video");
+  video.src = url;
+  video.load();  // Reload the source
+  video.play();  // Autoplay might be blocked without user interaction
+}
+
+</script>
+  
 </body>
 </html>
+
+
+
+

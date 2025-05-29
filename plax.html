@@ -133,148 +133,172 @@
     </div>
   </div>
 
-<script>
-    // 4D tensor: [set][z][y][x]
-const tensor = [
-  [
-    [ [2, 9, 16], [23, 30, 37], [44, 51, 58] ],  // Rotated CW
-    [ [1, 8, 15], [22, 29, 36], [43, 50, 57] ],  // Normal
-    [ [3, 10, 17], [24, 31, 38], [45, 52, 59] ]  // CCW
-  ],
-  [
-    [ [4, 11, 18], [25, 32, 39], [46, 53, 60] ], // TU
-    [ [1, 8, 15], [22, 29, 36], [43, 50, 57] ],  // Normal
-    [ [5, 12, 19], [26, 33, 40], [47, 54, 61] ]  // TD
-  ],
-  [
-    [ [6, 13, 20], [27, 34, 41], [48, 55, 62] ], // RR
-    [ [1, 8, 15], [22, 29, 36], [43, 50, 57] ],  // Normal
-    [ [7, 14, 21], [28, 35, 42], [49, 56, 63] ]  // RL
-  ]
-];
 
 const videoURLs = [
-  "demo2.mp4", // 1
-  "demo3.mp4", // 2
-  "demo2.mp4", // 3
-  "demo3.mp4", // 4
-  "demo2.mp4", // 5
-  "demo3.mp4", // 6
-  "demo2.mp4", // 7
-  "demo3.mp4", // 8
-  "demo2.mp4", // 9
-  "demo3.mp4", // 10
-  "demo2.mp4", // 11
-  "demo3.mp4", // 12
-  "demo2.mp4", // 13
-  "demo3.mp4", // 14
-  "demo2.mp4", // 15
-  "demo3.mp4", // 16
-  "demo2.mp4", // 17
-  "demo3.mp4", // 18
-  "demo2.mp4", // 19
-  "demo3.mp4", // 20
-  "demo2.mp4", // 21
-  "demo3.mp4", // 22
-  "demo2.mp4", // 23
-  "demo3.mp4", // 24
-  "demo2.mp4", // 25
-  "demo3.mp4", // 26
-  "demo2.mp4", // 27
-  "demo3.mp4", // 28
-  "demo2.mp4", // 29
-  "demo3.mp4", // 30
-  "demo2.mp4", // 31
-  "demo3.mp4", // 32
-  "demo2.mp4", // 33
-  "demo3.mp4", // 34
-  "demo2.mp4", // 35
-  "demo3.mp4", // 36
-  "demo2.mp4", // 37
-  "demo3.mp4", // 38
-  "demo2.mp4", // 39
-  "demo3.mp4", // 40
-  "demo2.mp4", // 41
-  "demo3.mp4", // 42
-  "demo2.mp4", // 43
-  "demo3.mp4", // 44
-  "demo2.mp4", // 45
-  "demo3.mp4", // 46
-  "demo2.mp4", // 47
-  "demo3.mp4", // 48
-  "demo2.mp4", // 49
-  "demo3.mp4", // 50
-  "demo2.mp4", // 51
-  "demo3.mp4", // 52
-  "demo2.mp4", // 53
-  "demo3.mp4", // 54
-  "demo2.mp4", // 55
-  "demo3.mp4", // 56
-  "demo2.mp4", // 57
-  "demo3.mp4", // 58
-  "demo2.mp4", // 59
-  "demo3.mp4", // 60
-  "demo2.mp4", // 61
-  "demo3.mp4", // 62
-  "demo2.mp4"  // 63
+
 ];
 
-    
 
-    // Current position in 4D space
-    let position = { s: 0, z: 1, y: 1, x: 1 };
+<script>
+  const videoURLs = [ 
+    "demo2.mp4", // 1
+    "demo3.mp4", // 2
+    "demo2.mp4", // 3
+    "demo3.mp4", // 4
+    "demo2.mp4", // 5
+    "demo3.mp4", // 6
+    "demo2.mp4", // 7
+    "demo3.mp4", // 8
+    "demo2.mp4", // 9
+    "demo3.mp4", // 10
+    "demo2.mp4", // 11
+    "demo3.mp4", // 12
+    "demo2.mp4", // 13
+    "demo3.mp4", // 14
+    "demo2.mp4", // 15
+    "demo3.mp4", // 16
+    "demo2.mp4", // 17
+    "demo3.mp4", // 18
+    "demo2.mp4", // 19
+    "demo3.mp4", // 20
+    "demo2.mp4", // 21
+    "demo3.mp4", // 22
+    "demo2.mp4", // 23
+    "demo3.mp4", // 24
+    "demo2.mp4", // 25
+    "demo3.mp4", // 26
+    "demo2.mp4", // 27
+    "demo3.mp4", // 28
+    "demo2.mp4", // 29
+    "demo3.mp4", // 30
+    "demo2.mp4", // 31
+    "demo3.mp4", // 32
+    "demo2.mp4", // 33
+    "demo3.mp4", // 34
+    "demo2.mp4", // 35
+    "demo3.mp4", // 36
+    "demo2.mp4", // 37
+    "demo3.mp4", // 38
+    "demo2.mp4", // 39
+    "demo3.mp4", // 40
+    "demo2.mp4", // 41
+    "demo3.mp4", // 42
+    "demo2.mp4", // 43
+    "demo3.mp4", // 44
+    "demo2.mp4", // 45
+    "demo3.mp4", // 46
+    "demo2.mp4", // 47
+    "demo3.mp4", // 48
+    "demo2.mp4", // 49
+    "demo3.mp4", // 50
+    "demo2.mp4", // 51
+    "demo3.mp4", // 52
+    "demo2.mp4", // 53
+    "demo3.mp4", // 54
+    "demo2.mp4", // 55
+    "demo3.mp4", // 56
+    "demo2.mp4", // 57
+    "demo3.mp4", // 58
+    "demo2.mp4", // 59
+    "demo3.mp4", // 60
+    "demo2.mp4", // 61
+    "demo3.mp4", // 62
+    "demo2.mp4"  // 63
+  ];
 
-    function clamp(value, min, max) {
-        return Math.max(min, Math.min(max, value));
-      }
-  
-      function updateVideo() {
-      const video = document.getElementById("main-video");
-      const { s, z, y, x } = position;
-    
-      const index = tensor[s][z][y][x];
-      const url = videoURLs[index];
-      if (!url) {
-        console.warn(`Missing URL for index ${index}`);
-        return;
-      }
-    
-      const source = video.querySelector("source");
-      source.src = url;
-      video.load();
-      video.play();
-    
-      console.log(`Set: ${s}, Z: ${z}, Y: ${y}, X: ${x}, Index: ${index}, URL: ${url}`);
-      }
+  const tensor = [
+    [
+      [
+        [2, 9, 16],
+        [23, 30, 37],
+        [44, 51, 58], 
+      ],
+      [
+        [1, 8, 15],
+        [22, 29, 36],
+        [43, 50, 57],
+      ],
+      [
+        [3, 10, 17],
+        [24, 31, 38],
+        [45, 52, 59],
+      ]
+    ],
+    [
+      [
+        [4, 11, 18],
+        [25, 32, 39],
+        [46, 53, 60],
+      ],
+      [
+        [1, 8, 15],
+        [22, 29, 36],
+        [43, 50, 57],
+      ],
+      [
+        [5, 12, 19],
+        [26, 33, 40],
+        [47, 54, 61],
+      ]
+    ],
+    [
+      [
+        [6, 13, 20],
+        [27, 34, 41],
+        [48, 55, 62],
+      ],
+      [
+        [1, 8, 15],
+        [22, 29, 36],
+        [43, 50, 57],
+      ],
+      [
+        [7, 14, 21],
+        [28, 35, 42],
+        [49, 56, 63],
+      ]
+    ]
+  ];
 
-  
+  let position = { s: 0, z: 1, y: 1, x: 1 };
 
-      // Change source and reload video
-      const source = video.querySelector("source");
-      source.src = url;
-      video.load();
-      video.play();
+  function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+  }
 
+  function updateVideo() {
+    const index = tensor[position.s][position.z][position.y][position.x];
+    const video = document.getElementById("main-video");
+    const source = video.querySelector("source");
 
-      console.log(`Showing video: ${url}`);
-      }
-
-    function move(ds, dz, dy, dx) {
-      position.s = clamp(position.s + ds, 0, tensor.length - 1);
-      position.z = clamp(position.z + dz, 0, tensor[0].length - 1);
-      position.y = clamp(position.y + dy, 0, tensor[0][0].length - 1);
-      position.x = clamp(position.x + dx, 0, tensor[0][0][0].length - 1);
-
-      updateVideo();
+    if (!index || index < 1 || index > videoURLs.length) {
+      console.warn("Invalid index", index);
+      return;
     }
 
-    // Initialize on page load
-    window.onload = () => {
-      updateVideo();
-    };
-  </script>
+    source.src = videoURLs[index - 1];
+    video.load();
+    video.play();
+
+    console.log(`Index: ${index}, URL: ${videoURLs[index - 1]}`);
+  }
+
+  function move(ds, dz, dy, dx) {
+    position.s = clamp(position.s + ds, 0, tensor.length - 1);
+    position.z = clamp(position.z + dz, 0, tensor[0].length - 1);
+    position.y = clamp(position.y + dy, 0, tensor[0][0].length - 1);
+    position.x = clamp(position.x + dx, 0, tensor[0][0][0].length - 1);
+
+    updateVideo();
+  }
+
+  window.onload = () => {
+    updateVideo();
+  };
+</script>
 </body>
 </html>
+
 
 
 

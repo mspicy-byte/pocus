@@ -119,9 +119,12 @@
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
     width: 100%;
-    height: 100%;
+    max-width: 150px;      /* 💡 Prevent stretching too wide */
+    height: auto;          /* Let height follow content */
     gap: 5px;
+    margin: 0 auto;        /* Center the grid inside the block */
   }
+
 
   .sliding-grid button:nth-child(1) { grid-area: up; }
   .sliding-grid button:nth-child(2) { grid-area: down; }

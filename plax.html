@@ -80,10 +80,12 @@
 
   .control-section {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* ✅ Two blocks per row */
-    gap: 30px;
-    max-width: 500px; /* ✅ Prevents stretching out horizontally */
-    margin: 40px auto; /* ✅ Center it horizontally */
+    grid-template-columns: repeat(2, 1fr);  /* Force 2 blocks per row */
+    gap: 20px;
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 10px;
+    box-sizing: border-box;
   }
 
 
@@ -92,15 +94,18 @@
     border: 1px solid #ccc;
     border-radius: 15px;
     padding: 15px;
-    text-align: center;
-    width: 100%;
-    height: 200px;
-    position: relative;
+    height: 240px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .control-block h3 {
+    margin-bottom: 10px;
   }
 
 
@@ -113,25 +118,22 @@
 
   .sliding-grid {
     display: grid;
-    grid-template-areas:
-      ". up ."
-      "left . right"
-      ". down .";
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    width: 100%;
-    max-width: 150px;      /* 💡 Prevent stretching too wide */
-    height: auto;          /* Let height follow content */
-    gap: 5px;
-    margin: 0 auto;        /* Center the grid inside the block */
+    grid-template-columns: 40px 40px 40px;
+    grid-template-rows: 40px 40px 40px;
+    gap: 10px;
   }
-
 
   .sliding-grid button:nth-child(1) { grid-area: up; }
   .sliding-grid button:nth-child(2) { grid-area: down; }
   .sliding-grid button:nth-child(3) { grid-area: left; }
   .sliding-grid button:nth-child(4) { grid-area: right; }
 
+  .sliding-grid button {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+    
   .control-buttons {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -150,6 +152,11 @@
     border: none;
     cursor: pointer;
     transition: background-color 0.3s;
+  }
+    
+  .control-block button:not(.sliding-grid button) {
+    margin: 5px;
+    padding: 10px 15px;
   }
 
   .control-block button:hover {

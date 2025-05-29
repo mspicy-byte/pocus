@@ -49,27 +49,56 @@
     }
     
     .control-block {
-      background: #eeeeee;
-      border-radius: 10px;
-      padding: 15px;
+      width: 200px;
+      height: 200px;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      border: 2px solid #ccc;
+      border-radius: 15px;
+      padding: 10px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .control-title {
+      font-weight: bold;
+      margin-bottom: 5px;
       text-align: center;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .sliding-grid {
+      display: grid;
+      grid-template-areas:
+        ". up ."
+        "left . right"
+        ". down .";
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
+      width: 100%;
+      height: 100%;
+      gap: 5px;
     }
     
-    .control-block h3 {
-      margin-bottom: 10px;
-    }
+    .sliding-grid button:nth-child(1) { grid-area: up; }
+    .sliding-grid button:nth-child(2) { grid-area: down; }
+    .sliding-grid button:nth-child(3) { grid-area: left; }
+    .sliding-grid button:nth-child(4) { grid-area: right; }
     
     .control-block button {
-      display: block;
-      margin: 5px auto;
       width: 100%;
-      padding: 10px;
+      height: 100%;
+      font-size: 1.2em;
+      border-radius: 8px;
       background-color: #007acc;
       color: white;
       border: none;
-      border-radius: 8px;
       cursor: pointer;
+      transition: background-color 0.3s;
     }
     
     .control-block button:hover {
@@ -133,12 +162,15 @@
     <div class="grid">
       <!-- Sliding Controls -->
       <div class="control-block">
-        <h3>Sliding</h3>
-        <button onclick="move(0, -1, 0, 0)">Up (Z-)</button>
-        <button onclick="move(0, 1, 0, 0)">Down (Z+)</button>
-        <button onclick="move(0, 0, 0, -1)">Left (X-)</button>
-        <button onclick="move(0, 0, 0, 1)">Right (X+)</button>
+        <div class="control-title">Sliding</div>
+        <div class="sliding-grid">
+          <button onclick="move(0, -1, 0, 0)">↑</button>
+          <button onclick="move(0, 1, 0, 0)">↓</button>
+          <button onclick="move(0, 0, 0, -1)">←</button>
+          <button onclick="move(0, 0, 0, 1)">→</button>
+        </div>
       </div>
+
     
       <!-- Rotation Controls -->
       <div class="control-block">

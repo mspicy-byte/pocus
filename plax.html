@@ -244,9 +244,8 @@ const videoURLs = [
       video.load();
       video.play();
     
-      console.log(`Position: Set ${s}, Z ${z}, Y ${y}, X ${x} → Video: ${url}`);
       console.log(`Set: ${s}, Z: ${z}, Y: ${y}, X: ${x}, Index: ${index}, URL: ${url}`);
-  }
+      }
 
   
 
@@ -258,7 +257,7 @@ const videoURLs = [
 
 
       console.log(`Showing video: ${url}`);
-    }
+      }
 
     function move(ds, dz, dy, dx) {
       position.s = clamp(position.s + ds, 0, tensor.length - 1);

@@ -136,57 +136,87 @@
 <script>
     // 4D tensor: [set][z][y][x]
 const tensor = [
-  [ // Set 0
-    [
-      [ "demo2.mp4", "demo3.mp4", "demo2.mp4" ],
-      [ "demo3.mp4", "demo2.mp4", "demo3.mp4" ],
-      [ "demo2.mp4", "demo3.mp4", "demo2.mp4" ]
-    ],
-    [
-      [ "demo3.mp4", "demo2.mp4", "demo3.mp4" ],
-      [ "demo2.mp4", "demo3.mp4", "demo2.mp4" ],
-      [ "demo3.mp4", "demo2.mp4", "demo3.mp4" ]
-    ],
-    [
-      [ "demo2.mp4", "demo3.mp4", "demo2.mp4" ],
-      [ "demo3.mp4", "demo2.mp4", "demo3.mp4" ],
-      [ "demo2.mp4", "demo3.mp4", "demo2.mp4" ]
-    ]
+  [
+    [ [2, 9, 16], [23, 30, 37], [44, 51, 58] ],  // Rotated CW
+    [ [1, 8, 15], [22, 29, 36], [43, 50, 57] ],  // Normal
+    [ [3, 10, 17], [24, 31, 38], [45, 52, 59] ]  // CCW
   ],
-  [ // Set 1
-    [
-      [ "demo3.mp4", "demo2.mp4", "demo3.mp4" ],
-      [ "demo2.mp4", "demo3.mp4", "demo2.mp4" ],
-      [ "demo3.mp4", "demo2.mp4", "demo3.mp4" ]
-    ],
-    [
-      [ "demo2.mp4", "demo3.mp4", "demo2.mp4" ],
-      [ "demo3.mp4", "demo2.mp4", "demo3.mp4" ],
-      [ "demo2.mp4", "demo3.mp4", "demo2.mp4" ]
-    ],
-    [
-      [ "demo3.mp4", "demo2.mp4", "demo3.mp4" ],
-      [ "demo2.mp4", "demo3.mp4", "demo2.mp4" ],
-      [ "demo3.mp4", "demo2.mp4", "demo3.mp4" ]
-    ]
+  [
+    [ [4, 11, 18], [25, 32, 39], [46, 53, 60] ], // TU
+    [ [1, 8, 15], [22, 29, 36], [43, 50, 57] ],  // Normal
+    [ [5, 12, 19], [26, 33, 40], [47, 54, 61] ]  // TD
   ],
-  [ // Set 2
-    [
-      [ "demo2.mp4", "demo3.mp4", "demo2.mp4" ],
-      [ "demo3.mp4", "demo2.mp4", "demo3.mp4" ],
-      [ "demo2.mp4", "demo3.mp4", "demo2.mp4" ]
-    ],
-    [
-      [ "demo3.mp4", "demo2.mp4", "demo3.mp4" ],
-      [ "demo2.mp4", "demo3.mp4", "demo2.mp4" ],
-      [ "demo3.mp4", "demo2.mp4", "demo3.mp4" ]
-    ],
-    [
-      [ "demo2.mp4", "demo3.mp4", "demo2.mp4" ],
-      [ "demo3.mp4", "demo2.mp4", "demo3.mp4" ],
-      [ "demo2.mp4", "demo3.mp4", "demo2.mp4" ]
-    ]
+  [
+    [ [6, 13, 20], [27, 34, 41], [48, 55, 62] ], // RR
+    [ [1, 8, 15], [22, 29, 36], [43, 50, 57] ],  // Normal
+    [ [7, 14, 21], [28, 35, 42], [49, 56, 63] ]  // RL
   ]
+];
+
+const videoURLs = [
+  "demo2.mp4", // 1
+  "demo3.mp4", // 2
+  "demo2.mp4", // 3
+  "demo3.mp4", // 4
+  "demo2.mp4", // 5
+  "demo3.mp4", // 6
+  "demo2.mp4", // 7
+  "demo3.mp4", // 8
+  "demo2.mp4", // 9
+  "demo3.mp4", // 10
+  "demo2.mp4", // 11
+  "demo3.mp4", // 12
+  "demo2.mp4", // 13
+  "demo3.mp4", // 14
+  "demo2.mp4", // 15
+  "demo3.mp4", // 16
+  "demo2.mp4", // 17
+  "demo3.mp4", // 18
+  "demo2.mp4", // 19
+  "demo3.mp4", // 20
+  "demo2.mp4", // 21
+  "demo3.mp4", // 22
+  "demo2.mp4", // 23
+  "demo3.mp4", // 24
+  "demo2.mp4", // 25
+  "demo3.mp4", // 26
+  "demo2.mp4", // 27
+  "demo3.mp4", // 28
+  "demo2.mp4", // 29
+  "demo3.mp4", // 30
+  "demo2.mp4", // 31
+  "demo3.mp4", // 32
+  "demo2.mp4", // 33
+  "demo3.mp4", // 34
+  "demo2.mp4", // 35
+  "demo3.mp4", // 36
+  "demo2.mp4", // 37
+  "demo3.mp4", // 38
+  "demo2.mp4", // 39
+  "demo3.mp4", // 40
+  "demo2.mp4", // 41
+  "demo3.mp4", // 42
+  "demo2.mp4", // 43
+  "demo3.mp4", // 44
+  "demo2.mp4", // 45
+  "demo3.mp4", // 46
+  "demo2.mp4", // 47
+  "demo3.mp4", // 48
+  "demo2.mp4", // 49
+  "demo3.mp4", // 50
+  "demo2.mp4", // 51
+  "demo3.mp4", // 52
+  "demo2.mp4", // 53
+  "demo3.mp4", // 54
+  "demo2.mp4", // 55
+  "demo3.mp4", // 56
+  "demo2.mp4", // 57
+  "demo3.mp4", // 58
+  "demo2.mp4", // 59
+  "demo3.mp4", // 60
+  "demo2.mp4", // 61
+  "demo3.mp4", // 62
+  "demo2.mp4"  // 63
 ];
 
     
@@ -202,9 +232,10 @@ const tensor = [
       const video = document.getElementById("main-video");
       const { s, z, y, x } = position;
     
-      const url = tensor[s][z][y][x];
+      const index = tensor[s][z][y][x];
+      const url = videoURLs[index];
       if (!url) {
-        console.warn("Missing video at position", position);
+        console.warn(`Missing URL for index ${index}`);
         return;
       }
     
@@ -213,7 +244,8 @@ const tensor = [
       video.load();
       video.play();
     
-    console.log(`Position: Set ${s}, Z ${z}, Y ${y}, X ${x} → Video: ${url}`);
+      console.log(`Position: Set ${s}, Z ${z}, Y ${y}, X ${x} → Video: ${url}`);
+      console.log(`Set: ${s}, Z: ${z}, Y: ${y}, X: ${x}, Index: ${index}, URL: ${url}`);
   }
 
   

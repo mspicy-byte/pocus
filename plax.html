@@ -41,10 +41,41 @@
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(4, 80px);
-      grid-template-rows: repeat(2, 80px);
-      gap: 15px;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, auto);
+      gap: 20px;
+      max-width: 600px;
+      margin: auto;
     }
+    
+    .control-block {
+      background: #eeeeee;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    
+    .control-block h3 {
+      margin-bottom: 10px;
+    }
+    
+    .control-block button {
+      display: block;
+      margin: 5px auto;
+      width: 100%;
+      padding: 10px;
+      background-color: #007acc;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    
+    .control-block button:hover {
+      background-color: #005fa3;
+    }
+
 
     .grid button {
       width: 80px;
@@ -100,14 +131,35 @@
 
   <div class="content">
     <div class="grid">
-      <button onclick="move(0, -1, 0, 0)">Up (Z-)</button>
-      <button onclick="move(0, 1, 0, 0)">Down (Z+)</button>
-      <button onclick="move(0, 0, -1, 0)">Forward (Y-)</button>
-      <button onclick="move(0, 0, 1, 0)">Back (Y+)</button>
-      <button onclick="move(0, 0, 0, -1)">Left (X-)</button>
-      <button onclick="move(0, 0, 0, 1)">Right (X+)</button>
-      <button onclick="move(-1, 0, 0, 0)">Prev Set (S-)</button>
-      <button onclick="move(1, 0, 0, 0)">Next Set (S+)</button>
+      <!-- Sliding Controls -->
+      <div class="control-block">
+        <h3>Sliding</h3>
+        <button onclick="move(0, -1, 0, 0)">Up (Z-)</button>
+        <button onclick="move(0, 1, 0, 0)">Down (Z+)</button>
+        <button onclick="move(0, 0, 0, -1)">Left (X-)</button>
+        <button onclick="move(0, 0, 0, 1)">Right (X+)</button>
+      </div>
+    
+      <!-- Rotation Controls -->
+      <div class="control-block">
+        <h3>Rotation</h3>
+        <button onclick="move(-1, 0, 0, 0)">Clockwise (S-)</button>
+        <button onclick="move(1, 0, 0, 0)">Counter-CW (S+)</button>
+      </div>
+    
+      <!-- Tilting Controls -->
+      <div class="control-block">
+        <h3>Tilting</h3>
+        <button onclick="move(0, 0, -1, 0)">Tilt Up (Y-)</button>
+        <button onclick="move(0, 0, 1, 0)">Tilt Down (Y+)</button>
+      </div>
+    
+      <!-- Rocking Controls -->
+      <div class="control-block">
+        <h3>Rocking</h3>
+        <button onclick="move(0, 0, 0, 1)">Rock Right</button>
+        <button onclick="move(0, 0, 0, -1)">Rock Left</button>
+      </div>
     </div>
 
         <!-- First iPhone (Dynamic) -->

@@ -8,10 +8,9 @@
   /* General Layout Adjustments */
   .control-section {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Two columns */
-    grid-template-rows: 1fr 1fr;    /* Two rows */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
-    max-width: 700px;
+    max-width: 800px;
     margin: 40px auto;
     padding: 10px;
     box-sizing: border-box;
@@ -22,7 +21,7 @@
     border: 1px solid #ccc;
     border-radius: 15px;
     padding: 15px;
-    height: 240px;
+    min-height: 240px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -30,8 +29,6 @@
     align-items: center;
     position: relative;
     overflow: hidden;
-    background-size: cover;
-    background-position: center;
   }
 
   .control-block h3 {

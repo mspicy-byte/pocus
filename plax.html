@@ -237,12 +237,72 @@ progress::-webkit-progress-value {
   z-index: 2;
 }
 
+  .welcomeOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Dark, semi-transparent */
+    display: flex; /* To center content */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's on top */
+}
+
+  .surveyContainer {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 600px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+    
 </style>
 
 
 
 </head>
 <body>
+<div id="welcomeOverlay">
+    <div id="surveyContainer">
+        <h2> </h2>
+        <div style="margin-bottom: 20px;">
+                <label for="medicalTraining">1. Level of Medical Training:</label><br>
+                <select id="medicalTraining" name="medicalTraining" required>
+                    <option value="">Select...</option>
+                    <option value="student">Student</option>
+                    <option value="resident">Resident</option>
+                    <option value="fellow">Fellow</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label for="pocusFrequency">2. How often do you use cardiac POCUS?</label><br>
+                <select id="pocusFrequency" name="pocusFrequency" required>
+                    <option value="">Select...</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="rarely">Rarely</option>
+                </select>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label for="toolUsage">3. How many times have you used this tool?</label><br>
+                <select id="toolUsage" name="toolUsage" required>
+                    <option value="">Select...</option>
+                    <option value="never">Never</option>
+                    <option value="fewTimes">A few times</option>
+                    <option value="multipleTimes">Multiple times</option>
+                </select>
+            </div>
+        <button id="submitSurvey" style="margin-top: 20px;">Begin</button>
+    </div>
+</div>
+  
   <header>
     <h1>Parasternal Long Axis</h1>
     <p>Use the following movements to find a view of the left ventricle, mitral valve, aortic valve and aortic artery. This view can give us a rough idea of heart ejection fraction. Press any of the buttons to begin.</p>
@@ -329,6 +389,42 @@ progress::-webkit-progress-value {
 
 
 <script>
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const overlay = document.getElementById('welcomeOverlay');
+        const submitButton = document.getElementById('submitSurvey');
+
+        submitButton.addEventListener('click', () => {
+            const medicalTraining = document.getElementById('medicalTraining').value;
+            const pocusFrequency = document.getElementById('pocusFrequency').value;
+            const toolUsage = document.getElementById('toolUsage').value;
+
+            if (medicalTraining && pocusFrequency && toolUsage) {
+                // All questions answered, now you can hide the overlay
+                overlay.style.display = 'none';
+
+                // OPTIONAL, but RECOMMENDED: Store their answers.
+                // For example, in localStorage, so they don't have to answer again.
+                localStorage.setItem('medicalTraining', medicalTraining);
+                localStorage.setItem('pocusFrequency', pocusFrequency);
+                localStorage.setItem('toolUsage', toolUsage);
+
+                // You can also send this data somewhere if you want to track it,
+                // but that's beyond the scope of this immediate task.
+            } else {
+                // Shame them for their laziness
+                alert('You dare try to proceed without answering all questions? Fulfill your duty, grunt!');
+            }
+        });
+
+        // OPTIONAL: Check if they've answered before (e.g., from a previous session)
+        if (localStorage.getItem('medicalTraining') && localStorage.getItem('pocusFrequency') && localStorage.getItem('toolUsage')) {
+            overlay.style.display = 'none'; // Hide if already answered
+        }
+    });
+
+
+  
   const videoURLs = [ 
     "demo2.mp4", // 1
     "demo3.mp4", // 2

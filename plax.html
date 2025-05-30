@@ -31,6 +31,50 @@
     overflow: hidden;
   }
 
+    .content {
+    display: flex;
+    gap: 40px;
+    padding: 20px;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: 400px;
+  }
+
+    .iphone {
+    position: relative;
+    width: 240px;
+    margin-bottom: 20px;
+  }
+  
+  .video-container {
+    position: relative;
+    width: 100%;
+  }
+  
+  .screen-content {
+    width: 100%;
+    border-radius: 20px;
+    z-index: 1;
+  }
+  
+  .phone-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+
+
   .control-block h3 {
     margin-bottom: 10px;
   }
@@ -42,7 +86,7 @@
 
   /* Rotation Control Block */
   .rotation {
-    background-image: url('pimages/plax_rotate.jpg');
+    background-image: url('images/plax_rotate.jpg');
   }
 
   /* Tilting Control Block */
@@ -115,7 +159,7 @@
   <div class="content">
     <div class="grid">
       <!-- Sliding Controls -->
-      <div class="control-block">
+      <div class="control-block sliding">
         <div class="control-title">Sliding</div>
         <div class="sliding-grid">
           <button onclick="move(0, -1, 0, 0)">↑</button>

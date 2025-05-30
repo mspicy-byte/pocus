@@ -153,7 +153,14 @@
     max-width: 1200px;
   }
 
-    .phone-wrapper {
+  .phone-row {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap; /* Keeps them from overflowing on tiny screens */
+}
+
+  .phone-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -175,6 +182,7 @@
   .iphone {
     position: relative;
     width: 300px;
+    max-width: 200px; /* Adjust size as needed */
     height: 600px;
   }
 
@@ -251,38 +259,41 @@
     </div>
 
         <!-- First iPhone (Dynamic) -->
-    <div class = "phone-wrapper">
-      <div class = "phone-label"> In progress </div> 
-    
-        <div class="iphone">
-          <div class="video-container">
-            <video id="main-video" class="screen-content" autoplay loop muted playsinline>
-               <source src="" type="video/mp4" />
-                  Your browser does not support the video tag.
-            </video>
-            <img class="phone-frame" src="iphone.png" alt="iPhone frame" />
+    <div class = "phone-row">
+      <div class = "phone-wrapper">
+        <div class = "phone-label"> In progress </div> 
+      
+          <div class="iphone">
+            <div class="video-container">
+              <video id="main-video" class="screen-content" autoplay loop muted playsinline>
+                 <source src="" type="video/mp4" />
+                    Your browser does not support the video tag.
+              </video>
+              <img class="phone-frame" src="iphone.png" alt="iPhone frame" />
+            </div>
           </div>
-        </div>
-
-      </div> 
-    </div>
+    
+        </div> 
+      </div>
+    
 
     <!-- Second iPhone (Static) -->
-    <div class = "phone-wrapper">
-      <div class = "phone-label"> Reference </div> 
-      
-        <div class="iphone">
-          <div class="video-container">
-            <video id="second-video" class="screen-content" autoplay loop muted playsinline>
-              <source src="demo3.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-            <img class="phone-frame" src="iphone.png" alt="iPhone frame" />
+      <div class = "phone-wrapper">
+        <div class = "phone-label"> Reference </div> 
+        
+          <div class="iphone">
+            <div class="video-container">
+              <video id="second-video" class="screen-content" autoplay loop muted playsinline>
+                <source src="demo3.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              <img class="phone-frame" src="iphone.png" alt="iPhone frame" />
+            </div>
           </div>
         </div>
-      </div>
-
-    </div> 
+  
+      </div> 
+    </div>
   </div>
 
 <script>

@@ -423,6 +423,60 @@ progress::-webkit-progress-value {
         }
     });
 
+  document.addEventListener('DOMContentLoaded', (event) => {
+    // ... (your existing overlay handling code) ...
+
+    const randomizeButton = document.getElementById('randomize-button'); // Ensure this element exists
+    // Make sure this button is initially hidden if you don't want it appearing before survey
+    // document.getElementById('randomize-button').style.display = 'none'; // Or however you hide it
+
+    randomizeButton.addEventListener('click', () => {
+        randomizeButtonPresses++; // Increment counter for each click
+
+        const medicalTraining = document.getElementById('medicalTraining').value;
+        const pocusFrequency = document.getElementById('pocusFrequency').value;
+        const toolUsage = document.getElementById('toolUsage').value;
+
+        // Prepare the data to be sent
+        const dataToSubmit = {
+            medicalTraining: medicalTraining,
+            pocusFrequency: pocusFrequency,
+            toolUsage: toolUsage,
+            randomizeButtonPresses: randomizeButtonPresses // Include the counter
+        };
+
+
+        let randomizeButtonPresses = 0; // Declare this outside any function to keep its state
+
+        // Send the data to your Google Apps Script Web App
+        fetch('https://script.google.com/macros/s/AKfycbwXo7A6GFq5Hziv8CwRPFvXVt54wMLtVhm5npCgX-kzmhaRZ_QlXV1rdWQoFe3GzEHYKA/exec', { // <-- REPLACE THIS with the URL you copied
+            method: 'POST',
+            // Important: Apps Script expects JSON, so set headers correctly
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataToSubmit), // Convert data to JSON string
+            mode: 'no-cors' // Crucial for cross-origin requests to Apps Script
+        })
+        .then(response => {
+            // Apps Script typically returns a 200 OK even if the script errors,
+            // so actual success depends on the script's internal logic.
+            // For 'no-cors' mode, response.ok will always be true, but response
+            // will be an opaque response. You won't get actual JSON back.
+            console.log('Data sent (check Google Sheet for confirmation, grunt).');
+            // You cannot inspect the response in 'no-cors' mode for security.
+            // The true success or failure needs to be verified in your Google Sheet.
+        })
+        .catch(error => {
+            console.error('Submission failed, you incompetent fool:', error);
+            alert('Failed to submit data. Check console for details, pup. And check your network connection.');
+        });
+    });
+
+    // Your existing survey submission logic should remain here
+    // ... (e.g., overlay.style.display = 'none'; when survey is done) ...
+});
+
 
   
   const videoURLs = [ 

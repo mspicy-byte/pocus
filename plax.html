@@ -304,6 +304,9 @@ progress::-webkit-progress-value {
           Your browser does not support the video tag.
         </video>
         <img class="phone-frame" src="iphone.png" alt="iPhone frame" />
+        <div style="margin-top: 10px;">
+          <button onclick="handleRandomize()" style="padding: 10px 20px; font-size: 1em; border-radius: 8px; background-color: #007acc; color: white; border: none; cursor: pointer;"> Randomize View </button>
+        </div>
       </div>
     </div>
   </div>
@@ -496,7 +499,26 @@ progress::-webkit-progress-value {
     ]);
   }
 
+  function randomizePosition() {
+    position.s = Math.floor(Math.random() * tensor.length);
+    position.z = Math.floor(Math.random() * tensor[0].length);
+    position.y = Math.floor(Math.random() * tensor[0][0].length);
+    position.x = Math.floor(Math.random() * tensor[0][0][0].length);
+}
+
+  function handleRandomize() {
+    randomizePosition();
+    updateVideo();
+    updateProgress([position.s, position.z, position.y, position.x], [
+      tensor.length,
+      tensor[0].length,
+      tensor[0][0].length,
+      tensor[0][0][0].length,
+    ]);
+}
+
   window.onload = () => {
+    randomizePosition();
     updateVideo();
     updateProgress(position, [
       tensor.length,

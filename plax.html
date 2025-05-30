@@ -468,6 +468,18 @@ progress::-webkit-progress-value {
     console.log(`Index: ${index}, URL: ${videoURLs[index - 1]}`);
   }
 
+  function updateProgress(pos, size) {
+    // Convert your position object to an array [s, z, y, x]
+    const posArray = [pos.s, pos.z, pos.y, pos.x];
+    const center = size.map(dim => Math.floor(dim / 2));
+
+    const distance = posArray.reduce((acc, val, i) => acc + Math.abs(val - center[i]), 0);
+    const maxDistance = size.reduce((acc, val) => acc + Math.floor(val / 2), 0);
+    const percent = 100 - Math.floor((distance / maxDistance) * 100);
+
+    document.getElementById("progress-bar").value = percent;
+  }
+
   function move(ds, dz, dy, dx) {
     position.s = clamp(position.s + ds, 0, tensor.length - 1);
     position.z = clamp(position.z + dz, 0, tensor[0].length - 1);
@@ -475,32 +487,25 @@ progress::-webkit-progress-value {
     position.x = clamp(position.x + dx, 0, tensor[0][0][0].length - 1);
 
     updateVideo();
+    updateProgress(position, [
+      tensor.length,
+      tensor[0].length,
+      tensor[0][0].length,
+      tensor[0][0][0].length,
+    ]);
   }
 
   window.onload = () => {
     updateVideo();
+    updateProgress(position, [
+      tensor.length,
+      tensor[0].length,
+      tensor[0][0].length,
+      tensor[0][0][0].length,
+    ]);
   };
-
-  function updateProgress(position, size) {
-    const center = size.map(dim => Math.floor(dim / 2));
-    const distance = position.reduce((acc, val, i) => acc + Math.abs(val - center[i]), 0);
-    const maxDistance = size.reduce((acc, val) => acc + Math.floor(val / 2), 0);
-    const percent = 100 - Math.floor((distance / maxDistance) * 100);
-    document.getElementById("progress-bar").value = percent;
-}
-  function move(ds, dy, dz, dx) {
-    position[0] += ds;
-    position[1] += dy;
-    position[2] += dz;
-    position[3] += dx;
-
-  // Bound-checking and video update logic here...
-
-  updateProgress(position, [3, 3, 3, 3]); // Replace with your real array size
-}
-
-
 </script>
+  
 </body>
 </html>
 

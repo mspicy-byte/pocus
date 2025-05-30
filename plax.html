@@ -179,6 +179,31 @@ header h1 {
   text-align: center;
 }
 
+.progress-wrapper {
+  width: 80%;
+  margin-top: 10px;
+  text-align: center;
+  color: white;
+}
+
+#progress-bar {
+  width: 100%;
+  height: 20px;
+  border-radius: 10px;
+  background-color: #ddd;
+}
+
+progress::-webkit-progress-bar {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+progress::-webkit-progress-value {
+  background-color: rgba(0, 255, 0, 0.7);
+  border-radius: 10px;
+}
+
+
 .iphone {
   position: relative;
   width: 300px;
@@ -267,6 +292,10 @@ header h1 {
   <!-- In Progress Phone - Center -->
   <div class="phone-wrapper">
     <div class="phone-label"><h2>In Progress</h2></div>
+    <div class="progress-wrapper">
+      <label for="progress-bar">Alignment</label>
+      <progress id="progress-bar" value="0" max="100"></progress>
+    </div>
     <div class="iphone">
       <div class="video-container">
         <video id="main-video" class="screen-content" autoplay loop muted playsinline>
@@ -451,6 +480,26 @@ header h1 {
   window.onload = () => {
     updateVideo();
   };
+
+  function updateProgress(position, size) {
+    const center = size.map(dim => Math.floor(dim / 2));
+    const distance = position.reduce((acc, val, i) => acc + Math.abs(val - center[i]), 0);
+    const maxDistance = size.reduce((acc, val) => acc + Math.floor(val / 2), 0);
+    const percent = 100 - Math.floor((distance / maxDistance) * 100);
+    document.getElementById("progress-bar").value = percent;
+}
+  function move(ds, dy, dz, dx) {
+    position[0] += ds;
+    position[1] += dy;
+    position[2] += dz;
+    position[3] += dx;
+
+  // Bound-checking and video update logic here...
+
+  updateProgress(position, [3, 3, 3, 3]); // Replace with your real array size
+}
+
+
 </script>
 </body>
 </html>

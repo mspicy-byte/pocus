@@ -449,94 +449,95 @@ progress::-webkit-progress-value {
     ]
   ];
 
-  let position = { s: 0, z: 1, y: 1, x: 1 };
+let position = { s: 0, z: 1, y: 1, x: 1 };
 
-  function clamp(value, min, max) {
-    return Math.max(min, Math.min(max, value));
-  }
-
-  function updateVideo() {
-    const index = tensor[position.s][position.z][position.y][position.x];
-    const video = document.getElementById("main-video");
-    const source = video.querySelector("source");
-
-    if (!index || index < 1 || index > videoURLs.length) {
-      console.warn("Invalid index", index);
-      return;
-    }
-
-    source.src = videoURLs[index - 1];
-    video.load();
-    video.play();
-
-    console.log(`Index: ${index}, URL: ${videoURLs[index - 1]}`);
-  }
-
-   function updateProgress(pos, size) {
-    const center = size.map(dim => Math.floor(dim / 2));
-    const posArray = [pos.s, pos.z, pos.y, pos.x];
-  
-    const distance = posArray.reduce((acc, val, i) => acc + Math.abs(val - center[i]), 0);
-    const maxDistance = size.reduce((acc, val) => acc + Math.floor(val / 2), 0);
-    const percent = 100 - Math.floor((distance / maxDistance) * 100);
-  
-    if (isFinite(percent)) {
-      document.getElementById("progress-bar").value = percent;
-    } else {
-      console.warn("Invalid percent calculated", percent);
-      document.getElementById("progress-bar").value = 0;
-    }
-      console.log("DEBUG | posArray:", posArray);
-      console.log("DEBUG | center:", center);
-      console.log("DEBUG | distance:", distance);
-      console.log("DEBUG | maxDistance:", maxDistance);
-
-  }
-
-
-  function move(ds, dz, dy, dx) {
-    position.s = clamp(position.s + ds, 0, tensor.length - 1);
-    position.z = clamp(position.z + dz, 0, tensor[0].length - 1);
-    position.y = clamp(position.y + dy, 0, tensor[0][0].length - 1);
-    position.x = clamp(position.x + dx, 0, tensor[0][0][0].length - 1);
-
-    updateVideo();
-    updateProgress(position, [
-      tensor.length,
-      tensor[0].length,
-      tensor[0][0].length,
-      tensor[0][0][0].length,
-    ]);
-  }
-
-  function randomizePosition() {
-    position.s = Math.floor(Math.random() * tensor.length);
-    position.z = Math.floor(Math.random() * tensor[0].length);
-    position.y = Math.floor(Math.random() * tensor[0][0].length);
-    position.x = Math.floor(Math.random() * tensor[0][0][0].length);
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
 }
 
-  function handleRandomize() {
-    randomizePosition();
-    updateVideo();
-    updateProgress([position.s, position.z, position.y, position.x], [
-      tensor.length,
-      tensor[0].length,
-      tensor[0][0].length,
-      tensor[0][0][0].length,
-    ]);
+function updateVideo() {
+  const index = tensor[position.s][position.z][position.y][position.x];
+  const video = document.getElementById("main-video");
+  const source = video.querySelector("source");
+
+  if (!index || index < 1 || index > videoURLs.length) {
+    console.warn("Invalid index", index);
+    return;
+  }
+
+  source.src = videoURLs[index - 1];
+  video.load();
+  video.play();
+
+  console.log(`Index: ${index}, URL: ${videoURLs[index - 1]}`);
 }
 
-  window.onload = () => {
-    randomizePosition();
-    updateVideo();
-    updateProgress(position, [
-      tensor.length,
-      tensor[0].length,
-      tensor[0][0].length,
-      tensor[0][0][0].length,
-    ]);
-  };
+function updateProgress(pos, size) {
+  const center = size.map(dim => Math.floor(dim / 2));
+  const posArray = [pos.s, pos.z, pos.y, pos.x];
+
+  const distance = posArray.reduce((acc, val, i) => acc + Math.abs(val - center[i]), 0);
+  const maxDistance = size.reduce((acc, val) => acc + Math.floor(val / 2), 0);
+  const percent = 100 - Math.floor((distance / maxDistance) * 100);
+
+  if (isFinite(percent)) {
+    document.getElementById("progress-bar").value = percent;
+  } else {
+    console.warn("Invalid percent calculated", percent);
+    document.getElementById("progress-bar").value = 0;
+  }
+
+  console.log("DEBUG | posArray:", posArray);
+  console.log("DEBUG | center:", center);
+  console.log("DEBUG | distance:", distance);
+  console.log("DEBUG | maxDistance:", maxDistance);
+}
+
+function move(ds, dz, dy, dx) {
+  position.s = clamp(position.s + ds, 0, tensor.length - 1);
+  position.z = clamp(position.z + dz, 0, tensor[0].length - 1);
+  position.y = clamp(position.y + dy, 0, tensor[0][0].length - 1);
+  position.x = clamp(position.x + dx, 0, tensor[0][0][0].length - 1);
+
+  updateVideo();
+  updateProgress(position, [
+    tensor.length,
+    tensor[0].length,
+    tensor[0][0].length,
+    tensor[0][0][0].length,
+  ]);
+}
+
+function randomizePosition() {
+  position.s = Math.floor(Math.random() * tensor.length);
+  position.z = Math.floor(Math.random() * tensor[0].length);
+  position.y = Math.floor(Math.random() * tensor[0][0].length);
+  position.x = Math.floor(Math.random() * tensor[0][0][0].length);
+}
+
+function handleRandomize() {
+  randomizePosition();
+  updateVideo();
+  updateProgress(position, [
+    tensor.length,
+    tensor[0].length,
+    tensor[0][0].length,
+    tensor[0][0][0].length,
+  ]);
+}
+
+window.onload = () => {
+  randomizePosition();
+  updateVideo();
+  updateProgress(position, [
+    tensor.length,
+    tensor[0].length,
+    tensor[0][0].length,
+    tensor[0][0][0].length,
+  ]);
+};
+
+  
 </script>
   
 </body>

@@ -236,37 +236,37 @@
     <h1>Parasternal Long Axis</h1>
     <p>Use the following movements to find a view of the left ventricle, mitral valve, aortic valve and aortic artery. This view can give us a rough idea of heart ejection fraction. Press any of the buttons to begin.</p>
   </header>
-
-  <div class="content" style="display: flex; gap: 20px; align-items: flex-start;">
-    <div class="control-section">
-      <div class="control-label"> Probe Controls </div>
-      <div class="grid">
+  
+<div class="content">
+  <!-- Controls on the left -->
+  <div class="control-section">
+    <div class="control-label">Probe Controls</div>
+    <div class="grid">
       <!-- Sliding Controls -->
       <div class="control-block sliding">
-        <div class="title-box">Rotate</div>
+        <div class="title-box">Slide</div>
         <div class="sliding-grid">
           <button onclick="move(0, -1, 0, 0)">↑</button>
           <button onclick="move(0, 1, 0, 0)">↓</button>
           <button onclick="move(0, 0, 0, -1)">←</button>
           <button onclick="move(0, 0, 0, 1)">→</button>
         </div>
-      </div>  
+      </div>
 
-    
       <!-- Rotation Controls -->
       <div class="control-block rotation">
         <div class="title-box">Rotate</div>
         <button onclick="move(-1, 0, 0, 0)">Clockwise (S-)</button>
         <button onclick="move(1, 0, 0, 0)">Counter-CW (S+)</button>
       </div>
-    
+
       <!-- Tilting Controls -->
       <div class="control-block tilting">
         <div class="title-box">Tilt</div>
         <button onclick="move(0, 0, -1, 0)">Tilt Up (Y-)</button>
         <button onclick="move(0, 0, 1, 0)">Tilt Down (Y+)</button>
       </div>
-    
+
       <!-- Rocking Controls -->
       <div class="control-block rocking">
         <div class="title-box">Rock</div>
@@ -276,44 +276,35 @@
     </div>
   </div>
 
-    
-        <!-- First iPhone (Dynamic) -->
-    <div class = "phone-row">
-      <div class = "phone-wrapper">
-        <div class = "phone-label"><h2> In progress </h2> </div> 
-      
-          <div class="iphone">
-            <div class="video-container">
-              <video id="main-video" class="screen-content" autoplay loop muted playsinline>
-                 <source src="" type="video/mp4" />
-                    Your browser does not support the video tag.
-              </video>
-              <img class="phone-frame" src="iphone.png" alt="iPhone frame" />
-            </div>
-          </div>
-    
-        </div> 
+  <!-- In Progress Phone - Center -->
+  <div class="phone-wrapper">
+    <div class="phone-label"><h2>In Progress</h2></div>
+    <div class="iphone">
+      <div class="video-container">
+        <video id="main-video" class="screen-content" autoplay loop muted playsinline>
+          <source src="" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <img class="phone-frame" src="iphone.png" alt="iPhone frame" />
       </div>
-    
-
-    <!-- Second iPhone (Static) -->
-      <div class = "phone-wrapper">
-        <div class = "phone-label"> <h2> Reference </h2> </div> 
-        
-          <div class="iphone">
-            <div class="video-container">
-              <video id="second-video" class="screen-content" autoplay loop muted playsinline>
-                <source src="demo3.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-              <img class="phone-frame" src="iphone.png" alt="iPhone frame" />
-            </div>
-          </div>
-        </div>
-  
-      </div> 
     </div>
   </div>
+
+  <!-- Reference Phone - Right -->
+  <div class="phone-wrapper">
+    <div class="phone-label"><h2>Reference</h2></div>
+    <div class="iphone">
+      <div class="video-container">
+        <video id="second-video" class="screen-content" autoplay loop muted playsinline>
+          <source src="demo3.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <img class="phone-frame" src="iphone.png" alt="iPhone frame" />
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <script>
   const videoURLs = [ 

@@ -17,10 +17,10 @@
   }
 
   .grid {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, 180px);
+    grid-template-rows: repeat(2, 180px);
     gap: 20px;
-    justify-content: flex-start;
   }
 
   .control-block {
@@ -171,7 +171,7 @@
     <p>Use the following movements to find a view of the left ventricle, mitral valve, aortic valve and aortic artery. This view can give us a rough idea of heart ejection fraction. Press any of the buttons to begin.</p>
   </header>
 
-  <div class="content">
+  <div class="content" style="display: flex; gap: 20px; align-items: flex-start;">
     <div class="grid">
       <!-- Sliding Controls -->
       <div class="control-block sliding">

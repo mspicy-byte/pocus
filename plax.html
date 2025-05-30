@@ -472,17 +472,22 @@ progress::-webkit-progress-value {
     console.log(`Index: ${index}, URL: ${videoURLs[index - 1]}`);
   }
 
-  function updateProgress(pos, size) {
-    // Convert your position object to an array [s, z, y, x]
-    const posArray = [pos.s, pos.z, pos.y, pos.x];
+   function updateProgress(pos, size) {
     const center = size.map(dim => Math.floor(dim / 2));
-
+    const posArray = [pos.s, pos.z, pos.y, pos.x];
+  
     const distance = posArray.reduce((acc, val, i) => acc + Math.abs(val - center[i]), 0);
     const maxDistance = size.reduce((acc, val) => acc + Math.floor(val / 2), 0);
     const percent = 100 - Math.floor((distance / maxDistance) * 100);
-
-    document.getElementById("progress-bar").value = percent;
+  
+    if (isFinite(percent)) {
+      document.getElementById("progress-bar").value = percent;
+    } else {
+      console.warn("Invalid percent calculated", percent);
+      document.getElementById("progress-bar").value = 0;
+    }
   }
+
 
   function move(ds, dz, dy, dx) {
     position.s = clamp(position.s + ds, 0, tensor.length - 1);

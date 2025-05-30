@@ -119,6 +119,18 @@
   .sliding-grid button:nth-child(4) { grid-area: right; }
 
   /* Control Buttons */
+
+  .control-label {
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
   .control-buttons {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -224,6 +236,8 @@
   </header>
 
   <div class="content" style="display: flex; gap: 20px; align-items: flex-start;">
+    <div class="control-section">
+      <div class="control-label"> Probe Controls </div>
     <div class="grid">
       <!-- Sliding Controls -->
       <div class="control-block sliding">
@@ -257,6 +271,7 @@
         <button onclick="move(0, 0, 0, 1)">Rock Right</button>
         <button onclick="move(0, 0, 0, -1)">Rock Left</button>
       </div>
+    </div>
     </div>
         <!-- First iPhone (Dynamic) -->
     <div class = "phone-row">

@@ -225,49 +225,47 @@
   <div class="content" style="display: flex; gap: 20px; align-items: flex-start;">
 
    <!-- I got lazy here and used the same div to label the controls as the phones -->  
-    <div class = "phone-row">
-      <div class = "phone-wrapper">
-        <div class = "phone-label"> Controls </div> 
-    
-          <div class="grid">
-            <!-- Sliding Controls -->
-            <div class="control-block sliding">
-              <div class="title-box">Rotate</div>
-              <div class="sliding-grid">
-                <button onclick="move(0, -1, 0, 0)">↑</button>
-                <button onclick="move(0, 1, 0, 0)">↓</button>
-                <button onclick="move(0, 0, 0, -1)">←</button>
-                <button onclick="move(0, 0, 0, 1)">→</button>
-              </div>
-            </div>
-      
-          
-            <!-- Rotation Controls -->
-            <div class="control-block rotation">
-              <div class="title-box">Rotate</div>
-              <button onclick="move(-1, 0, 0, 0)">Clockwise (S-)</button>
-              <button onclick="move(1, 0, 0, 0)">Counter-CW (S+)</button>
-            </div>
-          
-            <!-- Tilting Controls -->
-            <div class="control-block tilting">
-              <div class="title-box">Tilt</div>
-              <button onclick="move(0, 0, -1, 0)">Tilt Up (Y-)</button>
-              <button onclick="move(0, 0, 1, 0)">Tilt Down (Y+)</button>
-            </div>
-          
-            <!-- Rocking Controls -->
-            <div class="control-block rocking">
-              <div class="title-box">Rock</div>
-              <button onclick="move(0, 0, 0, 1)">Rock Right</button>
-              <button onclick="move(0, 0, 0, -1)">Rock Left</button>
-            </div>
-          </div>
 
-         <!-- end of the phone label in case it doesnt work -->
-         </div>
-       </div>
-     </div>
+  <div class = "phone-label"> Controls </div> 
+
+    <div class="grid">
+      <!-- Sliding Controls -->
+      <div class="control-block sliding">
+        <div class="title-box">Rotate</div>
+        <div class="sliding-grid">
+          <button onclick="move(0, -1, 0, 0)">↑</button>
+          <button onclick="move(0, 1, 0, 0)">↓</button>
+          <button onclick="move(0, 0, 0, -1)">←</button>
+          <button onclick="move(0, 0, 0, 1)">→</button>
+        </div>
+      </div>
+
+    
+      <!-- Rotation Controls -->
+      <div class="control-block rotation">
+        <div class="title-box">Rotate</div>
+        <button onclick="move(-1, 0, 0, 0)">Clockwise (S-)</button>
+        <button onclick="move(1, 0, 0, 0)">Counter-CW (S+)</button>
+      </div>
+    
+      <!-- Tilting Controls -->
+      <div class="control-block tilting">
+        <div class="title-box">Tilt</div>
+        <button onclick="move(0, 0, -1, 0)">Tilt Up (Y-)</button>
+        <button onclick="move(0, 0, 1, 0)">Tilt Down (Y+)</button>
+      </div>
+    
+      <!-- Rocking Controls -->
+      <div class="control-block rocking">
+        <div class="title-box">Rock</div>
+        <button onclick="move(0, 0, 0, 1)">Rock Right</button>
+        <button onclick="move(0, 0, 0, -1)">Rock Left</button>
+      </div>
+    </div>
+
+   <!-- end of the phone label in case it doesnt work -->
+   </div>
+
         
 
         <!-- First iPhone (Dynamic) -->

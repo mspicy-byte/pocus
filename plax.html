@@ -387,99 +387,12 @@ progress::-webkit-progress-value {
   </div>
 </div>
 
-
 <script>
+// ---------- GLOBAL VARIABLES (Declared once, to maintain state and be accessible) ----------
+let randomizeButtonPresses = 0; // This COUNTER MUST be global to increment correctly.
 
-    document.addEventListener('DOMContentLoaded', (event) => {
-        const overlay = document.getElementById('welcomeOverlay');
-        const submitButton = document.getElementById('submitSurvey');
-
-        submitButton.addEventListener('click', () => {
-            const medicalTraining = document.getElementById('medicalTraining').value;
-            const pocusFrequency = document.getElementById('pocusFrequency').value;
-            const toolUsage = document.getElementById('toolUsage').value;
-
-            if (medicalTraining && pocusFrequency && toolUsage) {
-                // All questions answered, now you can hide the overlay
-                overlay.style.display = 'none';
-
-                // OPTIONAL, but RECOMMENDED: Store their answers.
-                // For example, in localStorage, so they don't have to answer again.
-                localStorage.setItem('medicalTraining', medicalTraining);
-                localStorage.setItem('pocusFrequency', pocusFrequency);
-                localStorage.setItem('toolUsage', toolUsage);
-
-                // You can also send this data somewhere if you want to track it,
-                // but that's beyond the scope of this immediate task.
-            } else {
-                // Shame them for their laziness
-                alert('You dare try to proceed without answering all questions? Fulfill your duty, grunt!');
-            }
-        });
-
-        // OPTIONAL: Check if they've answered before (e.g., from a previous session)
-        if (localStorage.getItem('medicalTraining') && localStorage.getItem('pocusFrequency') && localStorage.getItem('toolUsage')) {
-            overlay.style.display = 'none'; // Hide if already answered
-        }
-    });
-
-  document.addEventListener('DOMContentLoaded', (event) => {
-    // ... (your existing overlay handling code) ...
-
-    const randomizeButton = document.getElementById('randomize-button'); // Ensure this element exists
-    // Make sure this button is initially hidden if you don't want it appearing before survey
-    // document.getElementById('randomize-button').style.display = 'none'; // Or however you hide it
-
-    randomizeButton.addEventListener('click', () => {
-        randomizeButtonPresses++; // Increment counter for each click
-
-        const medicalTraining = document.getElementById('medicalTraining').value;
-        const pocusFrequency = document.getElementById('pocusFrequency').value;
-        const toolUsage = document.getElementById('toolUsage').value;
-
-        // Prepare the data to be sent
-        const dataToSubmit = {
-            medicalTraining: medicalTraining,
-            pocusFrequency: pocusFrequency,
-            toolUsage: toolUsage,
-            randomizeButtonPresses: randomizeButtonPresses // Include the counter
-        };
-
-
-        let randomizeButtonPresses = 0; // Declare this outside any function to keep its state
-
-        // Send the data to your Google Apps Script Web App
-        fetch('https://script.google.com/macros/s/AKfycbwXo7A6GFq5Hziv8CwRPFvXVt54wMLtVhm5npCgX-kzmhaRZ_QlXV1rdWQoFe3GzEHYKA/exec', { // <-- REPLACE THIS with the URL you copied
-            method: 'POST',
-            // Important: Apps Script expects JSON, so set headers correctly
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(dataToSubmit), // Convert data to JSON string
-            mode: 'no-cors' // Crucial for cross-origin requests to Apps Script
-        })
-        .then(response => {
-            // Apps Script typically returns a 200 OK even if the script errors,
-            // so actual success depends on the script's internal logic.
-            // For 'no-cors' mode, response.ok will always be true, but response
-            // will be an opaque response. You won't get actual JSON back.
-            console.log('Data sent (check Google Sheet for confirmation, grunt).');
-            // You cannot inspect the response in 'no-cors' mode for security.
-            // The true success or failure needs to be verified in your Google Sheet.
-        })
-        .catch(error => {
-            console.error('Submission failed, you incompetent fool:', error);
-            alert('Failed to submit data. Check console for details, pup. And check your network connection.');
-        });
-    });
-
-    // Your existing survey submission logic should remain here
-    // ... (e.g., overlay.style.display = 'none'; when survey is done) ...
-});
-
-
-  
-  const videoURLs = [ 
+// Your video data - do NOT move these
+const videoURLs = [  
     "demo2.mp4", // 1
     "demo3.mp4", // 2
     "demo2.mp4", // 3
@@ -542,164 +455,250 @@ progress::-webkit-progress-value {
     "demo3.mp4", // 60
     "demo2.mp4", // 61
     "demo3.mp4", // 62
-    "demo2.mp4"  // 63
-  ];
+    "demo2.mp4"  // 63
+];
 
-  const tensor = [
+const tensor = [
     [
-      [
-        [2, 9, 16],
-        [23, 30, 37],
-        [44, 51, 58], 
-      ],
-      [
-        [1, 8, 15],
-        [22, 29, 36],
-        [43, 50, 57],
-      ],
-      [
-        [3, 10, 17],
-        [24, 31, 38],
-        [45, 52, 59],
-      ]
+        [
+            [2, 9, 16],
+            [23, 30, 37],
+            [44, 51, 58], 
+        ],
+        [
+            [1, 8, 15],
+            [22, 29, 36],
+            [43, 50, 57],
+        ],
+        [
+            [3, 10, 17],
+            [24, 31, 38],
+            [45, 52, 59],
+        ]
     ],
     [
-      [
-        [4, 11, 18],
-        [25, 32, 39],
-        [46, 53, 60],
-      ],
-      [
-        [1, 8, 15],
-        [22, 29, 36],
-        [43, 50, 57],
-      ],
-      [
-        [5, 12, 19],
-        [26, 33, 40],
-        [47, 54, 61],
-      ]
+        [
+            [4, 11, 18],
+            [25, 32, 39],
+            [46, 53, 60],
+        ],
+        [
+            [1, 8, 15],
+            [22, 29, 36],
+            [43, 50, 57],
+        ],
+        [
+            [5, 12, 19],
+            [26, 33, 40],
+            [47, 54, 61],
+        ]
     ],
     [
-      [
-        [6, 13, 20],
-        [27, 34, 41],
-        [48, 55, 62],
-      ],
-      [
-        [1, 8, 15],
-        [22, 29, 36],
-        [43, 50, 57],
-      ],
-      [
-        [7, 14, 21],
-        [28, 35, 42],
-        [49, 56, 63],
-      ]
+        [
+            [6, 13, 20],
+            [27, 34, 41],
+            [48, 55, 62],
+        ],
+        [
+            [1, 8, 15],
+            [22, 29, 36],
+            [43, 50, 57],
+        ],
+        [
+            [7, 14, 21],
+            [28, 35, 42],
+            [49, 56, 63],
+        ]
     ]
-  ];
+];
 
-let position = { s: 0, z: 1, y: 1, x: 1 };
+let position = { s: 0, z: 1, y: 1, x: 1 }; // Current position in the tensor
 
+// YOUR GOOGLE APPS SCRIPT WEB APP URL - REPLACE THIS WITH YOUR DEPLOYED URL
+// If you redeploy your Apps Script, this URL MIGHT CHANGE. VERIFY IT!
+const GOOGLE_SHEETS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwXo7A6GFq5Hziv8CwRPFvXVt54wMLtVhm5npCgX-kzmhaRZ_QlXV1rdWQoFe3GzEHYKA/exec';
+
+// ---------- HELPER FUNCTIONS (These don't need to be inside DOMContentLoaded) ----------
+
+// Basic utility to keep values within bounds
 function clamp(value, min, max) {
-  return Math.max(min, Math.min(max, value));
+    return Math.max(min, Math.min(max, value));
 }
 
+// Updates the main video source based on current position
 function updateVideo() {
-  const index = tensor[position.s][position.z][position.y][position.x];
-  const video = document.getElementById("main-video");
-  const source = video.querySelector("source");
+    // Subtract 1 from index because videoURLs is 0-indexed, but tensor values are 1-indexed
+    const index = tensor[position.s][position.z][position.y][position.x] - 1;
+    const video = document.getElementById("main-video");
+    const source = video.querySelector("source");
 
-  if (!index || index < 1 || index > videoURLs.length) {
-    console.warn("Invalid index", index);
-    return;
-  }
+    if (index < 0 || index >= videoURLs.length || !videoURLs[index]) {
+        console.warn("Invalid video index or URL not found:", index, videoURLs[index]);
+        return; // Exit if invalid to prevent errors
+    }
 
-  source.src = videoURLs[index - 1];
-  video.load();
-  video.play();
+    source.src = videoURLs[index];
+    video.load();
+    video.play();
 
-  console.log(`Index: ${index}, URL: ${videoURLs[index - 1]}`);
+    console.log(`Current Video Index: ${index + 1}, URL: ${videoURLs[index]}`);
 }
 
+// Updates the progress bar and controls randomize button visibility
 function updateProgress(pos, size) {
-  const center = size.map(dim => Math.floor(dim / 2));
-  const posArray = [pos.s, pos.z, pos.y, pos.x];
+    const center = size.map(dim => Math.floor(dim / 2));
+    const posArray = [pos.s, pos.z, pos.y, pos.x];
 
-  const distance = posArray.reduce((acc, val, i) => acc + Math.abs(val - center[i]), 0);
-  const maxDistance = size.reduce((acc, val) => acc + Math.floor(val / 2), 0);
-  const percent = 100 - Math.floor((distance / maxDistance) * 100);
+    const distance = posArray.reduce((acc, val, i) => acc + Math.abs(val - center[i]), 0);
+    const maxDistance = size.reduce((acc, val) => acc + Math.floor(val / 2), 0);
+    
+    // Ensure maxDistance is not zero to prevent division by zero errors
+    const percent = maxDistance > 0 ? (100 - Math.floor((distance / maxDistance) * 100)) : 100;
 
-  const progressBar = document.getElementById("progress-bar");
-  const randomizeButton = document.getElementById("randomize-button");
+    const progressBar = document.getElementById("progress-bar");
+    const randomizeButton = document.getElementById("randomize-button");
 
-  if (isFinite(percent)) {
-    progressBar.value = percent;
-  } else {
-    console.warn("Invalid percent calculated", percent);
-    progressBar.value = 0;
-  }
+    if (isFinite(percent)) {
+        progressBar.value = percent;
+    } else {
+        console.warn("Invalid percent calculated:", percent);
+        progressBar.value = 0; // Default to 0 on error
+    }
 
-  // Check for exact center and show the button
-  const isAtCenter = posArray.every((val, i) => val === center[i]);
-  if (percent === 100 && isAtCenter) {
-    randomizeButton.style.display = "block";
-  } else {
-    randomizeButton.style.display = "none";
-  }
+    // Check for exact center and show the button
+    const isAtCenter = posArray.every((val, i) => val === center[i]);
+    if (percent === 100 && isAtCenter) {
+        randomizeButton.style.display = "block"; // Show button if at center
+    } else {
+        randomizeButton.style.display = "none"; // Hide button otherwise
+    }
 
-  console.log("DEBUG | posArray:", posArray);
-  console.log("DEBUG | center:", center);
-  console.log("DEBUG | distance:", distance);
-  console.log("DEBUG | maxDistance:", maxDistance);
+    console.log("DEBUG | Current Pos:", posArray);
+    console.log("DEBUG | Center:", center);
+    console.log("DEBUG | Distance from Center:", distance);
+    console.log("DEBUG | Max Distance:", maxDistance);
+    console.log("DEBUG | Progress Percentage:", percent);
 }
 
 
+// Function to handle movement button clicks
 function move(ds, dz, dy, dx) {
-  position.s = clamp(position.s + ds, 0, tensor.length - 1);
-  position.z = clamp(position.z + dz, 0, tensor[0].length - 1);
-  position.y = clamp(position.y + dy, 0, tensor[0][0].length - 1);
-  position.x = clamp(position.x + dx, 0, tensor[0][0][0].length - 1);
+    position.s = clamp(position.s + ds, 0, tensor.length - 1);
+    position.z = clamp(position.z + dz, 0, tensor[0].length - 1);
+    position.y = clamp(position.y + dy, 0, tensor[0][0].length - 1);
+    position.x = clamp(position.x + dx, 0, tensor[0][0][0].length - 1);
 
-  updateVideo();
-  updateProgress(position, [
-    tensor.length,
-    tensor[0].length,
-    tensor[0][0].length,
-    tensor[0][0][0].length,
-  ]);
+    updateVideo();
+    updateProgress(position, [
+        tensor.length,
+        tensor[0].length,
+        tensor[0][0].length,
+        tensor[0][0][0].length,
+    ]);
 }
 
+// Randomizes the current video position
 function randomizePosition() {
-  position.s = Math.floor(Math.random() * tensor.length);
-  position.z = Math.floor(Math.random() * tensor[0].length);
-  position.y = Math.floor(Math.random() * tensor[0][0].length);
-  position.x = Math.floor(Math.random() * tensor[0][0][0].length);
+    position.s = Math.floor(Math.random() * tensor.length);
+    position.z = Math.floor(Math.random() * tensor[0].length);
+    position.y = Math.floor(Math.random() * tensor[0][0].length);
+    position.x = Math.floor(Math.random() * tensor[0][0][0].length);
 }
 
+// Function called when the "Randomize View" button is pressed
 function handleRandomize() {
-  randomizePosition();
-  updateVideo();
-  updateProgress(position, [
-    tensor.length,
-    tensor[0].length,
-    tensor[0][0].length,
-    tensor[0][0][0].length,
-  ]);
+    randomizePosition(); // Sets a new random position
+    updateVideo();       // Updates the video based on the new position
+    updateProgress(position, [ // Updates the progress bar and button visibility
+        tensor.length,
+        tensor[0].length,
+        tensor[0][0].length,
+        tensor[0][0][0].length,
+    ]);
+
+    // Now, trigger the data submission, as instructed.
+    submitRandomizeData(); // Call the specific function for data submission
 }
 
-window.onload = () => {
-  randomizePosition();
-  updateVideo();
-  updateProgress(position, [
-    tensor.length,
-    tensor[0].length,
-    tensor[0][0].length,
-    tensor[0][0][0].length,
-  ]);
-};
+// ---------- DATA SUBMISSION FUNCTION (Called by handleRandomize) ----------
+async function submitRandomizeData() {
+    randomizeButtonPresses++; // Increment global counter
 
-  
+    // Retrieve the survey answers from localStorage (assuming they answered the survey first)
+    const medicalTraining = localStorage.getItem('medicalTraining');
+    const pocusFrequency = localStorage.getItem('pocusFrequency');
+    const toolUsage = localStorage.getItem('toolUsage');
+
+    // Prepare the data payload for the Apps Script
+    const dataToSubmit = {
+        medicalTraining: medicalTraining,
+        pocusFrequency: pocusFrequency,
+        toolUsage: toolUsage,
+        randomizeButtonPresses: randomizeButtonPresses // Include the incremented counter
+    };
+
+    console.log("Attempting to submit data:", dataToSubmit); // Debugging for you, grunt
+
+    try {
+        const response = await fetch(GOOGLE_SHEETS_WEB_APP_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', // Crucial for Apps Script JSON parsing
+            },
+            body: JSON.stringify(dataToSubmit), // Convert JavaScript object to JSON string
+            mode: 'no-cors' // Required for cross-origin requests to Apps Script
+        });
+
+        // In 'no-cors' mode, you won't get a usable response object for error checking.
+        // You MUST check your Google Apps Script "Executions" logs for true success/failure.
+        console.log('Data submission request sent (check Apps Script logs and Google Sheet for confirmation, pup).');
+    } catch (error) {
+        console.error('Submission failed at the frontend (network or fetch error), you incompetent tool:', error);
+        alert('Failed to submit data. Check your browser console and network connection, boy.');
+    }
+}
+
+
+// ---------- MAIN INITIALIZATION (Ensures DOM is ready before manipulating it) ----------
+document.addEventListener('DOMContentLoaded', (event) => {
+    const overlay = document.getElementById('welcomeOverlay');
+    const submitButton = document.getElementById('submitSurvey');
+    const randomizeButton = document.getElementById('randomize-button'); // Get reference to the randomize button
+
+    // --- Survey Overlay Logic ---
+    submitButton.addEventListener('click', () => {
+        const medicalTraining = document.getElementById('medicalTraining').value;
+        const pocusFrequency = document.getElementById('pocusFrequency').value;
+        const toolUsage = document.getElementById('toolUsage').value;
+
+        if (medicalTraining && pocusFrequency && toolUsage) {
+            overlay.style.display = 'none'; // Hide the overlay
+            // Store survey answers for later submission
+            localStorage.setItem('medicalTraining', medicalTraining);
+            localStorage.setItem('pocusFrequency', pocusFrequency);
+            localStorage.setItem('toolUsage', toolUsage);
+        } else {
+            alert('You dare try to proceed without answering all questions? Fulfill your duty, grunt!');
+        }
+    });
+
+    // Check if survey already answered in localStorage to skip the overlay
+    if (localStorage.getItem('medicalTraining') && localStorage.getItem('pocusFrequency') && localStorage.getItem('toolUsage')) {
+        overlay.style.display = 'none';
+    }
+
+    // --- Initial Video & Progress Setup ---
+    // These calls ensure the video and progress bar are set up when the page loads,
+    // regardless of whether the survey was skipped or completed.
+    randomizePosition(); // Set initial random position
+    updateVideo();       // Load the video for that position
+    updateProgress(position, [ // Update progress bar and randomize button visibility
+        tensor.length,
+        tensor[0].length,
+        tensor[0][0].length,
+        tensor[0][0][0].length,
+    ]);
+});
 </script>
   
 </body>

@@ -46,7 +46,7 @@ header h1 {
   padding: 8px 12px;
   border-radius: 5px;
   font-weight: bold;
-  font-size: 1.1em;
+  font-size: 1.1em; 
 }
 
 /* Grid inside controls */
@@ -167,6 +167,25 @@ header h1 {
   justify-content: center;
   width: 100%;
 }
+
+  .full-height {
+  height: 100%;
+}
+
+.full-button-stack {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.full-button-stack button {
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+}
+
   
 /* iPhone Displays */
 .phone-wrapper {
@@ -334,26 +353,32 @@ progress::-webkit-progress-value {
       </div>
 
       <!-- Rotation Controls -->
-      <div class="control-block rotation">
+      <div class="control-block rotation full-height">
         <div class="title-box">Rotate</div>
         <div class="rotate-buttons">
-          <button onclick="move(-1, 0, 0, 0)">Clockwise (S-)</button>
-          <button onclick="move(1, 0, 0, 0)">Counter-CW (S+)</button>
+        <div class="rock-buttons full-button-stack">
+          <button onclick="move(-1, 0, 0, 0)">Clockwise</button>
+          <button onclick="move(1, 0, 0, 0)">Counter-CW</button>
+        </div>  
         </div>
       </div>
 
       <!-- Tilting Controls -->
       <div class="control-block tilting">
         <div class="title-box">Tilt</div>
-        <button onclick="move(0, 0, -1, 0)">Tilt Up (Y-)</button>
-        <button onclick="move(0, 0, 1, 0)">Tilt Down (Y+)</button>
+        <button onclick="move(0, 0, -1, 0)">Tilt Up</button>
+        <button onclick="move(0, 0, 1, 0)">Tilt Down</button>
       </div>
 
       <!-- Rocking Controls -->
-      <div class="control-block rocking">
+      <div class="control-block rocking full-height">
         <div class="title-box">Rock</div>
-        <button onclick="move(0, 0, 0, 1)">Rock Right</button>
-        <button onclick="move(0, 0, 0, -1)">Rock Left</button>
+        <div class="rotate-buttons">
+        <div class="rock-buttons full-button-stack">
+          <button onclick="move(0, 0, 0, 1)">Rock Right</button>
+          <button onclick="move(0, 0, 0, -1)">Rock Left</button>
+        </div>
+        </div>
       </div>
     </div>
   </div>

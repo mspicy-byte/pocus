@@ -140,6 +140,7 @@ header h1 {
 /* Sliding grid buttons */
 .sliding-grid {
   display: grid;
+  margin-top: -20px;
   grid-template-columns: 40px 40px 40px;
   grid-template-rows: 40px 40px 40px;
   gap: 10px;
@@ -160,6 +161,13 @@ header h1 {
 .sliding-grid button:nth-child(3) { grid-area: left; }
 .sliding-grid button:nth-child(4) { grid-area: right; }
 
+.rotate-buttons {
+  display: flex;
+  gap: 0px;
+  justify-content: center;
+  width: 100%;
+}
+  
 /* iPhone Displays */
 .phone-wrapper {
   display: flex;
@@ -328,8 +336,10 @@ progress::-webkit-progress-value {
       <!-- Rotation Controls -->
       <div class="control-block rotation">
         <div class="title-box">Rotate</div>
-        <button onclick="move(-1, 0, 0, 0)">Clockwise (S-)</button>
-        <button onclick="move(1, 0, 0, 0)">Counter-CW (S+)</button>
+        <div class="rotate-buttons">
+          <button onclick="move(-1, 0, 0, 0)">Clockwise (S-)</button>
+          <button onclick="move(1, 0, 0, 0)">Counter-CW (S+)</button>
+        <div>
       </div>
 
       <!-- Tilting Controls -->

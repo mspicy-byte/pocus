@@ -161,12 +161,6 @@ header h1 {
 .sliding-grid button:nth-child(3) { grid-area: left; }
 .sliding-grid button:nth-child(4) { grid-area: right; }
 
-.rotate-buttons {
-  display: flex;
-  gap: 0px;
-  justify-content: center;
-  width: 100%;
-}
 
   .full-height {
   height: 100%;
@@ -355,11 +349,9 @@ progress::-webkit-progress-value {
       <!-- Rotation Controls -->
       <div class="control-block rotation full-height">
         <div class="title-box">Rotate</div>
-        <div class="rotate-buttons">
-        <div class="rock-buttons full-button-stack">
+        <div class="full-button-stack">
           <button onclick="move(-1, 0, 0, 0)">Clockwise</button>
           <button onclick="move(1, 0, 0, 0)">Counter-CW</button>
-        </div>  
         </div>
       </div>
 
@@ -373,13 +365,13 @@ progress::-webkit-progress-value {
       <!-- Rocking Controls -->
       <div class="control-block rocking full-height">
         <div class="title-box">Rock</div>
-        <div class="rotate-buttons">
-        <div class="rock-buttons full-button-stack">
+        <div class="full-button-stack">
           <button onclick="move(0, 0, 0, 1)">Rock Right</button>
           <button onclick="move(0, 0, 0, -1)">Rock Left</button>
         </div>
-        </div>
       </div>
+
+      
     </div>
   </div>
   </div>

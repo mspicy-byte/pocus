@@ -421,7 +421,7 @@ progress::-webkit-progress-value {
 let randomizeButtonPresses = 0; // This COUNTER MUST be global to increment correctly.
   
 let currentPosition = [0, 0, 0, 0];  // Properly defined
-let startPosition = [];
+let startPosition = null;
 let moveHistory = [];
 let totalMoves = 0;
 
@@ -619,9 +619,8 @@ function move(ds, dz, dy, dx) {
 
     totalMoves+= 1; // ✅ Correctly increment  
     currentPosition = [position.s, position.z, position.y, position.x];
-    moveHistory.push([...currentPosition]); // 🧠 Use spread to push a proper snapshot
-
-    
+    const value = tensor[position.s][position.z][position.y][position.x];
+    moveHistory.push(value);
 
     updateVideo();
     updateProgress(position, [
@@ -638,11 +637,17 @@ function move(ds, dz, dy, dx) {
 
 // Randomizes the current video position
 function randomizePosition() {
+  //changes the tensor location in data structure
     position.s = Math.floor(Math.random() * tensor.length);
     position.z = Math.floor(Math.random() * tensor[0].length);
     position.y = Math.floor(Math.random() * tensor[0][0].length);
     position.x = Math.floor(Math.random() * tensor[0][0][0].length);
     currentPosition = [position.s, position.z, position.y, position.x];
+
+  //updates the start position and reset move history
+    moveHistory.push([...currentPosition]); // Begin history clean
+    startPosition = [position.s, position.z, position.y, position.x];
+    totalMoves = 0; // Reset again for clarity
 }
 
 // Function called when the "Randomize View" button is pressed
@@ -650,16 +655,7 @@ function handleRandomize() {
     console.log("start position:", startPosition, "moveHistory:", moveHistory, "total moves #", totalMoves );
     randomizeButtonPresses++; // Moved here to ensure count happens before any async
 
-    // Reset tracking variables FIRST to prevent tainting
-
-    // Set new random position
     randomizePosition();
-    currentPosition = [position.s, position.z, position.y, position.x];
-    startPosition = [currentPosition]; // Store starting point AFTER random position
-
-    moveHistory.push([...currentPosition]); // Begin history clean
-    totalMoves = 0; // Reset again for clarity
-
     updateVideo(); // This uses currentPosition
     updateProgress(position, [
         tensor.length,

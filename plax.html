@@ -641,23 +641,33 @@ function randomizePosition() {
 
 // Function called when the "Randomize View" button is pressed
 function handleRandomize() {
-    console.log("start position: ", startPosition, "moveHistory: ", moveHistory, "total moves #", totalMoves );
-    randomizePosition(); // Sets a new random position
-    updateVideo();       // Updates the video based on the new position
-    startPosition = [...currentPosition]; // Clone to avoid reference issues
-    // Reset tracking variables
-    moveHistory = [ [...currentPosition] ];  // Start history with initial position
+    randomizeButtonPresses++; // Moved here to ensure count happens before any async
+
+    // Reset tracking variables FIRST to prevent tainting
+    moveHistory = [];
     totalMoves = 0;
-    updateProgress(position, [ // Updates the progress bar and button visibility
+
+    // Set new random position
+    randomizePosition();
+    currentPosition = [position.s, position.z, position.y, position.x];
+    startPosition = [...currentPosition]; // Store starting point AFTER random position
+
+    moveHistory.push([...currentPosition]); // Begin history clean
+    totalMoves = 0; // Reset again for clarity
+
+    updateVideo(); // This uses currentPosition
+    updateProgress(position, [
         tensor.length,
         tensor[0].length,
         tensor[0][0].length,
         tensor[0][0][0].length,
     ]);
 
-    // Now, trigger the data submission, as instructed.
-    submitRandomizeData(); // Call the specific function for data submission
+    console.log("start position:", startPosition, "moveHistory:", moveHistory, "total moves #", totalMoves );
+
+    submitRandomizeData(); // Logs and sends data
 }
+
 
 // ---------- DATA SUBMISSION FUNCTION (Called by handleRandomize) ----------
 async function submitRandomizeData() {

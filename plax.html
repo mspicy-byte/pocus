@@ -618,9 +618,10 @@ function move(ds, dz, dy, dx) {
     position.x = clamp(position.x + dx, 0, tensor[0][0][0].length - 1);
 
     currentPosition = [position.s, position.z, position.y, position.x];
-    moveHistory.push([currentPosition]); // Push snapshot
-    totalMoves + 1;
-  
+    moveHistory.push([...currentPosition]); // 🧠 Use spread to push a proper snapshot
+
+    totalMoves++; // ✅ Correctly increment
+
     updateVideo();
     updateProgress(position, [
         tensor.length,
@@ -628,7 +629,11 @@ function move(ds, dz, dy, dx) {
         tensor[0][0].length,
         tensor[0][0][0].length,
     ]);
+
+    // Optional debug
+    console.log("Moved to:", currentPosition, "| Total moves:", totalMoves, "| History:", moveHistory);
 }
+
 
 // Randomizes the current video position
 function randomizePosition() {

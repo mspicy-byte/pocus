@@ -422,6 +422,7 @@ let randomizeButtonPresses = 0; // This COUNTER MUST be global to increment corr
 let startPosition = null;
 let moveHistory = [];
 let totalMoves = 0;
+let currentPosition = [0, 0, 0, 0];
 
 // Your video data - do NOT move these
 const videoURLs = [  
@@ -632,6 +633,7 @@ function randomizePosition() {
     position.z = Math.floor(Math.random() * tensor[0].length);
     position.y = Math.floor(Math.random() * tensor[0][0].length);
     position.x = Math.floor(Math.random() * tensor[0][0][0].length);
+    curentPosition = [position.s, position.z, position.y, position.x];
 }
 
 // Function called when the "Randomize View" button is pressed

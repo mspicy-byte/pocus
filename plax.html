@@ -421,7 +421,7 @@ progress::-webkit-progress-value {
 let randomizeButtonPresses = 0; // This COUNTER MUST be global to increment correctly.
   
 let currentPosition = [0, 0, 0, 0];  // Properly defined
-let startPosition = null;
+let startPosition = [];
 let moveHistory = [];
 let totalMoves = 0;
 
@@ -655,7 +655,7 @@ function handleRandomize() {
     // Set new random position
     randomizePosition();
     currentPosition = [position.s, position.z, position.y, position.x];
-    startPosition = [...currentPosition]; // Store starting point AFTER random position
+    startPosition = [currentPosition]; // Store starting point AFTER random position
 
     moveHistory.push([...currentPosition]); // Begin history clean
     totalMoves = 0; // Reset again for clarity

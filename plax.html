@@ -618,8 +618,8 @@ function move(ds, dz, dy, dx) {
     position.x = clamp(position.x + dx, 0, tensor[0][0][0].length - 1);
 
     currentPosition = [position.s, position.z, position.y, position.x];
-    moveHistory.push([...currentPosition]); // Push snapshot
-    totalMoves++;
+    moveHistory.push([currentPosition]); // Push snapshot
+    totalMoves + 1;
   
     updateVideo();
     updateProgress(position, [

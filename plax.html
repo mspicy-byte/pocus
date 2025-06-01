@@ -645,8 +645,8 @@ function randomizePosition() {
     currentPosition = [position.s, position.z, position.y, position.x];
 
   //updates the start position and reset move history
-    moveHistory.push([...currentPosition]); // Begin history clean
-    startPosition = [position.s, position.z, position.y, position.x];
+    let start = tensor[s][z][y][x];
+    moveHistory.push(start);
     totalMoves = 0; // Reset again for clarity
 }
 

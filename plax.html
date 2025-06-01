@@ -617,6 +617,8 @@ function move(ds, dz, dy, dx) {
     position.y = clamp(position.y + dy, 0, tensor[0][0].length - 1);
     position.x = clamp(position.x + dx, 0, tensor[0][0][0].length - 1);
 
+    moveHistory.push([...currentPosition]); // Clone to store the snapshot
+    totalMoves++;
     updateVideo();
     updateProgress(position, [
         tensor.length,
@@ -636,8 +638,13 @@ function randomizePosition() {
 
 // Function called when the "Randomize View" button is pressed
 function handleRandomize() {
+    console.log("start position: ", startPosition, "moveHistory: ", moveHistory, "total moves #", totalMoves );
     randomizePosition(); // Sets a new random position
     updateVideo();       // Updates the video based on the new position
+    startPosition = [...currentPosition]; // Clone to avoid reference issues
+    // Reset tracking variables
+    moveHistory = [ [...currentPosition] ];  // Start history with initial position
+    totalMoves = 0;
     updateProgress(position, [ // Updates the progress bar and button visibility
         tensor.length,
         tensor[0].length,

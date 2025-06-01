@@ -419,10 +419,11 @@ progress::-webkit-progress-value {
 <script>
 // ---------- GLOBAL VARIABLES (Declared once, to maintain state and be accessible) ----------
 let randomizeButtonPresses = 0; // This COUNTER MUST be global to increment correctly.
+  
+let currentPosition = [0, 0, 0, 0];  // Properly defined
 let startPosition = null;
 let moveHistory = [];
 let totalMoves = 0;
-let currentPosition = [0, 0, 0, 0];
 
 // Your video data - do NOT move these
 const videoURLs = [  
@@ -616,8 +617,10 @@ function move(ds, dz, dy, dx) {
     position.y = clamp(position.y + dy, 0, tensor[0][0].length - 1);
     position.x = clamp(position.x + dx, 0, tensor[0][0][0].length - 1);
 
-    moveHistory.push([...currentPosition]); // Clone to store the snapshot
+    currentPosition = [position.s, position.z, position.y, position.x];
+    moveHistory.push([...currentPosition]); // Push snapshot
     totalMoves++;
+  
     updateVideo();
     updateProgress(position, [
         tensor.length,
@@ -633,7 +636,7 @@ function randomizePosition() {
     position.z = Math.floor(Math.random() * tensor[0].length);
     position.y = Math.floor(Math.random() * tensor[0][0].length);
     position.x = Math.floor(Math.random() * tensor[0][0][0].length);
-    curentPosition = [position.s, position.z, position.y, position.x];
+    currentPosition = [position.s, position.z, position.y, position.x];
 }
 
 // Function called when the "Randomize View" button is pressed

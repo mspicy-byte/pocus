@@ -617,10 +617,11 @@ function move(ds, dz, dy, dx) {
     position.y = clamp(position.y + dy, 0, tensor[0][0].length - 1);
     position.x = clamp(position.x + dx, 0, tensor[0][0][0].length - 1);
 
+    totalMoves+= 1; // ✅ Correctly increment  
     currentPosition = [position.s, position.z, position.y, position.x];
-    moveHistory.push([currentPosition]); // 🧠 Use spread to push a proper snapshot
+    moveHistory.push([...currentPosition]); // 🧠 Use spread to push a proper snapshot
 
-    totalMoves+= 1; // ✅ Correctly increment
+    
 
     updateVideo();
     updateProgress(position, [
@@ -646,11 +647,10 @@ function randomizePosition() {
 
 // Function called when the "Randomize View" button is pressed
 function handleRandomize() {
+    console.log("start position:", startPosition, "moveHistory:", moveHistory, "total moves #", totalMoves );
     randomizeButtonPresses++; // Moved here to ensure count happens before any async
 
     // Reset tracking variables FIRST to prevent tainting
-    moveHistory = [];
-    totalMoves = 0;
 
     // Set new random position
     randomizePosition();
@@ -667,8 +667,6 @@ function handleRandomize() {
         tensor[0][0].length,
         tensor[0][0][0].length,
     ]);
-
-    console.log("start position:", startPosition, "moveHistory:", moveHistory, "total moves #", totalMoves );
 
     submitRandomizeData(); // Logs and sends data
 }

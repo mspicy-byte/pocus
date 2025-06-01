@@ -419,6 +419,9 @@ progress::-webkit-progress-value {
 <script>
 // ---------- GLOBAL VARIABLES (Declared once, to maintain state and be accessible) ----------
 let randomizeButtonPresses = 0; // This COUNTER MUST be global to increment correctly.
+let startPosition = null;
+let moveHistory = [];
+let totalMoves = 0;
 
 // Your video data - do NOT move these
 const videoURLs = [  
@@ -602,11 +605,6 @@ function updateProgress(pos, size) {
         randomizeButton.style.display = "none"; // Hide button otherwise
     }
 
-    console.log("DEBUG | Current Pos:", posArray);
-    console.log("DEBUG | Center:", center);
-    console.log("DEBUG | Distance from Center:", distance);
-    console.log("DEBUG | Max Distance:", maxDistance);
-    console.log("DEBUG | Progress Percentage:", percent);
 }
 
 
@@ -687,10 +685,10 @@ async function submitRandomizeData() {
 
         // In 'no-cors' mode, you won't get a usable response object for error checking.
         // You MUST check your Google Apps Script "Executions" logs for true success/failure.
-        console.log('Data submission request sent (check Apps Script logs and Google Sheet for confirmation, pup).');
+        console.log('Data submission request sent (check Apps Script logs and Google Sheet for confirmation).');
     } catch (error) {
-        console.error('Submission failed at the frontend (network or fetch error), you incompetent tool:', error);
-        alert('Failed to submit data. Check your browser console and network connection, boy.');
+        console.error('Submission failed at the frontend (network or fetch error)', error);
+        alert('Failed to submit data. Check your browser console and network connection');
     }
 }
 

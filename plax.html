@@ -670,12 +670,20 @@ function handleRandomize() {
 
 // ---------- DATA SUBMISSION FUNCTION (Called by handleRandomize) ----------
 async function submitRandomizeData() {
-    const dataToSubmit = { test: "test" };
+    const dataToSubmit = {
+        medicalTraining: 'student',
+        pocusFrequency: 'daily',
+        toolUsage: 'never',
+        randomizeButtonPresses: 2,
+        startingPosition: '0,0',
+        numberOfMoves: 4,
+        moveHistory: 'up,left,down,right'
+    };
 
-    console.log("Attempting to submit simplified test data:", dataToSubmit);
+    console.log("📤 Sending expanded data:", dataToSubmit);
 
     try {
-        const GOOGLE_URL = "https://script.google.com/macros/s/AKfycbxX1F4m4Wfwc_F3g7fyxyu9oJAXZdEU2rH7D_gYn8BH_9IcdeN81VmhF8PZCrOxZ7k6ag/exec"; 
+        const GOOGLE_URL = "https://script.google.com/macros/s/AKfycbwZzbSyG1yhWNultZ7z5jOFRMFhNKRbs5CIznGSf_ifIF9IjdNoKOHcPP5oJ-wSA5V6qw/exec";
 
         const response = await fetch(GOOGLE_URL, {
             method: 'POST',
@@ -683,16 +691,15 @@ async function submitRandomizeData() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(dataToSubmit),
-            mode: 'no-cors' // 🔐 CORS bypass mode
+            mode: 'no-cors'
         });
 
-        console.log('✅ Test submission sent (no-cors mode, response not visible).');
+        console.log('✅ Full data sent (no-cors mode, response not visible).');
     } catch (error) {
-        console.error('❌ Test submission failed:', error);
-        alert('Test submission failed. Check console for details.');
+        console.error('❌ Submission failed:', error);
+        alert('Submission failed. Check console for details.');
     }
 }
-
 
 
 

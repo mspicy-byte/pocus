@@ -672,40 +672,39 @@ function handleRandomize() {
 async function submitRandomizeData() {
     randomizeButtonPresses++; // Increment global counter
 
-    // Retrieve the survey answers from localStorage (assuming they answered the survey first)
+    // Retrieve the survey answers from localStorage
     const medicalTraining = localStorage.getItem('medicalTraining');
     const pocusFrequency = localStorage.getItem('pocusFrequency');
     const toolUsage = localStorage.getItem('toolUsage');
 
-    // Prepare the data payload for the Apps Script
+    // Prepare the data payload
     const dataToSubmit = {
         medicalTraining: medicalTraining,
         pocusFrequency: pocusFrequency,
         toolUsage: toolUsage,
-        randomizeButtonPresses: randomizeButtonPresses // Include the incremented counter
+        randomizeButtonPresses: randomizeButtonPresses
     };
 
-    console.log("Attempting to submit data:", dataToSubmit); // Debugging for you, grunt
+    console.log("Attempting to submit data:", dataToSubmit);
 
     try {
-        const GOOGLE_URL = 'https://script.google.com/macros/s/AKfycbxD_hqXidMBE5ZLUDOrUWNSzaHmLG_2-B5cRjfroKPd0DyGqYbDka680BeMZZ074ucB4w/exec'
+        const GOOGLE_URL = "https://script.google.com/macros/s/AKfycbzk113p8VL5FyqZRk72nj1B38utec7genm5d5FTFWY4HcfU-_B62qR9G5k5GrdfcrFTeA/exec"
         const response = await fetch(GOOGLE_URL, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json', // Crucial for Apps Script JSON parsing
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify(dataToSubmit), // Convert JavaScript object to JSON string
-            mode: 'no-cors' // Required for cross-origin requests to Apps Script
+            body: JSON.stringify(dataToSubmit),
+            mode: 'no-cors'
         });
 
-        // In 'no-cors' mode, you won't get a usable response object for error checking.
-        // You MUST check your Google Apps Script "Executions" logs for true success/failure.
         console.log('Data submission request sent (check Apps Script logs and Google Sheet for confirmation).');
     } catch (error) {
         console.error('Submission failed at the frontend (network or fetch error)', error);
         alert('Failed to submit data. Check your browser console and network connection');
     }
 }
+
 
 
 // ---------- MAIN INITIALIZATION (Ensures DOM is ready before manipulating it) ----------

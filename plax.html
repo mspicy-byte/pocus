@@ -670,40 +670,29 @@ function handleRandomize() {
 
 // ---------- DATA SUBMISSION FUNCTION (Called by handleRandomize) ----------
 async function submitRandomizeData() {
-    randomizeButtonPresses++; // Increment global counter
+    const dataToSubmit = { test: "test" };
 
-    // Retrieve the survey answers from localStorage
-    const medicalTraining = localStorage.getItem('medicalTraining');
-    const pocusFrequency = localStorage.getItem('pocusFrequency');
-    const toolUsage = localStorage.getItem('toolUsage');
-
-    // Prepare the data payload
-    const dataToSubmit = {
-        medicalTraining: medicalTraining,
-        pocusFrequency: pocusFrequency,
-        toolUsage: toolUsage,
-        randomizeButtonPresses: randomizeButtonPresses
-    };
-
-    console.log("Attempting to submit data:", dataToSubmit);
+    console.log("Attempting to submit simplified test data:", dataToSubmit);
 
     try {
-        const GOOGLE_URL = "https://script.google.com/macros/s/AKfycbzk113p8VL5FyqZRk72nj1B38utec7genm5d5FTFWY4HcfU-_B62qR9G5k5GrdfcrFTeA/exec"
+        const GOOGLE_URL = "https://script.google.com/macros/s/AKfycbwoo6usMIorg9T9Zi4Vxp-Kb9p7Fs4_3ZR3RBybBeOqNarLSJlhCVoCrJ4edzQOLk0_qA/exec"; 
+
         const response = await fetch(GOOGLE_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(dataToSubmit)
-            // mode: 'no-cors' is removed temporarily
+            body: JSON.stringify(dataToSubmit),
+            mode: 'no-cors' // 🔐 CORS bypass mode
         });
 
-        console.log('Data submission request sent (check Apps Script logs and Google Sheet for confirmation).');
+        console.log('✅ Test submission sent (no-cors mode, response not visible).');
     } catch (error) {
-        console.error('Submission failed at the frontend (network or fetch error)', error);
-        alert('Failed to submit data. Check your browser console and network connection');
+        console.error('❌ Test submission failed:', error);
+        alert('Test submission failed. Check console for details.');
     }
 }
+
 
 
 

@@ -550,7 +550,6 @@ let position = { s: 0, z: 1, y: 1, x: 1 }; // Current position in the tensor
 
 // YOUR GOOGLE APPS SCRIPT WEB APP URL - REPLACE THIS WITH YOUR DEPLOYED URL
 // If you redeploy your Apps Script, this URL MIGHT CHANGE. VERIFY IT!
-const GOOGLE_SHEETS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwXo7A6GFq5Hziv8CwRPFvXVt54wMLtVhm5npCgX-kzmhaRZ_QlXV1rdWQoFe3GzEHYKA/exec';
 
 // ---------- HELPER FUNCTIONS (These don't need to be inside DOMContentLoaded) ----------
 
@@ -689,7 +688,7 @@ async function submitRandomizeData() {
     console.log("Attempting to submit data:", dataToSubmit); // Debugging for you, grunt
 
     try {
-        const GOOGLE_URL = 'https://script.google.com/macros/s/AKfycbxD_hqXidMBE5ZLUDOrUWNSzaHmLG_2-B5cRjfroKPd0DyGqYbDka680BeMZZ074ucB4w'
+        const GOOGLE_URL = 'https://script.google.com/macros/s/AKfycbxD_hqXidMBE5ZLUDOrUWNSzaHmLG_2-B5cRjfroKPd0DyGqYbDka680BeMZZ074ucB4w/exec'
         const response = await fetch(GOOGLE_URL, {
             method: 'POST',
             headers: {

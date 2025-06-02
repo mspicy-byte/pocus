@@ -688,14 +688,14 @@ async function submitRandomizeData() {
     console.log("Attempting to submit data:", dataToSubmit);
 
     try {
-        const GOOGLE_URL = "https://script.google.com/macros/s/AKfycbxD_hqXidMBE5ZLUDOrUWNSzaHmLG_2-B5cRjfroKPd0DyGqYbDka680BeMZZ074ucB4w/exec"
+        const GOOGLE_URL = "https://script.google.com/macros/s/AKfycbzk113p8VL5FyqZRk72nj1B38utec7genm5d5FTFWY4HcfU-_B62qR9G5k5GrdfcrFTeA/exec"
         const response = await fetch(GOOGLE_URL, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(dataToSubmit),
-            mode: 'no-cors'
+            body: JSON.stringify(dataToSubmit)
+            // mode: 'no-cors' is removed temporarily
         });
 
         console.log('Data submission request sent (check Apps Script logs and Google Sheet for confirmation).');

@@ -672,9 +672,9 @@ function handleRandomize() {
 // ---------- DATA SUBMISSION FUNCTION (Called by handleRandomize) ----------
 async function submitRandomizeData() {
     const dataToSubmit = {
-        medicalTraining: medicalTraining,
-        pocusFrequency: pocusFrequency,
-        toolUsage: toolUsage,
+        medicalTraining: localStorage.getItem('medicalTraining'),
+        pocusFrequency: localStorage.getItem('pocusFrequency'),
+        toolUsage: localStorage.getItem('toolUsage'),
         randomizeButtonPresses: 2,
         startingPosition: startPosition,
         numberOfMoves: totalMoves,

@@ -655,6 +655,7 @@ function handleRandomize() {
     console.log("start position:", startPosition, "moveHistory:", moveHistory, "total moves #", totalMoves );
     randomizeButtonPresses++; // Moved here to ensure count happens before any async
 
+    submitRandomizeData(); // Logs and sends data
     randomizePosition();
     updateVideo(); // This uses currentPosition
     updateProgress(position, [
@@ -664,22 +665,22 @@ function handleRandomize() {
         tensor[0][0][0].length,
     ]);
 
-    submitRandomizeData(); // Logs and sends data
+    
 }
 
 
 // ---------- DATA SUBMISSION FUNCTION (Called by handleRandomize) ----------
 async function submitRandomizeData() {
     const dataToSubmit = {
-        medicalTraining: 'student',
-        pocusFrequency: 'daily',
-        toolUsage: 'never',
+        medicalTraining: medicalTraining,
+        pocusFrequency: pocusFrequency,
+        toolUsage: toolUsage,
         randomizeButtonPresses: 2,
-        startingPosition: '0,0',
-        numberOfMoves: 4,
-        moveHistory: 'up,left,down,right'
+        startingPosition: startPosition,
+        numberOfMoves: totalMoves,
+        moveHistory: moveHistory
     };
-
+  
     console.log("📤 Sending expanded data:", dataToSubmit);
 
     try {

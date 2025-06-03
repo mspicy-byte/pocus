@@ -403,17 +403,31 @@ progress::-webkit-progress-value {
 
   <!-- Reference Phone - Right -->
   <div class="phone-wrapper">
-    <div class="phone-label"><h2>Reference</h2></div>
+    <div class="phone-label">
+      <h2>Reference</h2>
+    </div>
     <div class="iphone">
       <div class="video-container">
-        <video id="second-video" class="screen-content" autoplay loop muted playsinline>
-          <source src="https://raw.githubusercontent.com/mspicy-byte/pocus/main/videos/43_plax_7_NORM.mp4" type="video/mp4" />
+        <video
+          id="second-video"
+          class="screen-content"
+          autoplay
+          loop
+          muted
+          playsinline
+        >
+          <source
+            src="https://raw.githubusercontent.com/mspicy-byte/pocus/main/videos/43_plax_7_NORM.mp4"
+            type="video/mp4"
+          />
           Your browser does not support the video tag.
         </video>
         <img class="phone-frame" src="iphone.png" alt="iPhone frame" />
       </div>
-    </div>
   </div>
+</div>
+
+  
 </div>
 
 <script>
@@ -562,7 +576,6 @@ function clamp(value, min, max) {
 
 // Updates the main video source based on current position
 function updateVideo() {
-    // Subtract 1 from index because videoURLs is 0-indexed, but tensor values are 1-indexed
     const index = tensor[position.s][position.z][position.y][position.x] - 1;
     const video = document.getElementById("main-video");
     const source = video.querySelector("source");
@@ -572,21 +585,22 @@ function updateVideo() {
         return;
     }
 
-    // Pause and remove the old event listener (if any)
-    video.pause();
-    video.onloadeddata = null;
-
-    // Set new source
     source.src = videoURLs[index];
-    video.load(); // Required to pick up the new <source>
+    video.load();
 
-    // Set listener to play once it's ready
-    video.onloadeddata = () => {
-        video.play().catch(err => console.warn("Play failed:", err));
-    };
+    // Force these attributes for iOS autoplay compliance
+    video.muted = true;
+    video.playsInline = true;
+    video.autoplay = true;
+
+    // Play returns a promise — handle errors gracefully
+    video.play().catch((error) => {
+        console.warn("Video play was prevented:", error);
+    });
 
     console.log(`Current Video Index: ${index + 1}, URL: ${videoURLs[index]}`);
 }
+
 
 
 // Updates the progress bar and controls randomize button visibility

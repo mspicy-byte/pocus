@@ -775,6 +775,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
         tensor[0][0][0].length,
     ]);
 });
+
+  window.addEventListener("load", () => {
+  const secondVideo = document.getElementById("second-video");
+  if (secondVideo) {
+    secondVideo.muted = true; // ensure it's muted
+    secondVideo.play().catch(err => {
+      console.warn("Autoplay failed on load:", err);
+    });
+  }
+});
+
 </script>
   
 </body>

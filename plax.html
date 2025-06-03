@@ -733,6 +733,26 @@ async function submitRandomizeData() {
     }
 }
 
+  // attempt to make the demo video play automatically on iphone ----------->
+function enableSecondVideoPlayback() {
+  const secondVideo = document.getElementById("second-video");
+  if (secondVideo) {
+    secondVideo.muted = true; // Required for autoplay
+    secondVideo.playsInline = true; // Redundant safeguard
+    secondVideo.load(); // Ensure it's initialized
+    secondVideo.play().catch(err => {
+      console.warn("Second video play failed:", err);
+    });
+  }
+
+  // Remove listeners after one attempt
+  document.body.removeEventListener("click", enableSecondVideoPlayback);
+  document.body.removeEventListener("touchstart", enableSecondVideoPlayback);
+}
+
+// Add the trigger listener
+document.body.addEventListener("click", enableSecondVideoPlayback);
+document.body.addEventListener("touchstart", enableSecondVideoPlayback);
 
 
 // ---------- MAIN INITIALIZATION (Ensures DOM is ready before manipulating it) ----------
@@ -776,15 +796,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     ]);
 });
 
-  window.addEventListener("load", () => {
-  const secondVideo = document.getElementById("second-video");
-  if (secondVideo) {
-    secondVideo.muted = true; // ensure it's muted
-    secondVideo.play().catch(err => {
-      console.warn("Autoplay failed on load:", err);
-    });
-  }
-});
+
 
 </script>
   

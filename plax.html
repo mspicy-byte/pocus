@@ -662,6 +662,24 @@ function move(ds, dz, dy, dx) {
     console.log("Moved to:", currentPosition, "| Total moves:", totalMoves, "| History:", moveHistory);
 }
 
+function forceAutoplayAllVideos() {
+  document.querySelectorAll("video").forEach(video => {
+    if (video.muted) {
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(err => {
+          console.warn("Autoplay blocked for a video:", err);
+        });
+      }
+    }
+  });
+}
+
+window.addEventListener("click", forceAutoplayAllVideos, { once: true });
+window.addEventListener("touchstart", forceAutoplayAllVideos, { once: true });
+window.addEventListener("load", forceAutoplayAllVideos);
+
+
 
 // Randomizes the current video position
 function randomizePosition() {

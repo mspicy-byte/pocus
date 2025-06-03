@@ -591,14 +591,23 @@ function updateVideo() {
 
 // Updates the progress bar and controls randomize button visibility
 function updateProgress(pos, size) {
-    const center = size.map(dim => Math.floor(dim / 2));
+    const targetPos = [0, 1, 2, 0]; // The exact location you want to reach
     const posArray = [pos.s, pos.z, pos.y, pos.x];
 
+    // If at target position, progress is 100%
+    const isAtTarget = posArray.every((val, i) => val === targetPos[i]);
+    if (isAtTarget) {
+        document.getElementById("progress-bar").value = 100;
+        document.getElementById("randomize-button").style.display = "block";
+        return; // Early return
+    }
+
+    // Otherwise, calculate distance from center as fallback (or set 0%)
+    const center = size.map(dim => Math.floor(dim / 2));
     const distance = posArray.reduce((acc, val, i) => acc + Math.abs(val - center[i]), 0);
     const maxDistance = size.reduce((acc, val) => acc + Math.floor(val / 2), 0);
-    
-    // Ensure maxDistance is not zero to prevent division by zero errors
-    const percent = maxDistance > 0 ? (100 - Math.floor((distance / maxDistance) * 100)) : 100;
+
+    const percent = maxDistance > 0 ? (100 - Math.floor((distance / maxDistance) * 100)) : 0;
 
     const progressBar = document.getElementById("progress-bar");
     const randomizeButton = document.getElementById("randomize-button");
@@ -607,18 +616,12 @@ function updateProgress(pos, size) {
         progressBar.value = percent;
     } else {
         console.warn("Invalid percent calculated:", percent);
-        progressBar.value = 0; // Default to 0 on error
+        progressBar.value = 0;
     }
 
-    // Check for exact center and show the button
-    const isAtCenter = posArray.every((val, i) => val === center[i]);
-    if (percent === 100 && isAtCenter) {
-        randomizeButton.style.display = "block"; // Show button if at center
-    } else {
-        randomizeButton.style.display = "none"; // Hide button otherwise
-    }
-
+    randomizeButton.style.display = "none"; // Hide button unless exactly at target
 }
+
 
 
 // Function to handle movement button clicks

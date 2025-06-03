@@ -568,15 +568,25 @@ function updateVideo() {
 
     if (index < 0 || index >= videoURLs.length || !videoURLs[index]) {
         console.warn("Invalid video index or URL not found:", index, videoURLs[index]);
-        return; // Exit if invalid to prevent errors
+        return;
     }
 
+    // Pause and remove the old event listener (if any)
+    video.pause();
+    video.onloadeddata = null;
+
+    // Set new source
     source.src = videoURLs[index];
-    video.load();
-    video.play();
+    video.load(); // Required to pick up the new <source>
+
+    // Set listener to play once it's ready
+    video.onloadeddata = () => {
+        video.play().catch(err => console.warn("Play failed:", err));
+    };
 
     console.log(`Current Video Index: ${index + 1}, URL: ${videoURLs[index]}`);
 }
+
 
 // Updates the progress bar and controls randomize button visibility
 function updateProgress(pos, size) {

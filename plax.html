@@ -352,24 +352,24 @@ progress::-webkit-progress-value {
       <div class="control-block rotation full-height">
         <div class="title-box">Rotate</div>
         <div class="full-button-stack">
-          <button onclick="viewShift(0, -1)">CW</button>
-          <button onclick="viewShift(0, 1)">CCW</button>
+          <button onclick="updateView(0, -1)">CW</button>
+          <button onclick="updateView(0, 1)">CCW</button>
         </div>
       </div>
       
       <!-- Tilting Controls -->
       <div class="control-block tilting">
         <div class="title-box">Tilt</div>
-        <button onclick="viewShift(1, -1)">Tilt Up</button>
-        <button onclick="viewShift(1, 1)">Tilt Down</button>
+        <button onclick="updateView(1, -1)">Tilt Up</button>
+        <button onclick="updateView(1, 1)">Tilt Down</button>
       </div>
       
       <!-- Rocking Controls -->
       <div class="control-block rocking full-height">
         <div class="title-box">Rock</div>
         <div class="full-button-stack">
-          <button onclick="viewShift(2, -1)">Rock Right</button>
-          <button onclick="viewShift(2, 1)">Rock Left</button>
+          <button onclick="updateView(2, -1)">Rock Right</button>
+          <button onclick="updateView(2, 1)">Rock Left</button>
         </div>
       </div>
 
@@ -644,20 +644,34 @@ function updateProgress(pos, size) {
 }
 
 // this section helps handle non x y moves 
-async function viewShift(targetS, dz) {
-    const atNeutral = position.s !== targetS;
+function updateView(newS, dz) {
+    // Set s directly
+    position.s = clamp(newS, 0, tensor.length - 1);
 
-    // Step 1: Move to the new mode plane if not already there
-    if (atNeutral) {
-        const deltaS = targetS - position.s;
-        await move(deltaS, 0, 0, 0);
-    }
+    // Move along z from current position
+    position.z = clamp(position.z + dz, 0, tensor[0].length - 1);
 
-    // Step 2: Apply the Z shift in the new mode
-    await move(0, dz, 0, 0);
+    // Update current position
+    currentPosition = [position.s, position.z, position.y, position.x];
+    const value = tensor[position.s][position.z][position.y][position.x];
+
+    // Track and display
+    totalMoves += 1;
+    moveHistory.push(value);
+    document.getElementById("current_value").innerHTML = currentPosition;
+    document.getElementById("current_url").innerHTML = value;
+
+    updateVideo();
+    updateProgress(position, [
+        tensor.length,
+        tensor[0].length,
+        tensor[0][0].length,
+        tensor[0][0][0].length,
+    ]);
+
+    // Debug info
+    console.log("Updated to:", currentPosition, "| Total moves:", totalMoves, "| History:", moveHistory);
 }
-
-
 
 // Function to handle movement button clicks
 function move(ds, dz, dy, dx) {

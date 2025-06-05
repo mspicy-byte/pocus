@@ -348,30 +348,31 @@ progress::-webkit-progress-value {
         </div>
       </div>
 
-      <!-- Rotation Controls -->
+           <!-- Rotation Controls -->
       <div class="control-block rotation full-height">
         <div class="title-box">Rotate</div>
         <div class="full-button-stack">
-          <button onclick="transitionTo(0, 0)">CW</button>
-          <button onclick="transitionTo(0, 2)">CCW</button>
+          <button onclick="viewShift(0, -1)">CW</button>
+          <button onclick="viewShift(0, 1)">CCW</button>
         </div>
       </div>
-
+      
       <!-- Tilting Controls -->
       <div class="control-block tilting">
         <div class="title-box">Tilt</div>
-          <button onclick="transitionTo(1, 0)">Tilt Up</button>
-          <button onclick="transitionTo(1, 2)">Tilt Down</button>
+        <button onclick="viewShift(1, -1)">Tilt Up</button>
+        <button onclick="viewShift(1, 1)">Tilt Down</button>
       </div>
-
+      
       <!-- Rocking Controls -->
       <div class="control-block rocking full-height">
         <div class="title-box">Rock</div>
         <div class="full-button-stack">
-          <button onclick="transitionTo(2, 0)">Rock Right</button>
-          <button onclick="transitionTo(2, 2)">Rock Left</button>
+          <button onclick="viewShift(2, -1)">Rock Right</button>
+          <button onclick="viewShift(2, 1)">Rock Left</button>
         </div>
       </div>
+
 
       <div id="feedback" class="feedback-display">
         <p id= "current_value" ><strong>Current Value: </strong> <span id="current-value">--</span></p>
@@ -642,53 +643,50 @@ function updateProgress(pos, size) {
     randomizeButton.style.display = "none"; // Hide button unless exactly at target
 }
 
-//insert move functions here 
-async function transitionTo(targetS, targetZ) {
-    const atNormal = position.s === 1 && position.z === 1;
+// this section helps handle non x y moves 
+async function viewShift(targetS, dz) {
+    const atNeutral = position.s !== targetS;
 
-    if (!atNormal) {
-        // Step 1: Move to normal (1, 1)
-        const deltaToNormalS = 1 - position.s;
-        const deltaToNormalZ = 1 - position.z;
-        await move(deltaToNormalS, deltaToNormalZ, 0, 0);
+    // Step 1: Move to the new mode plane if not already there
+    if (atNeutral) {
+        const deltaS = targetS - position.s;
+        await move(deltaS, 0, 0, 0);
     }
 
-    // Step 2: Now move to the target
-    const deltaToTargetS = targetS - position.s;
-    const deltaToTargetZ = targetZ - position.z;
-    await move(deltaToTargetS, deltaToTargetZ, 0, 0);
+    // Step 2: Apply the Z shift in the new mode
+    await move(0, dz, 0, 0);
 }
-  
+
+
+
+// Function to handle movement button clicks
 function move(ds, dz, dy, dx) {
-    return new Promise((resolve) => {
-        position.s = clamp(position.s + ds, 0, tensor.length - 1);
-        position.z = clamp(position.z + dz, 0, tensor[0].length - 1);
-        position.y = clamp(position.y + dy, 0, tensor[0][0].length - 1);
-        position.x = clamp(position.x + dx, 0, tensor[0][0][0].length - 1);
+    position.s = clamp(position.s + ds, 0, tensor.length - 1);
+    position.z = clamp(position.z + dz, 0, tensor[0].length - 1);
+    position.y = clamp(position.y + dy, 0, tensor[0][0].length - 1);
+    position.x = clamp(position.x + dx, 0, tensor[0][0][0].length - 1);
 
-        totalMoves += 1;
-        currentPosition = [position.s, position.z, position.y, position.x];
-        const value = tensor[position.s][position.z][position.y][position.x];
-        moveHistory.push(value);
+    totalMoves+= 1; // ✅ Correctly increment  
+    currentPosition = [position.s, position.z, position.y, position.x];
+    const value = tensor[position.s][position.z][position.y][position.x];
+    moveHistory.push(value);
+    document.getElementById("current_value").innerHTML = currentPosition;
+    document.getElementById("current_url").innerHTML = value;
+    
+ 
 
-        // Update DOM
-        document.getElementById("current_value").innerHTML = currentPosition;
-        document.getElementById("current_url").innerHTML = value;
+    updateVideo();
+    updateProgress(position, [
+        tensor.length,
+        tensor[0].length,
+        tensor[0][0].length,
+        tensor[0][0][0].length,
+    ]);
 
-        updateVideo();
-        updateProgress(position, [
-            tensor.length,
-            tensor[0].length,
-            tensor[0][0].length,
-            tensor[0][0][0].length,
-        ]);
-
-        console.log("Moved to:", currentPosition, "| Total moves:", totalMoves, "| History:", moveHistory);
-
-        // Wait a tiny bit to allow render before resolving
-        setTimeout(resolve, 100);
-    });
+    // Optional debug
+    console.log("Moved to:", currentPosition, "| Total moves:", totalMoves, "| History:", moveHistory);
 }
+
 
 
 

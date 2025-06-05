@@ -674,12 +674,7 @@ function move(ds, dz, dy, dx) {
     const value = tensor[position.s][position.z][position.y][position.x];
     moveHistory.push(value);
 
-        // Get the current value
-    const value = tensor[position.s][position.z][position.y][position.x];
-    
-    // Display value and corresponding video
-    document.getElementById('current-value').textContent = value;
-    document.getElementById('video-url').textContent = videoURLs[value - 1] || 'Not found';
+
 
     updateVideo();
     updateProgress(position, [

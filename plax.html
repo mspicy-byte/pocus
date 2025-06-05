@@ -648,24 +648,26 @@ function transitionTo(targetS, targetZ) {
     const atNormal = position.s === 1 && position.z === 1;
 
     if (!atNormal) {
-        // Move to Normal (1,1) first
-        const deltaS = 1 - position.s;
-        const deltaZ = 1 - position.z;
-        move(deltaS, deltaZ, 0, 0);
+        // Step 1: Move to normal (1, 1)
+        const deltaToNormalS = 1 - position.s;
+        const deltaToNormalZ = 1 - position.z;
+        move(deltaToNormalS, deltaToNormalZ, 0, 0);
 
-        // Then move to target after a short delay
+        // Step 2: After move completes, recalculate current position and move to target
         setTimeout(() => {
-            const deltaS2 = targetS - 1;
-            const deltaZ2 = targetZ - 1;
-            move(deltaS2, deltaZ2, 0, 0);
+            // Recalculate delta from the new (normal) position
+            const deltaToTargetS = targetS - position.s;
+            const deltaToTargetZ = targetZ - position.z;
+            move(deltaToTargetS, deltaToTargetZ, 0, 0);
         }, 150);
     } else {
-        // Already at normal, go directly
-        const deltaS = targetS - position.s;
-        const deltaZ = targetZ - position.z;
-        move(deltaS, deltaZ, 0, 0);
+        // If already at normal, just go straight to the target
+        const deltaToTargetS = targetS - position.s;
+        const deltaToTargetZ = targetZ - position.z;
+        move(deltaToTargetS, deltaToTargetZ, 0, 0);
     }
 }
+
 
 
 

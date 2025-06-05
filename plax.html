@@ -648,18 +648,25 @@ function transitionTo(targetS, targetZ) {
     const atNormal = position.s === 1 && position.z === 1;
 
     if (!atNormal) {
-        // Step 1: Move to Normal
-        move(1 - position.s, 1 - position.z, 0, 0);
+        // Move to Normal (1,1) first
+        const deltaS = 1 - position.s;
+        const deltaZ = 1 - position.z;
+        move(deltaS, deltaZ, 0, 0);
 
-        // Step 2: Move to target after delay
+        // Then move to target after a short delay
         setTimeout(() => {
-            move(targetS - 1, targetZ - 1, 0, 0);
+            const deltaS2 = targetS - 1;
+            const deltaZ2 = targetZ - 1;
+            move(deltaS2, deltaZ2, 0, 0);
         }, 150);
     } else {
-        // Already at normal, go to target directly
-        move(targetS - 1, targetZ - 1, 0, 0);
+        // Already at normal, go directly
+        const deltaS = targetS - position.s;
+        const deltaZ = targetZ - position.z;
+        move(deltaS, deltaZ, 0, 0);
     }
 }
+
 
 
 // Function to handle movement button clicks

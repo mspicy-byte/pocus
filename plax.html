@@ -374,7 +374,7 @@ progress::-webkit-progress-value {
       </div>
 
       <div id="feedback" class="feedback-display">
-        <p><strong>Current Value:</strong> <span id="current-value">--</span></p>
+        <p><strong>Current Value: </strong> <span id="current-value">--</span></p>
         <p><strong>Video URL:</strong> <span id="video-url">--</span></p>
       </div>
 
@@ -673,14 +673,7 @@ function move(ds, dz, dy, dx) {
     currentPosition = [position.s, position.z, position.y, position.x];
     const value = tensor[position.s][position.z][position.y][position.x];
     moveHistory.push(value);
-
-        // Get the current value
-    const value = tensor[position.s][position.z][position.y][position.x];
-    
-    // Display value and corresponding video
-    document.getElementById('current-value').textContent = value;
-    document.getElementById('video-url').textContent = videoURLs[value - 1] || 'Not found';
-
+ 
 
     updateVideo();
     updateProgress(position, [

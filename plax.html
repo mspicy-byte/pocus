@@ -646,10 +646,10 @@ function updateProgress(pos, size) {
 // this section helps handle non x y moves 
 function updateView(newS, dz) {
     // Set s directly
-    position.s = clamp(newS, 0, tensor.length - 1);
+    position.s = newS;
 
     // Move along z from current position
-    position.z = clamp(position.z + dz, 0, tensor[0].length - 1);
+    position.z = clamp(position.z + dz, 0, 2);
 
     // Update current position
     currentPosition = [position.s, position.z, position.y, position.x];

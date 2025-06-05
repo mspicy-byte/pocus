@@ -352,24 +352,24 @@ progress::-webkit-progress-value {
       <div class="control-block rotation full-height">
         <div class="title-box">Rotate</div>
         <div class="full-button-stack">
-          <button onclick="updateView(0, -1)">CW</button>
-          <button onclick="updateView(0, 1)">CCW</button>
+          <button onclick="rotateClockwise()">Rotate CW</button>
+          <button onclick="rotateCounterClockwise()">Rotate CCW</button>
         </div>
       </div>
       
       <!-- Tilting Controls -->
       <div class="control-block tilting">
         <div class="title-box">Tilt</div>
-        <button onclick="updateView(1, -1)">Tilt Up</button>
-        <button onclick="updateView(1, 1)">Tilt Down</button>
+        <button onclick="tiltUp()">Tilt Up</button>
+        <button onclick="tiltDown()">Tilt Down</button>
       </div>
       
       <!-- Rocking Controls -->
       <div class="control-block rocking full-height">
         <div class="title-box">Rock</div>
         <div class="full-button-stack">
-          <button onclick="updateView(2, -1)">Rock Right</button>
-          <button onclick="updateView(2, 1)">Rock Left</button>
+          <button onclick="rockRight()">Rock Right</button>
+          <button onclick="rockLeft()">Rock Left</button>
         </div>
       </div>
 
@@ -643,15 +643,13 @@ function updateProgress(pos, size) {
     randomizeButton.style.display = "none"; // Hide button unless exactly at target
 }
 
-// this section helps handle non x y moves 
-function updateView(newS, dz) {
-    // Set s directly
-    position.s = newS;
+// Updates the view using absolute s and z values
+function setView(targetS, targetZ) {
+    // Clamp to stay within tensor bounds
+    position.s = clamp(targetS, 0, tensor.length - 1);
+    position.z = clamp(targetZ, 0, tensor[0].length - 1);
 
-    // Move along z from current position
-    position.z = clamp(position.z + dz, 0, 2);
-
-    // Update current position
+    // No change to y or x
     currentPosition = [position.s, position.z, position.y, position.x];
     const value = tensor[position.s][position.z][position.y][position.x];
 
@@ -672,6 +670,32 @@ function updateView(newS, dz) {
     // Debug info
     console.log("Updated to:", currentPosition, "| Total moves:", totalMoves, "| History:", moveHistory);
 }
+
+// ROTATE (S = 0)
+function rotateClockwise() {
+    setView(0, 2); // z = 2 = clockwise
+}
+function rotateCounterClockwise() {
+    setView(0, 0); // z = 0 = counterclockwise
+}
+
+// TILT (S = 1)
+function tiltUp() {
+    setView(1, 0); // z = 0 = tilt up
+}
+function tiltDown() {
+    setView(1, 2); // z = 2 = tilt down
+}
+
+// ROCK (S = 2)
+function rockRight() {
+    setView(2, 0); // z = 0 = rock right
+}
+function rockLeft() {
+    setView(2, 2); // z = 2 = rock left
+}
+
+
 
 // Function to handle movement button clicks
 function move(ds, dz, dy, dx) {

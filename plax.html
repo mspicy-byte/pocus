@@ -642,62 +642,52 @@ function updateProgress(pos, size) {
     randomizeButton.style.display = "none"; // Hide button unless exactly at target
 }
 
-
-// this section helps handle non x y moves 
-function transitionTo(targetS, targetZ) {
+//insert move functions here 
+async function transitionTo(targetS, targetZ) {
     const atNormal = position.s === 1 && position.z === 1;
 
     if (!atNormal) {
-        // Step 1: Move to normal
+        // Step 1: Move to normal (1, 1)
         const deltaToNormalS = 1 - position.s;
         const deltaToNormalZ = 1 - position.z;
-        move(deltaToNormalS, deltaToNormalZ, 0, 0);
-
-        // Step 2: Wait enough time for DOM update/rendering
-        setTimeout(() => {
-            // Recalculate delta from updated position
-            const deltaToTargetS = targetS - position.s;
-            const deltaToTargetZ = targetZ - position.z;
-
-            move(deltaToTargetS, deltaToTargetZ, 0, 0);
-        }, 300); // Increased delay to 300ms for visibility
-    } else {
-        const deltaToTargetS = targetS - position.s;
-        const deltaToTargetZ = targetZ - position.z;
-        move(deltaToTargetS, deltaToTargetZ, 0, 0);
+        await move(deltaToNormalS, deltaToNormalZ, 0, 0);
     }
+
+    // Step 2: Now move to the target
+    const deltaToTargetS = targetS - position.s;
+    const deltaToTargetZ = targetZ - position.z;
+    await move(deltaToTargetS, deltaToTargetZ, 0, 0);
 }
-
-
-
-
-
-// Function to handle movement button clicks
+  
 function move(ds, dz, dy, dx) {
-    position.s = clamp(position.s + ds, 0, tensor.length - 1);
-    position.z = clamp(position.z + dz, 0, tensor[0].length - 1);
-    position.y = clamp(position.y + dy, 0, tensor[0][0].length - 1);
-    position.x = clamp(position.x + dx, 0, tensor[0][0][0].length - 1);
+    return new Promise((resolve) => {
+        position.s = clamp(position.s + ds, 0, tensor.length - 1);
+        position.z = clamp(position.z + dz, 0, tensor[0].length - 1);
+        position.y = clamp(position.y + dy, 0, tensor[0][0].length - 1);
+        position.x = clamp(position.x + dx, 0, tensor[0][0][0].length - 1);
 
-    totalMoves+= 1; // ✅ Correctly increment  
-    currentPosition = [position.s, position.z, position.y, position.x];
-    const value = tensor[position.s][position.z][position.y][position.x];
-    moveHistory.push(value);
-    document.getElementById("current_value").innerHTML = currentPosition;
-    document.getElementById("current_url").innerHTML = value;
-    
- 
+        totalMoves += 1;
+        currentPosition = [position.s, position.z, position.y, position.x];
+        const value = tensor[position.s][position.z][position.y][position.x];
+        moveHistory.push(value);
 
-    updateVideo();
-    updateProgress(position, [
-        tensor.length,
-        tensor[0].length,
-        tensor[0][0].length,
-        tensor[0][0][0].length,
-    ]);
+        // Update DOM
+        document.getElementById("current_value").innerHTML = currentPosition;
+        document.getElementById("current_url").innerHTML = value;
 
-    // Optional debug
-    console.log("Moved to:", currentPosition, "| Total moves:", totalMoves, "| History:", moveHistory);
+        updateVideo();
+        updateProgress(position, [
+            tensor.length,
+            tensor[0].length,
+            tensor[0][0].length,
+            tensor[0][0][0].length,
+        ]);
+
+        console.log("Moved to:", currentPosition, "| Total moves:", totalMoves, "| History:", moveHistory);
+
+        // Wait a tiny bit to allow render before resolving
+        setTimeout(resolve, 100);
+    });
 }
 
 

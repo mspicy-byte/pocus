@@ -341,8 +341,8 @@ progress::-webkit-progress-value {
       <div class="control-block sliding">
         <div class="title-box">Slide</div>
         <div class="sliding-grid">
-          <button onclick="move(0, -1, 0, 0)">↑</button>
-          <button onclick="move(0, 1, 0, 0)">↓</button>
+          <button onclick="move(0, 0, 1, 0)">↑</button>
+          <button onclick="move(0, 0, -1, 0)">↓</button>
           <button onclick="move(0, 0, 0, -1)">←</button>
           <button onclick="move(0, 0, 0, 1)">→</button>
         </div>
@@ -352,24 +352,24 @@ progress::-webkit-progress-value {
       <div class="control-block rotation full-height">
         <div class="title-box">Rotate</div>
         <div class="full-button-stack">
-          <button onclick="move(-1, 0, 0, 0)">CW</button>
-          <button onclick="move(1, 0, 0, 0)">CCW</button>
+          <button onclick="transitionTo(0, 0)">CW</button>
+          <button onclick="transitionTo(0, 2)">CCW</button>
         </div>
       </div>
 
       <!-- Tilting Controls -->
       <div class="control-block tilting">
         <div class="title-box">Tilt</div>
-        <button onclick="move(0, 0, -1, 0)">Tilt Up</button>
-        <button onclick="move(0, 0, 1, 0)">Tilt Down</button>
+          <button onclick="transitionTo(1, 0)">Tilt Up</button>
+          <button onclick="transitionTo(1, 2)">Tilt Down</button>
       </div>
 
       <!-- Rocking Controls -->
       <div class="control-block rocking full-height">
         <div class="title-box">Rock</div>
         <div class="full-button-stack">
-          <button onclick="move(0, 0, 0, 1)">Rock Right</button>
-          <button onclick="move(0, 0, 0, -1)">Rock Left</button>
+          <button onclick="transitionTo(2, 0)">Rock Right</button>
+          <button onclick="transitionTo(2, 2)">Rock Left</button>
         </div>
       </div>
 
@@ -511,51 +511,51 @@ const videoURLs = [
 const tensor = [
     [
         [
-            [2, 9, 16],
+            [2, 9, 16],    //ClockWise section
             [23, 30, 37],
             [44, 51, 58], 
         ],
         [
-            [1, 8, 15],
+            [1, 8, 15],    //normal section
             [22, 29, 36],
             [43, 50, 57],
         ],
         [
-            [3, 10, 17],
+            [3, 10, 17],  //Counter ClockWise section
             [24, 31, 38],
             [45, 52, 59],
         ]
     ],
     [
         [
-            [4, 11, 18],
+            [4, 11, 18],  // Tilt Up section
             [25, 32, 39],
             [46, 53, 60],
         ],
         [
             [1, 8, 15],
-            [22, 29, 36],
+            [22, 29, 36],   //normal section
             [43, 50, 57],
         ],
         [
-            [5, 12, 19],
+            [5, 12, 19],  // Tilt Down section
             [26, 33, 40],
             [47, 54, 61],
         ]
     ],
     [
         [
-            [6, 13, 20],
+            [6, 13, 20],   //Rock Right section
             [27, 34, 41],
             [48, 55, 62],
         ],
         [
             [1, 8, 15],
-            [22, 29, 36],
+            [22, 29, 36],    //normal section
             [43, 50, 57],
         ],
         [
-            [7, 14, 21],
+            [7, 14, 21],     //Rock Left section
             [28, 35, 42],
             [49, 56, 63],
         ]
@@ -636,6 +636,24 @@ function updateProgress(pos, size) {
     randomizeButton.style.display = "none"; // Hide button unless exactly at target
 }
 
+
+// this section helps handle non x y moves 
+function transitionTo(targetS, targetZ) {
+    const atNormal = position.s === 1 && position.z === 1;
+
+    if (!atNormal) {
+        // Step 1: Move to Normal
+        move(1 - position.s, 1 - position.z, 0, 0);
+
+        // Step 2: Move to target after delay
+        setTimeout(() => {
+            move(targetS - 1, targetZ - 1, 0, 0);
+        }, 150);
+    } else {
+        // Already at normal, go to target directly
+        move(targetS - 1, targetZ - 1, 0, 0);
+    }
+}
 
 
 // Function to handle movement button clicks

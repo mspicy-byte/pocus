@@ -673,8 +673,8 @@ function move(ds, dz, dy, dx) {
     currentPosition = [position.s, position.z, position.y, position.x];
     const value = tensor[position.s][position.z][position.y][position.x];
     moveHistory.push(value);
-    document.getElementById("current_value").innerHTML = "success!";
-    document.getElementById("current_url").innerHTML = "success!";
+    document.getElementById("current_value").innerHTML = currentPosition;
+    document.getElementById("current_url").innerHTML = value;
     
  
 

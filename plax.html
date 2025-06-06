@@ -644,10 +644,10 @@ function updateProgress(pos, size) {
 }
 
 // Updates the view using absolute s and z values
-function setView(targetS, targetZ) {
+function setView(targetS) {
     // Clamp to stay within tensor bounds
     position.s = clamp(targetS, 0, tensor.length - 1);
-    position.z = clamp(targetZ, 0, tensor[0].length - 1);
+
 
     // No change to y or x
     currentPosition = [position.s, position.z, position.y, position.x];
@@ -673,26 +673,28 @@ function setView(targetS, targetZ) {
 
 // ROTATE (S = 0)
 function rotateClockwise() {
-    setView(0, 2); // z = 2 = clockwise
+    setView(0); // z = 2 = clockwise
+    if (position.z < 2){position.z === 2} else {osition.z += 1};
 }
 function rotateCounterClockwise() {
-    setView(0, 0); // z = 0 = counterclockwise
+    setView(0); // z = 0 = counterclockwise
+    if (position.z > 0){position.z === 2} else {osition.z -= 1};
 }
 
 // TILT (S = 1)
 function tiltUp() {
-    setView(1, 0); // z = 0 = tilt up
+    setView(1); // z = 0 = tilt up
 }
 function tiltDown() {
-    setView(1, 2); // z = 2 = tilt down
+    setView(1); // z = 2 = tilt down
 }
 
 // ROCK (S = 2)
 function rockRight() {
-    setView(2, 0); // z = 0 = rock right
+    setView(2); // z = 0 = rock right
 }
 function rockLeft() {
-    setView(2, 2); // z = 2 = rock left
+    setView(2); // z = 2 = rock left
 }
 
 

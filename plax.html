@@ -228,26 +228,23 @@ progress::-webkit-progress-value {
 }
 
 .emoji-burst {
-  position: absolute;
-  left: 50%;
-  bottom: 200;
-  transform: translateX(-50%);
-  font-size: 2rem;
-  animation: burst 1.2s ease-out forwards;
-  pointer-events: none;
-  z-index: 10;
+    position: absolute;
+    bottom: 200;
+    font-size: 24px;
+    pointer-events: none;
+    animation: burst-fly 1.2s ease-out forwards;
+    transform: translate(0, 0);
+    z-index: 9999;
 }
 
-@keyframes burst {
-  0% {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(-50%) translateY(-100px);
-  }
+@keyframes burst-fly {
+    to {
+        transform: translate(var(--x), var(--y)) scale(1.5);
+        opacity: 0;
+    }
 }
+
+
 
 
 .iphone {
@@ -349,7 +346,7 @@ progress::-webkit-progress-value {
 </div>
   
   <header>
-    <h1>Parasternal Long Axis - test 14</h1>
+    <h1>Parasternal Long Axis - test 15</h1>
     <p>Use the following movements to find a view of the left ventricle, mitral valve, aortic valve and aortic artery. This view can give us a rough idea of heart ejection fraction. Press any of the buttons to begin.</p>
   </header>
   
@@ -633,51 +630,52 @@ function updateVideo() {
 
 
 
-// Updates the progress bar and controls randomize button visibility
-function updateProgress(pos, size) {
-    // Target position (ignore `s`)
-    const targetPos = [1, 2, 0]; // z, y, x
-    const posArray = [pos.z, pos.y, pos.x];
+function triggerEmojiBurst() {
+    const emojis = ["🎉", "😄", "🚀", "✨", "💥"];
+    const emojiCount = 12;
+    const progressWrapper = document.querySelector(".progress-wrapper");
 
-    // Check for exact match
-    const isAtTarget = posArray.every((val, i) => val === targetPos[i]);
-    if (isAtTarget) {
-        document.getElementById("progress-bar").value = 100;
-        document.getElementById("randomize-button").style.display = "block";
-
-        // 🎉 Fancy Emoji Animation (random emoji, random position)
-        const emojis = ["🎉", "😄", "🚀", "✨", "💥"];
+    for (let i = 0; i < emojiCount; i++) {
         const emoji = document.createElement("div");
         emoji.className = "emoji-burst";
         emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-        
-        // Set random horizontal position within the wrapper
+
+        const angle = Math.random() * 2 * Math.PI; // Full circle
+        const distance = 100 + Math.random() * 50;
+        const x = Math.cos(angle) * distance;
+        const y = Math.sin(angle) * distance * -1;
+
+        emoji.style.setProperty('--x', `${x}px`);
+        emoji.style.setProperty('--y', `${y}px`);
         emoji.style.left = `${Math.random() * 80 + 10}%`;
-        
-        const progressWrapper = document.querySelector(".progress-wrapper");
-        progressWrapper.appendChild(emoji);
-        
+
         setTimeout(() => {
-            emoji.remove();
-        }, 1200);
+            progressWrapper.appendChild(emoji);
+            setTimeout(() => emoji.remove(), 1200);
+        }, i * 50);
+    }
+}
+
+function updateProgress(pos, size) {
+    // Target zyx position (ignore `s`)
+    const targetPos = [1, 2, 0];
+    const posArray = [pos.z, pos.y, pos.x];
+
+    const isAtTarget = posArray.every((val, i) => val === targetPos[i]);
+
+    const progressBar = document.getElementById("progress-bar");
+    const randomizeButton = document.getElementById("randomize-button");
+
+    if (isAtTarget) {
+        progressBar.value = 100;
+        randomizeButton.style.display = "block";
+        triggerEmojiBurst(); // 🎉🎉🎉
         return;
     }
 
-    // Calculate error from target (z, y, x)
-    const z_error = Math.abs(targetPos[0] - pos.z);
-    const y_error = Math.abs(targetPos[1] - pos.y);
-    const x_error = Math.abs(targetPos[2] - pos.x);
-    const total_error = z_error + y_error + x_error;
-
-    // Max possible error (assuming bounds from size)
-    const max_error = (size[1] - 1) + (size[2] - 1) + (size[3] - 1); // z, y, x max range
-
-    // Calculate percent completed
-    const percent = Math.max(0, 100 - Math.floor((total_error / max_error) * 100));
-
-    // Update DOM
-    const progressBar = document.getElementById("progress-bar");
-    const randomizeButton = document.getElementById("randomize-button");
+    // Simple "distance to target" calculation
+    const totalError = Math.abs(1 - pos.z) + Math.abs(2 - pos.y) + Math.abs(0 - pos.x);
+    const percent = Math.max(0, Math.min(100, Math.round((5 - totalError) / 5 * 100)));
 
     if (isFinite(percent)) {
         progressBar.value = percent;
@@ -686,7 +684,7 @@ function updateProgress(pos, size) {
         progressBar.value = 0;
     }
 
-    randomizeButton.style.display = "none"; // Only show at 100%
+    randomizeButton.style.display = "none";
 }
 
 

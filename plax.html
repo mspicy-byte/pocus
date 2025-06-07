@@ -231,7 +231,7 @@ progress::-webkit-progress-value {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 80px; /* adjust based on layout */
+  bottom: 120px; /* adjust based on layout */
   font-size: 2rem;
   animation: burst 1.2s ease-out forwards;
   pointer-events: none;
@@ -350,7 +350,7 @@ progress::-webkit-progress-value {
 </div>
   
   <header>
-    <h1>Parasternal Long Axis - test 12</h1>
+    <h1>Parasternal Long Axis - test 13</h1>
     <p>Use the following movements to find a view of the left ventricle, mitral valve, aortic valve and aortic artery. This view can give us a rough idea of heart ejection fraction. Press any of the buttons to begin.</p>
   </header>
   
@@ -646,17 +646,21 @@ function updateProgress(pos, size) {
         document.getElementById("progress-bar").value = 100;
         document.getElementById("randomize-button").style.display = "block";
 
-                // Trigger emoji animation
+        // 🎉 Fancy Emoji Animation (random emoji, random position)
+        const emojis = ["🎉", "😄", "🚀", "✨", "💥"];
         const emoji = document.createElement("div");
-        emoji.id = "emoji-burst";
-        emoji.innerText = "🎉"; // or "😄" or "💥" — pick your vibe
-        document.body.appendChild(emoji);
+        emoji.className = "emoji-burst";
+        emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
         
-        // Remove after animation ends
+        // Set random horizontal position within the wrapper
+        emoji.style.left = `${Math.random() * 80 + 10}%`;
+        
+        const progressWrapper = document.querySelector(".progress-wrapper");
+        progressWrapper.appendChild(emoji);
+        
         setTimeout(() => {
             emoji.remove();
         }, 1200);
-
         return;
     }
 

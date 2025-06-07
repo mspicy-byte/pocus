@@ -327,7 +327,7 @@ progress::-webkit-progress-value {
 </div>
   
   <header>
-    <h1>Parasternal Long Axis - test 9</h1>
+    <h1>Parasternal Long Axis - test 10</h1>
     <p>Use the following movements to find a view of the left ventricle, mitral valve, aortic valve and aortic artery. This view can give us a rough idea of heart ejection fraction. Press any of the buttons to begin.</p>
   </header>
   
@@ -630,7 +630,7 @@ function updateProgress(pos, size) {
     const y_error = math.abs(2 - pos.y);
     const x_error = math.abs(0 - pos.x);
     const total_error = z_error + y_error + x_error;
-    const percent = ((7 / total_error) * 100);
+    const percent = ((5 / total_error) * 100);
     
   
     // Calculate center using size (skip `s`)

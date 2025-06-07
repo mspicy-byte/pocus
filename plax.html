@@ -327,7 +327,7 @@ progress::-webkit-progress-value {
 </div>
   
   <header>
-    <h1>Parasternal Long Axis - test 8</h1>
+    <h1>Parasternal Long Axis - test 9</h1>
     <p>Use the following movements to find a view of the left ventricle, mitral valve, aortic valve and aortic artery. This view can give us a rough idea of heart ejection fraction. Press any of the buttons to begin.</p>
   </header>
   
@@ -625,12 +625,20 @@ function updateProgress(pos, size) {
         return;
     }
 
+    //calculate by steps off - try this one first 
+    const z_error = math.abs(1 - pos.z);
+    const y_error = math.abs(2 - pos.y);
+    const x_error = math.abs(0 - pos.x);
+    const total_error = z_error + y_error + x_error;
+    const percent = ((7 / total_error) * 100);
+    
+  
     // Calculate center using size (skip `s`)
     const center = size.slice(1).map(dim => Math.floor(dim / 2)); // z, y, x only
     const distance = posArray.reduce((acc, val, i) => acc + Math.abs(val - center[i]), 0);
     const maxDistance = size.slice(1).reduce((acc, val) => acc + Math.floor(val / 2), 0);
 
-    const percent = maxDistance > 0 ? (100 - Math.floor((distance / maxDistance) * 100)) : 0;
+    //const percent = maxDistance > 0 ? (100 - Math.floor((distance / maxDistance) * 100)) : 0;
 
     const progressBar = document.getElementById("progress-bar");
     const randomizeButton = document.getElementById("randomize-button");

@@ -327,7 +327,7 @@ progress::-webkit-progress-value {
 </div>
   
   <header>
-    <h1>Parasternal Long Axis test 7</h1>
+    <h1>Parasternal Long Axis - test 8</h1>
     <p>Use the following movements to find a view of the left ventricle, mitral valve, aortic valve and aortic artery. This view can give us a rough idea of heart ejection fraction. Press any of the buttons to begin.</p>
   </header>
   
@@ -613,21 +613,22 @@ function updateVideo() {
 
 // Updates the progress bar and controls randomize button visibility
 function updateProgress(pos, size) {
-    const targetPos = [2, 1, 1, 0]; // The exact location you want to reach
-    const posArray = [pos.s, pos.z, pos.y, pos.x];
+    // Ignore `s` — use z, y, x only
+    const targetPos = [1, 2, 0]; // z = 1, y = 2, x = 0
+    const posArray = [pos.z, pos.y, pos.x];
 
     // If at target position, progress is 100%
     const isAtTarget = posArray.every((val, i) => val === targetPos[i]);
     if (isAtTarget) {
         document.getElementById("progress-bar").value = 100;
         document.getElementById("randomize-button").style.display = "block";
-        return; // Early return
+        return;
     }
 
-    // Otherwise, calculate distance from center as fallback (or set 0%)
-    const center = size.map(dim => Math.floor(dim / 2));
+    // Calculate center using size (skip `s`)
+    const center = size.slice(1).map(dim => Math.floor(dim / 2)); // z, y, x only
     const distance = posArray.reduce((acc, val, i) => acc + Math.abs(val - center[i]), 0);
-    const maxDistance = size.reduce((acc, val) => acc + Math.floor(val / 2), 0);
+    const maxDistance = size.slice(1).reduce((acc, val) => acc + Math.floor(val / 2), 0);
 
     const percent = maxDistance > 0 ? (100 - Math.floor((distance / maxDistance) * 100)) : 0;
 
@@ -643,6 +644,7 @@ function updateProgress(pos, size) {
 
     randomizeButton.style.display = "none"; // Hide button unless exactly at target
 }
+
 
 // Updates the view using absolute s and z values
 function setView(targetS) {

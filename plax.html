@@ -327,7 +327,7 @@ progress::-webkit-progress-value {
 </div>
   
   <header>
-    <h1>Parasternal Long Axis test 5</h1>
+    <h1>Parasternal Long Axis test 6</h1>
     <p>Use the following movements to find a view of the left ventricle, mitral valve, aortic valve and aortic artery. This view can give us a rough idea of heart ejection fraction. Press any of the buttons to begin.</p>
   </header>
   
@@ -674,21 +674,22 @@ function setView(targetS) {
 }
 
 function rotateClockwise() {
-    setView(0); // s = 0 = rotate
+    
     if (position.z < 2) {
         position.z += 1;
     } else {
         position.z = 2; // Stay at max
     }
+    setView(0); // s = 0 = rotate
 }
 
 function rotateCounterClockwise() {
-    setView(0); // s = 0 = rotate
     if (position.z > 0) {
         position.z -= 1;
     } else {
         position.z = 0; // Stay at min
     }
+    setView(0); // s = 0 = rotate
 }
 
 

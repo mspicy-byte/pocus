@@ -1,394 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Parasternal Short Axis - POCUS Teaching</title>
+<!DOCTYPE HTML>
+<!--
+	Spectral by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Generic - Spectral by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
 
-<style>
-  /* General Layout */
-header {
-  background-color: #313d4f;
-  padding: 20px;
-  text-align: center;
-  color: white;
-  border-bottom: 2px solid #ccc;
-}
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
 
-header h1 {
-  margin-bottom: 10px;
-}
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="index.html">POCUS</a></h1>
+						<nav id="nav">
+							<ul>
+								<li class="special">
+									<a href="#menu" class="menuToggle"><span>Menu</span></a>
+									<div id="menu">
+										<ul>
+											<li><a href="sty_index.html">Home</a></li>
+											<li><a href="sty_plax.html">PLAX</a></li>
+											<li><a href="sty_psax.html">PSAX</a></li>
+											<li><a href="sty_A4C.html">A4C</a></li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</nav>
+					</header>
 
-/* Flexbox layout for overall content */
-.content {
-  display: flex;
-  justify-content: left;
-  align-items: flex-start;
-  gap: 0px;
-  margin: 40px auto;
-  max-width: 1200px;
-  padding: 0px;
-  flex-wrap: wrap;
-}
-
-/* Controls Section */
-.control-section {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-
-.scoreboard {
-  width: 100%;
-  text-align: center;
-  background-color: rgba(0, 0, 0, 0.6);
-  padding: 8px 12px;
-  border-radius: 5px;
-  margin-bottom: 8px;
-  color: white;
-  font-weight: bold;
-  font-size: 1em;
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-/* Control label */
-.control-label {
-  width: 100%;
-  text-align: center;
-  background-color: rgba(0, 0, 0, 0.6);
-  color: white;
-  padding: 8px 12px;
-  border-radius: 5px;
-  font-weight: bold;
-  font-size: 1.1em; 
-}
-
-/* Grid inside controls */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 150px);
-  grid-template-rows: repeat(2, auto);
-  gap: 0px;
-}
-
-/* Control block styling */
-.control-block {
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  min-height: 150px;
-  max-width:150px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-  width: 200px;
-}
-
-/* Control block title */
-.title-box {
-  background-color: rgba(0, 0, 0, 0.6);
-  color: white;
-  padding: 5px 10px;
-  border-radius: 8px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  text-align: center;
-  width: 100%;
-}
-
-/* Movement Background Styles */
-.sliding,
-.rotation,
-.tilting,
-.rocking {
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.sliding {
-  background-image: url('images/plax_slide.jpg');
-}
-
-.rotation {
-  background-image: url('images/plax_rotate.jpg');
-}
-
-.tilting {
-  background-image: url('images/plax_tilt.jpg');
-}
-
-.rocking {
-  background-image: url('images/plax_rock.jpg');
-}
-
-/* Control Buttons */
-.control-buttons {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  width: 100%;
-  gap: 10px;
-  justify-items: center;
-}
-
-.control-block button {
-  width: 100%;
-  height: 40px;
-  font-size: 1em;
-  border-radius: 8px;
-  background-color: rgba(0, 122, 204, 0.6);
-  color: white;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.control-block button:hover {
-  background-color: #005fa3;
-}
-
-/* Sliding grid buttons */
-.sliding-grid {
-  display: grid;
-  margin-top: -20px;
-  grid-template-columns: 40px 40px 40px;
-  grid-template-rows: 40px 40px 40px;
-  gap: 0px;
-  grid-template-areas:
-    ". up ."
-    "left . right"
-    ". down .";
-}
-
-.sliding-grid button {
-  width: 40px;
-  height: 40px;
-  font-size: 18px;
-}
-
-.sliding-grid button:nth-child(1) { grid-area: up; }
-.sliding-grid button:nth-child(2) { grid-area: down; }
-.sliding-grid button:nth-child(3) { grid-area: left; }
-.sliding-grid button:nth-child(4) { grid-area: right; }
-
-
-  .full-height {
-  height: 100%;
-}
-
-.full-button-stack {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-top: -10px;
-  margin-left: -10px;
-  flex-grow: 1;
-  width: 100%;
-}
-
-.full-button-stack button {
-  flex-grow: 1;
-  width: 100%;
-  height: 100%;
-}
-
-
-#randomize-button {
-  display: none;
-  width: 150px; /* or 100% if you want full width of container */
-  height: 40px;
-}
-  
-/* iPhone Displays */
-.phone-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 10px;
-}
-
-.phone-label {
-  font-size: 1rem;
-  font-weight: bold;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 15px 90px;
-  border-radius: 5px;
-  margin-bottom: 8px;
-  text-align: center;
-}
-
-.progress-wrapper {
-  width: 80%;
-  margin-top: -55px;
-  margin-bottom: 20px;
-  text-align: center;
-  color: white;
-}
-
-#progress-bar {
-  width: 100%;
-  height: 20px;
-  border-radius: 10px;
-  background-color: #ddd;
-}
-
-progress::-webkit-progress-bar {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-}
-
-progress::-webkit-progress-value {
-  background-color: rgba(0, 255, 0, 0.7);
-  border-radius: 10px;
-}
-
-.emoji-burst {
-    position: absolute;
-    bottom: 200;
-    font-size: 24px;
-    pointer-events: none;
-    animation: burst-fly 1.2s ease-out forwards;
-    transform: translate(0, 0);
-    z-index: 9999;
-}
-
-@keyframes burst-fly {
-    to {
-        transform: translate(var(--x), var(--y)) scale(1.5);
-        opacity: 0;
-    }
-}
-
-
-
-
-.iphone {
-  position: relative;
-  width: 300px;
-  height: 600px;
-}
-
-.video-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.screen-content {
-  position: absolute;
-  top: 2%;
-  left: 3%;
-  width: 95%;
-  height: 95%;
-  object-fit: cover;
-  z-index: 1;
-  border-radius: 30px;
-}
-
-#error-message {
-    display: none;
-    position: absolute;       /* Make it overlay the video */
-    top: 50%;                 /* Center vertically */
-    left: 50%;                /* Center horizontally */
-    transform: translate(-50%, -50%); /* Center the div */
-    color: white;
-    background-color: rgba(255, 0, 0, 0.8);
-    padding: 20px 100px;
-    border-radius: 5px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 1em;
-    z-index: 999;             /* Ensure it’s above everything */
-    pointer-events: none;     /* Optional: so clicks pass through */
-    white-space: nowrap;      /* Prevent text from wrapping */
-    max-width: 90%;   
-}
-
-
-.phone-frame {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-}
-
-
-  #welcomeOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8); /* Dark, semi-transparent */
-    display: flex; /* To center content */
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Ensure it's on top */
-}
-
-  #surveyContainer {
-    background: white;
-    padding: 40px;
-    border-radius: 10px;
-    text-align: center;
-    max-width: 600px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
-}
-    
-</style>
-
-
-
-</head>
-<body>
-<div id="welcomeOverlay">
-    <div id="surveyContainer">
-        <h2> </h2>
-        <div style="margin-bottom: 20px;">
-                <label for="medicalTraining">1. Level of Medical Training:</label><br>
-                <select id="medicalTraining" name="medicalTraining" required>
-                    <option value="">Select...</option>
-                    <option value="student">Student</option>
-                    <option value="resident">Resident</option>
-                    <option value="fellow">Fellow</option>
-                    <option value="other">Other</option>
-                </select>
-            </div>
-            
-            <div style="margin-bottom: 20px;">
-                <label for="pocusFrequency">2. How often do you use cardiac POCUS?</label><br>
-                <select id="pocusFrequency" name="pocusFrequency" required>
-                    <option value="">Select...</option>
-                    <option value="daily">Daily</option>
-                    <option value="weekly">Weekly</option>
-                    <option value="monthly">Monthly</option>
-                    <option value="rarely">Rarely</option>
-                </select>
-            </div>
-            
-            <div style="margin-bottom: 20px;">
-                <label for="toolUsage">3. How many times have you used this tool?</label><br>
-                <select id="toolUsage" name="toolUsage" required>
-                    <option value="">Select...</option>
-                    <option value="never">Never</option>
-                    <option value="fewTimes">A few times</option>
-                    <option value="multipleTimes">Multiple times</option>
-                </select>
-            </div>
-        <button id="submitSurvey" style="margin-top: 20px;">Begin</button>
-    </div>
-</div>
-  
+				<!-- Main -->
+					<article id="main">
+						 
   <header>
-    <h1>Apical 4 Chamber</h1>
+    <h1>Apixal 4 Chamber</h1>
     <p>Use the following movements to find a view of the left ventricle, mitral valve, aortic valve and aortic artery. This view can give us a rough idea of heart ejection fraction. Press any of the buttons to begin.</p>
   </header>
   
@@ -442,10 +95,6 @@ progress::-webkit-progress-value {
 
       <div id="feedback" class="feedback-display">
 
-        <p id= "current_value" ><strong>Current Value: </strong> <span id="current-value">--</span></p>
-        <p id= "current_z" ><strong>List of wrong buttons: </strong> <span id="current-z">--</span></p>
-        <p id= "wrongButtons" > <strong>Video URL:</strong> <span id="video-url">--</span></p>
-
         <div style="margin-top: 10px;">
           <button id="randomize-button" onclick="handleRandomize()" > Try Another View </button>
        </div>
@@ -468,7 +117,7 @@ progress::-webkit-progress-value {
           <source src="" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        <img class="phone-frame" src="iphone.png" alt="iPhone frame" />
+        <img class="phone-frame" />
       </div>
                             <!-- Error message display -->
                             <div id="error-message">
@@ -494,12 +143,12 @@ progress::-webkit-progress-value {
           playsinline
         >
           <source
-            src="https://mspicy-byte.github.io/pocus/tran_recorded/A4C_norm.mov",
+            src="https://mspicy-byte.github.io/pocus/tran_recorded/A4C_norm.mov"
             type="video/mp4"
           />
           Your browser does not support the video tag.
         </video>
-        <img class="phone-frame" src="iphone.png" alt="iPhone frame" />
+        <img class="phone-frame" />
       </div>
   </div>
 </div>
@@ -538,8 +187,6 @@ const videoURLs = [
   "https://mspicy-byte.github.io/pocus/tran_recorded/A4C_norm.mov",
   "https://mspicy-byte.github.io/pocus/tran_recorded/A4C_CCW.mov",
 ];
-
-
 
 
 const tensor = [
@@ -963,6 +610,31 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
 </script>
-  
-</body>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<ul class="icons">
+							<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+							<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+							<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+							<li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+						</ul>
+						<ul class="copyright">
+							<li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+						</ul>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
 </html>

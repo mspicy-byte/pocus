@@ -1,0 +1,641 @@
+<!DOCTYPE HTML>
+<!--
+	Spectral by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Generic - Spectral by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="index.html">POCUS</a></h1>
+						<nav id="nav">
+							<ul>
+								<li class="special">
+									<a href="#menu" class="menuToggle"><span>Menu</span></a>
+									<div id="menu">
+										<ul>
+											<li><a href="sty_index.html">Home</a></li>
+											<li><a href="sty_plax.html">PLAX</a></li>
+											<li><a href="sty_psax.html">PSAX</a></li>
+											<li><a href="sty_A4C.html">A4C</a></li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</nav>
+					</header>
+
+				<!-- Main -->
+					<article id="main">
+						 
+  <header>
+    <h1>Parasternal Long Axis</h1>
+    <p>Use the following movements to find a view of the left ventricle, mitral valve, aortic valve and aortic artery. This view can give us a rough idea of heart ejection fraction. Press any of the buttons to begin.</p>
+  </header>
+  
+<div class="content">
+  <!-- Controls on the left -->
+  <div class="phone-wrapper">
+    <div class="phone-label"><h2>Controls</h2></div>
+    <div class="scoreboard">
+      Views Optimized: <span id="score-count">0</span>
+    </div>
+
+    <div class="control-section">
+    <div class="grid">
+
+      <!-- Sliding Controls -->
+      <div class="control-block sliding">
+        <div class="title-box">Slide</div>
+        <div class="sliding-grid">
+          <button onclick="slideUp(this)">↑</button>
+          <button onclick="slideDown(this)">↓</button>
+          <button onclick="slideLeft(this)">←</button>
+          <button onclick="slideRight(this)">→</button>
+        </div>
+      </div>
+
+           <!-- Rotation Controls -->
+      <div class="control-block rotation full-height">
+        <div class="title-box">Rotate</div>
+        <div class="full-button-stack">
+          <button onclick="rotateClockwise(this)">Rotate CW</button>
+          <button onclick="rotateCounterClockwise(this)">Rotate CCW</button>
+        </div>
+      </div>
+    
+
+      <!-- Tilting Controls -->
+      <div class="control-block tilting">
+        <div class="title-box">Tilt</div>
+        <button onclick="tiltUp(this)">Tilt Up</button>
+        <button onclick="tiltDown(this)">Tilt Down</button>
+      </div>
+      
+      <!-- Rocking Controls -->
+      <div class="control-block rocking full-height">
+        <div class="title-box">Rock</div>
+        <div class="full-button-stack">
+          <button onclick="fanAnt(this)">Fan Ant</button>
+          <button onclick="fanPost(this)">Fan Post</button>
+        </div>
+      </div>
+
+      <div id="feedback" class="feedback-display">
+
+        <div style="margin-top: 10px;">
+          <button id="randomize-button" onclick="handleRandomize()" > Try Another View </button>
+       </div>
+       
+      </div>
+
+
+      
+    </div>
+  </div>
+  </div>
+
+
+  <!-- In Progress Phone - Center -->
+  <div class="phone-wrapper">
+    <div class="phone-label"><h2>Progress</h2></div>
+    <div class="iphone">
+      <div class="video-container">
+        <video id="main-video" class="screen-content" autoplay loop muted playsinline>
+          <source src="" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <img class="phone-frame" />
+      </div>
+                            <!-- Error message display -->
+                            <div id="error-message">
+                             <!-- Error text will appear here -->
+                            </div>
+    </div>
+  </div>
+
+
+  <!-- Reference Phone - Right -->
+  <div class="phone-wrapper">
+    <div class="phone-label">
+      <h2>Reference</h2>
+    </div>
+    <div class="iphone">
+      <div class="video-container">
+        <video
+          id="second-video"
+          class="screen-content"
+          autoplay
+          loop
+          muted
+          playsinline
+        >
+          <source
+            src="https://mspicy-byte.github.io/pocus/tran_recorded/PLAX_normal.mov"
+            type="video/mp4"
+          />
+          Your browser does not support the video tag.
+        </video>
+        <img class="phone-frame" />
+      </div>
+  </div>
+</div>
+
+  
+</div>
+
+<script>
+// ---------- GLOBAL VARIABLES (Declared once, to maintain state and be accessible) ----------
+let randomizeButtonPresses = 0; // This COUNTER MUST be global to increment correctly.
+  
+let currentPosition = [0, 0];  // Properly defined
+let startPosition = null;
+let moveHistory = [];
+let totalMoves = 0;
+let wrongButtons = []; // store all buttons that were pressed incorrectly
+
+
+// Your video data - do NOT move these
+
+
+const videoURLs = [
+  "https://mspicy-byte.github.io/pocus/tran_recorded/PLAX_TA.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/PLAX_normal.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/PLAX_TB.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/PLAX_FA.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/PLAX_normal.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/PLAX_FP.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/PLAX_sup.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/PLAX_normal.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/PLAX_inf.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/PLAX_left.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/PLAX_normal.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/PLAX_right.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/PLAX_CW.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/PLAX_normal.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/PLAX_CCW.mov",
+];
+
+
+
+const tensor = [
+  [1, 2, 3],   // Axis 0 (Tilt)
+  [4, 5, 6],   // Axis 1 (Fan)
+  [7, 8, 9],   // Axis 2 (Slide up/down)
+  [10, 11, 12],// Axis 3 (Slide left/right)
+  [13, 14, 15] // Axis 4 (Rotate)
+];
+
+let position = { y: 1, x: 1 }; // Current position in the tensor
+
+// ---------- HELPER FUNCTIONS (These don't need to be inside DOMContentLoaded) ----------
+
+// Basic utility to keep values within bounds
+function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+}
+
+// Updates the main video source based on current position
+function updateVideo() {
+    // Clamp indices just in case
+    const x = clamp(position.x, 0, tensor.length - 1);
+    const y = clamp(position.y, 0, tensor[0].length - 1);
+
+    // Find the video index from tensor
+    const index = tensor[x][y] - 1;
+
+    // Get DOM elements
+    const video = document.getElementById("main-video");
+    if (!video) {
+        console.warn("Main video element not found.");
+        return;
+    }
+    const source = video.querySelector("source");
+
+    // Validate index and URL
+    if (index < 0 || index >= videoURLs.length || !videoURLs[index]) {
+        console.warn("Invalid video index or URL not found:", index, videoURLs[index]);
+        return;
+    }
+
+    // Update video source
+    source.src = videoURLs[index];
+    video.load();
+
+    // iOS autoplay compliance
+    video.muted = true;
+    video.playsInline = true;
+    video.autoplay = true;
+
+    // Try to play, catch autoplay blocks
+    video.play().catch((error) => {
+        console.warn("Video play was prevented:", error);
+    });
+
+    // Debug info
+    console.log(`Current Video Index: ${index + 1}, URL: ${videoURLs[index]}`);
+}
+
+
+
+// Updates the view using absolute s and z values
+function setView() {
+    // Clamp position to ensure it's valid
+    position.x = clamp(position.x, 0, tensor.length - 1);
+    position.y = clamp(position.y, 0, tensor[0].length - 1);
+
+    // Store current position (array for logging/debug)
+    currentPosition = [position.x, position.y];
+
+    // Get current tensor value (video index)
+    const value = tensor[position.x][position.y];
+
+    // Track move history (ignore duplicates for cleaner logs)
+    if (moveHistory.length === 0 || moveHistory[moveHistory.length - 1] !== value) {
+        moveHistory.push(value);
+        totalMoves += 1;
+    }
+
+    // Update UI safely
+    const elValue = document.getElementById("current_value");
+    const elX = document.getElementById("current-x");
+    const elY = document.getElementById("current-y");
+    const elUrl = document.getElementById("current_url");
+
+    if (elValue) elValue.innerHTML = `[${currentPosition}]`;
+    if (elX) elX.innerHTML = position.x;
+    if (elY) elY.innerHTML = position.y;
+    if (elUrl) elUrl.innerHTML = value;
+
+    // Refresh video and progress
+    updateVideo();
+    
+
+    // Debug
+    console.log(
+        "Updated to:", currentPosition,
+        "| Tensor Value:", value,
+        "| Total moves:", totalMoves,
+        "| History:", moveHistory
+    );
+}
+
+
+//-------------------------error message for if the move is incorrect 
+function checkMoveError(axis, buttonEl = null) {
+    const idealAxis = position.x;  // The axis they are supposed to move along
+    if (axis !== idealAxis) {
+        showErrorMessage("Try Moving in Another Axis!", buttonEl);
+        return true;  // Indicates an error
+    }
+    return false; // No error
+}
+
+
+// Show error message function remains the same
+function showErrorMessage(msg, buttonEl = null) {
+    // Show text message
+    const el = document.getElementById("error-message");
+    if (el) {
+        el.innerHTML = msg;
+        el.style.display = "block";
+        setTimeout(() => { el.style.display = "none"; }, 2000);
+    } else {
+        console.warn(msg);
+    }
+
+    // Highlight button in red and store it if not already stored
+    if (buttonEl && !wrongButtons.includes(buttonEl)) {
+        buttonEl.style.backgroundColor = "grey";
+        wrongButtons.push(buttonEl);
+    }
+}
+
+// Utility sleep function
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
+// ______________checks if optimized ---------------------
+async function checkOptimized() {
+    const value = tensor[position.x][position.y]; 
+    const currentVideo = videoURLs[value - 1];
+
+    // Example: optimized = video contains "NORM"
+    if (position.y === 1) {
+        triggerEmojiBurst();
+        console.log("Image optimized!");
+
+        // Pause 1.5 seconds before hiding controls
+        await sleep(1000);
+
+        // Hide all control blocks (labels + images + buttons)
+        const controlBlocks = document.querySelectorAll('.control-block');
+        controlBlocks.forEach(block => block.style.display = 'none');
+
+        await sleep(1000);
+
+        // Show randomize button
+        const randomizeBtn = document.getElementById('randomize-button');
+        if (randomizeBtn) randomizeBtn.style.display = 'inline-block';
+    }
+}
+
+function triggerEmojiBurst() {
+    const emojis = ["🎉", "😄", "🚀", "✨", "💥"];
+    const emojiCount = 20;
+    const progressWrapper = document.querySelector(".phone-label");
+
+    for (let i = 0; i < emojiCount; i++) {
+        const emoji = document.createElement("div");
+        emoji.className = "emoji-burst";
+        emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+
+        const angle = Math.random() * 2 * Math.PI; // Full circle
+        const distance = 100 + Math.random() * 50;
+        const x = Math.cos(angle) * distance;
+        const y = Math.sin(angle) * distance * -1;
+
+        emoji.style.setProperty('--x', `${x}px`);
+        emoji.style.setProperty('--y', `${y}px`);
+        emoji.style.left = `${Math.random() * 80 + 10}%`;
+
+        setTimeout(() => {
+            progressWrapper.appendChild(emoji);
+            setTimeout(() => emoji.remove(), 1200);
+        }, i * 50);
+    }
+}
+
+
+
+
+
+//Functions defined for the button movemements 
+
+// -------- Tilt (axis 0) --------
+function tiltUp(buttonEl) {
+    if (checkMoveError(0, buttonEl)) return;
+    if (position.y < 2) position.y += 1;
+    setView();
+    checkOptimized();
+}
+
+function tiltDown(buttonEl) {
+    if (checkMoveError(0, buttonEl)) return;
+    if (position.y > 0) position.y -= 1;
+    setView();
+    checkOptimized();
+}
+
+// -------- Fan (axis 1) --------
+function fanAnt(buttonEl) {
+    if (checkMoveError(1, buttonEl)) return;
+    if (position.y < 2) position.y += 1;
+    setView();
+    checkOptimized();
+}
+
+function fanPost(buttonEl) {
+    if (checkMoveError(1, buttonEl)) return;
+    if (position.y > 0) position.y -= 1;
+    setView();
+    checkOptimized();
+}
+
+// -------- Slide Up/Down (axis 2) --------
+function slideUp(buttonEl) {
+    if (checkMoveError(2, buttonEl)) return;
+    if (position.y < 2) position.y += 1;
+    setView();
+    checkOptimized();
+}
+
+function slideDown(buttonEl) {
+    if (checkMoveError(2, buttonEl)) return;
+    if (position.y > 0) position.y -= 1;
+    setView();
+    checkOptimized();
+}
+
+// -------- Slide Left/Right (axis 3) --------
+function slideLeft(buttonEl) {
+    if (checkMoveError(3, buttonEl)) return;
+    if (position.y > 0) position.y -= 1;
+    setView();
+    checkOptimized();
+}
+
+function slideRight(buttonEl) {
+    if (checkMoveError(3, buttonEl)) return;
+    if (position.y < 2) position.y += 1;
+    setView();
+    checkOptimized();
+}
+
+// -------- Rotate (axis 4) --------
+function rotateClockwise(buttonEl) {
+    if (checkMoveError(4, buttonEl)) return;
+    if (position.y < 2) position.y += 1;
+    setView();
+    checkOptimized();
+}
+
+function rotateCounterClockwise(buttonEl) {
+    if (checkMoveError(4, buttonEl)) return;
+    if (position.y > 0) position.y -= 1;
+    setView();
+    checkOptimized();
+}
+
+
+
+
+// Randomizes the current video position
+function randomizePosition() {
+    // Pick a random axis (0–4)
+    position.x = Math.floor(Math.random() * tensor.length);
+
+    // Pick a random offset (either 0 or 2, not the center)
+    position.y = Math.random() < 0.5 ? 0 : 2;
+
+    // Store current position
+    currentPosition = [position.x, position.y];
+
+    // Reset history and moves
+    startPosition = tensor[position.x][position.y];
+    moveHistory = [startPosition];
+    totalMoves = 0;
+}
+
+//re-sets all the red buttons with each randomize 
+function resetWrongButtons() {
+    wrongButtons.forEach(btn => {
+        btn.style.backgroundColor = ""; // revert to original
+    });
+    wrongButtons = [];
+}
+
+
+// Function called when the "Randomize View" button is pressed
+function handleRandomize() {
+    // Increment counter
+    randomizeButtonPresses++; 
+
+    // Update scoreboard
+    const scoreEl = document.getElementById('score-count');
+    if (scoreEl) scoreEl.textContent = randomizeButtonPresses;
+
+    // Submit data, reset positions, and buttons
+    submitRandomizeData(); 
+    randomizePosition();
+    resetWrongButtons();
+    updateVideo(); 
+
+    // Show control blocks again
+    const controlBlocks = document.querySelectorAll('.control-block');
+    controlBlocks.forEach(block => block.style.display = 'flex'); // or 'block'
+
+    // Hide randomize button until next optimization
+    const randomizeBtn = document.getElementById('randomize-button');
+    if (randomizeBtn) randomizeBtn.style.display = 'none';
+}
+
+
+
+
+
+// ---------- DATA SUBMISSION FUNCTION (Called by handleRandomize) ----------
+async function submitRandomizeData() {
+    const dataToSubmit = {
+        medicalTraining: localStorage.getItem('medicalTraining'),
+        pocusFrequency: localStorage.getItem('pocusFrequency'),
+        toolUsage: localStorage.getItem('toolUsage'),
+        randomizeButtonPresses: 2,
+        startingPosition: startPosition,
+        numberOfMoves: totalMoves,
+        moveHistory: moveHistory
+    };
+  
+    console.log("📤 Sending expanded data:", dataToSubmit);
+
+    try {
+        const GOOGLE_URL = "https://script.google.com/macros/s/AKfycbxoSX0wr1wFpAUv7BEqKj9XXNGKfexDLqASKpHcRwTepI5MKjvBuzPbAvXaf1PwxO2d/exec";
+
+        const response = await fetch(GOOGLE_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataToSubmit),
+            mode: 'no-cors'
+        });
+
+        console.log('✅ Full data sent (no-cors mode, response not visible).');
+    } catch (error) {
+        console.error('❌ Submission failed:', error);
+        alert('Submission failed. Check console for details.');
+    }
+}
+
+  // attempt to make the demo video play automatically on iphone ----------->
+function enableSecondVideoPlayback() {
+  const secondVideo = document.getElementById("second-video");
+  if (secondVideo) {
+    secondVideo.muted = true; // Required for autoplay
+    secondVideo.playsInline = true; // Redundant safeguard
+    secondVideo.load(); // Ensure it's initialized
+    secondVideo.play().catch(err => {
+      console.warn("Second video play failed:", err);
+    });
+  }
+
+  // Remove listeners after one attempt
+  document.body.removeEventListener("click", enableSecondVideoPlayback);
+  document.body.removeEventListener("touchstart", enableSecondVideoPlayback);
+}
+
+// Add the trigger listener
+document.body.addEventListener("click", enableSecondVideoPlayback);
+document.body.addEventListener("touchstart", enableSecondVideoPlayback);
+
+
+// ---------- MAIN INITIALIZATION (Ensures DOM is ready before manipulating it) ----------
+document.addEventListener('DOMContentLoaded', (event) => {
+    const overlay = document.getElementById('welcomeOverlay');
+    const submitButton = document.getElementById('submitSurvey');
+    const randomizeButton = document.getElementById('randomize-button'); // Get reference to the randomize button
+
+    // --- Survey Overlay Logic ---
+    submitButton.addEventListener('click', () => {
+        const medicalTraining = document.getElementById('medicalTraining').value;
+        const pocusFrequency = document.getElementById('pocusFrequency').value;
+        const toolUsage = document.getElementById('toolUsage').value;
+
+        if (medicalTraining && pocusFrequency && toolUsage) {
+            overlay.style.display = 'none'; // Hide the overlay
+            // Store survey answers for later submission
+            localStorage.setItem('medicalTraining', medicalTraining);
+            localStorage.setItem('pocusFrequency', pocusFrequency);
+            localStorage.setItem('toolUsage', toolUsage);
+        } else {
+            alert('please fill out those questions');
+        }
+    });
+
+    // Check if survey already answered in localStorage to skip the overlay
+    if (localStorage.getItem('medicalTraining') && localStorage.getItem('pocusFrequency') && localStorage.getItem('toolUsage')) {
+        overlay.style.display = 'none';
+    }
+
+    // --- Initial Video & Progress Setup ---
+    // These calls ensure the video and progress bar are set up when the page loads,
+    // regardless of whether the survey was skipped or completed.
+    randomizePosition(); // Set initial random position
+    updateVideo();       // Load the video for that position
+});
+
+
+
+</script>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<ul class="icons">
+							<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+							<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+							<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+							<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+							<li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+						</ul>
+						<ul class="copyright">
+							<li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+						</ul>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Parasternal Short Axis - POCUS Teaching</title>
+
+<style>
+  /* General Layout */
+header {
+  background-color: #313d4f;
+  padding: 20px;
+  text-align: center;
+  color: white;
+  border-bottom: 2px solid #ccc;
+}
+
+header h1 {
+  margin-bottom: 10px;
+}
+
+/* Flexbox layout for overall content */
+.content {
+  display: flex;
+  justify-content: left;
+  align-items: flex-start;
+  gap: 0px;
+  margin: 40px auto;
+  max-width: 1200px;
+  padding: 0px;
+  flex-wrap: wrap;
+}
+
+/* Controls Section */
+.control-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+.scoreboard {
+  width: 100%;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 8px 12px;
+  border-radius: 5px;
+  margin-bottom: 8px;
+  color: white;
+  font-weight: bold;
+  font-size: 1em;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* Control label */
+.control-label {
+  width: 100%;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 1.1em; 
+}
+
+/* Grid inside controls */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 150px);
+  grid-template-rows: repeat(2, auto);
+  gap: 0px;
+}
+
+/* Control block styling */
+.control-block {
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  min-height: 150px;
+  max-width:150px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  width: 200px;
+}
+
+/* Control block title */
+.title-box {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+  width: 100%;
+}
+
+/* Movement Background Styles */
+.sliding,
+.rotation,
+.tilting,
+.rocking {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.sliding {
+  background-image: url('images/plax_slide.jpg');
+}
+
+.rotation {
+  background-image: url('images/plax_rotate.jpg');
+}
+
+.tilting {
+  background-image: url('images/plax_tilt.jpg');
+}
+
+.rocking {
+  background-image: url('images/plax_rock.jpg');
+}
+
+/* Control Buttons */
+.control-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+  gap: 10px;
+  justify-items: center;
+}
+
+.control-block button {
+  width: 100%;
+  height: 40px;
+  font-size: 1em;
+  border-radius: 8px;
+  background-color: rgba(0, 122, 204, 0.6);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.control-block button:hover {
+  background-color: #005fa3;
+}
+
+/* Sliding grid buttons */
+.sliding-grid {
+  display: grid;
+  margin-top: -20px;
+  grid-template-columns: 40px 40px 40px;
+  grid-template-rows: 40px 40px 40px;
+  gap: 0px;
+  grid-template-areas:
+    ". up ."
+    "left . right"
+    ". down .";
+}
+
+.sliding-grid button {
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+}
+
+.sliding-grid button:nth-child(1) { grid-area: up; }
+.sliding-grid button:nth-child(2) { grid-area: down; }
+.sliding-grid button:nth-child(3) { grid-area: left; }
+.sliding-grid button:nth-child(4) { grid-area: right; }
+
+
+  .full-height {
+  height: 100%;
+}
+
+.full-button-stack {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: -10px;
+  margin-left: -10px;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.full-button-stack button {
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+}
+
+
+#randomize-button {
+  display: none;
+  width: 150px; /* or 100% if you want full width of container */
+  height: 40px;
+}
+  
+/* iPhone Displays */
+.phone-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+}
+
+.phone-label {
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 15px 90px;
+  border-radius: 5px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.progress-wrapper {
+  width: 80%;
+  margin-top: -55px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: white;
+}
+
+#progress-bar {
+  width: 100%;
+  height: 20px;
+  border-radius: 10px;
+  background-color: #ddd;
+}
+
+progress::-webkit-progress-bar {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+progress::-webkit-progress-value {
+  background-color: rgba(0, 255, 0, 0.7);
+  border-radius: 10px;
+}
+
+.emoji-burst {
+    position: absolute;
+    bottom: 200;
+    font-size: 24px;
+    pointer-events: none;
+    animation: burst-fly 1.2s ease-out forwards;
+    transform: translate(0, 0);
+    z-index: 9999;
+}
+
+@keyframes burst-fly {
+    to {
+        transform: translate(var(--x), var(--y)) scale(1.5);
+        opacity: 0;
+    }
+}
+
+
+
+
+.iphone {
+  position: relative;
+  width: 300px;
+  height: 600px;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.screen-content {
+  position: absolute;
+  top: 2%;
+  left: 3%;
+  width: 95%;
+  height: 95%;
+  object-fit: cover;
+  z-index: 1;
+  border-radius: 30px;
+}
+
+#error-message {
+    display: none;
+    position: absolute;       /* Make it overlay the video */
+    top: 50%;                 /* Center vertically */
+    left: 50%;                /* Center horizontally */
+    transform: translate(-50%, -50%); /* Center the div */
+    color: white;
+    background-color: rgba(255, 0, 0, 0.8);
+    padding: 20px 100px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1em;
+    z-index: 999;             /* Ensure it’s above everything */
+    pointer-events: none;     /* Optional: so clicks pass through */
+    white-space: nowrap;      /* Prevent text from wrapping */
+    max-width: 90%;   
+}
+
+
+.phone-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+
+  #welcomeOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Dark, semi-transparent */
+    display: flex; /* To center content */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's on top */
+}
+
+  #surveyContainer {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 600px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+    
+</style>
+
+
+
+</head>
+<body>
+<div id="welcomeOverlay">
+    <div id="surveyContainer">
+        <h2> </h2>
+        <div style="margin-bottom: 20px;">
+                <label for="medicalTraining">1. Level of Medical Training:</label><br>
+                <select id="medicalTraining" name="medicalTraining" required>
+                    <option value="">Select...</option>
+                    <option value="student">Student</option>
+                    <option value="resident">Resident</option>
+                    <option value="fellow">Fellow</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label for="pocusFrequency">2. How often do you use cardiac POCUS?</label><br>
+                <select id="pocusFrequency" name="pocusFrequency" required>
+                    <option value="">Select...</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="rarely">Rarely</option>
+                </select>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label for="toolUsage">3. How many times have you used this tool?</label><br>
+                <select id="toolUsage" name="toolUsage" required>
+                    <option value="">Select...</option>
+                    <option value="never">Never</option>
+                    <option value="fewTimes">A few times</option>
+                    <option value="multipleTimes">Multiple times</option>
+                </select>
+            </div>
+        <button id="submitSurvey" style="margin-top: 20px;">Begin</button>
+    </div>
+</div>
+  
+  <header>
+    <h1>Apical 4 Chamber</h1>
+    <p>Use the following movements to find a view of the left ventricle, mitral valve, aortic valve and aortic artery. This view can give us a rough idea of heart ejection fraction. Press any of the buttons to begin.</p>
+  </header>
+  
+<div class="content">
+  <!-- Controls on the left -->
+  <div class="phone-wrapper">
+    <div class="phone-label"><h2>Controls</h2></div>
+    <div class="scoreboard">
+      Views Optimized: <span id="score-count">0</span>
+    </div>
+
+    <div class="control-section">
+    <div class="grid">
+
+      <!-- Sliding Controls -->
+      <div class="control-block sliding">
+        <div class="title-box">Slide</div>
+        <div class="sliding-grid">
+          <button onclick="slideUp(this)">↑</button>
+          <button onclick="slideDown(this)">↓</button>
+          <button onclick="slideLeft(this)">←</button>
+          <button onclick="slideRight(this)">→</button>
+        </div>
+      </div>
+
+           <!-- Rotation Controls -->
+      <div class="control-block rotation full-height">
+        <div class="title-box">Rotate</div>
+        <div class="full-button-stack">
+          <button onclick="rotateClockwise(this)">Rotate CW</button>
+          <button onclick="rotateCounterClockwise(this)">Rotate CCW</button>
+        </div>
+      </div>
+    
+
+      <!-- Tilting Controls -->
+      <div class="control-block tilting">
+        <div class="title-box">Tilt</div>
+        <button onclick="tiltUp(this)">Tilt Up</button>
+        <button onclick="tiltDown(this)">Tilt Down</button>
+      </div>
+      
+      <!-- Rocking Controls -->
+      <div class="control-block rocking full-height">
+        <div class="title-box">Rock</div>
+        <div class="full-button-stack">
+          <button onclick="fanAnt(this)">Fan Ant</button>
+          <button onclick="fanPost(this)">Fan Post</button>
+        </div>
+      </div>
+
+      <div id="feedback" class="feedback-display">
+
+        <p id= "current_value" ><strong>Current Value: </strong> <span id="current-value">--</span></p>
+        <p id= "current_z" ><strong>List of wrong buttons: </strong> <span id="current-z">--</span></p>
+        <p id= "wrongButtons" > <strong>Video URL:</strong> <span id="video-url">--</span></p>
+
+        <div style="margin-top: 10px;">
+          <button id="randomize-button" onclick="handleRandomize()" > Try Another View </button>
+       </div>
+       
+      </div>
+
+
+      
+    </div>
+  </div>
+  </div>
+
+
+  <!-- In Progress Phone - Center -->
+  <div class="phone-wrapper">
+    <div class="phone-label"><h2>Progress</h2></div>
+    <div class="iphone">
+      <div class="video-container">
+        <video id="main-video" class="screen-content" autoplay loop muted playsinline>
+          <source src="" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <img class="phone-frame" src="iphone.png" alt="iPhone frame" />
+      </div>
+                            <!-- Error message display -->
+                            <div id="error-message">
+                             <!-- Error text will appear here -->
+                            </div>
+    </div>
+  </div>
+
+
+  <!-- Reference Phone - Right -->
+  <div class="phone-wrapper">
+    <div class="phone-label">
+      <h2>Reference</h2>
+    </div>
+    <div class="iphone">
+      <div class="video-container">
+        <video
+          id="second-video"
+          class="screen-content"
+          autoplay
+          loop
+          muted
+          playsinline
+        >
+          <source
+            src="https://mspicy-byte.github.io/pocus/tran_recorded/A4C_norm.mov",
+            type="video/mp4"
+          />
+          Your browser does not support the video tag.
+        </video>
+        <img class="phone-frame" src="iphone.png" alt="iPhone frame" />
+      </div>
+  </div>
+</div>
+
+  
+</div>
+
+<script>
+// ---------- GLOBAL VARIABLES (Declared once, to maintain state and be accessible) ----------
+let randomizeButtonPresses = 0; // This COUNTER MUST be global to increment correctly.
+  
+let currentPosition = [0, 0];  // Properly defined
+let startPosition = null;
+let moveHistory = [];
+let totalMoves = 0;
+let wrongButtons = []; // store all buttons that were pressed incorrectly
+
+
+// Your video data - do NOT move these
+
+
+const videoURLs = [
+  "https://mspicy-byte.github.io/pocus/tran_recorded/A4C_TA.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/A4C_norm.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/A4C_TB.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/A4C_FA.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/A4C_norm.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/A4C_FP.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/A4C_sup.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/A4C_norm.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/A4C_inf.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/A4C_left.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/A4C_norm.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/A4C_right.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/A4C_CW.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/A4C_norm.mov",
+  "https://mspicy-byte.github.io/pocus/tran_recorded/A4C_CCW.mov",
+];
+
+
+
+
+const tensor = [
+  [1, 2, 3],   // Axis 0 (Tilt)
+  [4, 5, 6],   // Axis 1 (Fan)
+  [7, 8, 9],   // Axis 2 (Slide up/down)
+  [10, 11, 12],// Axis 3 (Slide left/right)
+  [13, 14, 15] // Axis 4 (Rotate)
+];
+
+let position = { y: 1, x: 1 }; // Current position in the tensor
+
+// ---------- HELPER FUNCTIONS (These don't need to be inside DOMContentLoaded) ----------
+
+// Basic utility to keep values within bounds
+function clamp(value, min, max) {
+    return Math.max(min, Math.min(max, value));
+}
+
+// Updates the main video source based on current position
+function updateVideo() {
+    // Clamp indices just in case
+    const x = clamp(position.x, 0, tensor.length - 1);
+    const y = clamp(position.y, 0, tensor[0].length - 1);
+
+    // Find the video index from tensor
+    const index = tensor[x][y] - 1;
+
+    // Get DOM elements
+    const video = document.getElementById("main-video");
+    if (!video) {
+        console.warn("Main video element not found.");
+        return;
+    }
+    const source = video.querySelector("source");
+
+    // Validate index and URL
+    if (index < 0 || index >= videoURLs.length || !videoURLs[index]) {
+        console.warn("Invalid video index or URL not found:", index, videoURLs[index]);
+        return;
+    }
+
+    // Update video source
+    source.src = videoURLs[index];
+    video.load();
+
+    // iOS autoplay compliance
+    video.muted = true;
+    video.playsInline = true;
+    video.autoplay = true;
+
+    // Try to play, catch autoplay blocks
+    video.play().catch((error) => {
+        console.warn("Video play was prevented:", error);
+    });
+
+    // Debug info
+    console.log(`Current Video Index: ${index + 1}, URL: ${videoURLs[index]}`);
+}
+
+
+
+// Updates the view using absolute s and z values
+function setView() {
+    // Clamp position to ensure it's valid
+    position.x = clamp(position.x, 0, tensor.length - 1);
+    position.y = clamp(position.y, 0, tensor[0].length - 1);
+
+    // Store current position (array for logging/debug)
+    currentPosition = [position.x, position.y];
+
+    // Get current tensor value (video index)
+    const value = tensor[position.x][position.y];
+
+    // Track move history (ignore duplicates for cleaner logs)
+    if (moveHistory.length === 0 || moveHistory[moveHistory.length - 1] !== value) {
+        moveHistory.push(value);
+        totalMoves += 1;
+    }
+
+    // Update UI safely
+    const elValue = document.getElementById("current_value");
+    const elX = document.getElementById("current-x");
+    const elY = document.getElementById("current-y");
+    const elUrl = document.getElementById("current_url");
+
+    if (elValue) elValue.innerHTML = `[${currentPosition}]`;
+    if (elX) elX.innerHTML = position.x;
+    if (elY) elY.innerHTML = position.y;
+    if (elUrl) elUrl.innerHTML = value;
+
+    // Refresh video and progress
+    updateVideo();
+    
+
+    // Debug
+    console.log(
+        "Updated to:", currentPosition,
+        "| Tensor Value:", value,
+        "| Total moves:", totalMoves,
+        "| History:", moveHistory
+    );
+}
+
+
+//-------------------------error message for if the move is incorrect 
+function checkMoveError(axis, buttonEl = null) {
+    const idealAxis = position.x;  // The axis they are supposed to move along
+    if (axis !== idealAxis) {
+        showErrorMessage("Try Moving in Another Axis!", buttonEl);
+        return true;  // Indicates an error
+    }
+    return false; // No error
+}
+
+
+// Show error message function remains the same
+function showErrorMessage(msg, buttonEl = null) {
+    // Show text message
+    const el = document.getElementById("error-message");
+    if (el) {
+        el.innerHTML = msg;
+        el.style.display = "block";
+        setTimeout(() => { el.style.display = "none"; }, 2000);
+    } else {
+        console.warn(msg);
+    }
+
+    // Highlight button in red and store it if not already stored
+    if (buttonEl && !wrongButtons.includes(buttonEl)) {
+        buttonEl.style.backgroundColor = "grey";
+        wrongButtons.push(buttonEl);
+    }
+}
+
+// Utility sleep function
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+
+// ______________checks if optimized ---------------------
+async function checkOptimized() {
+    const value = tensor[position.x][position.y]; 
+    const currentVideo = videoURLs[value - 1];
+
+    // Example: optimized = video contains "NORM"
+    if (position.y === 1) {
+        triggerEmojiBurst();
+        console.log("Image optimized!");
+
+        // Pause 1.5 seconds before hiding controls
+        await sleep(1000);
+
+        // Hide all control blocks (labels + images + buttons)
+        const controlBlocks = document.querySelectorAll('.control-block');
+        controlBlocks.forEach(block => block.style.display = 'none');
+
+        await sleep(1000);
+
+        // Show randomize button
+        const randomizeBtn = document.getElementById('randomize-button');
+        if (randomizeBtn) randomizeBtn.style.display = 'inline-block';
+    }
+}
+
+function triggerEmojiBurst() {
+    const emojis = ["🎉", "😄", "🚀", "✨", "💥"];
+    const emojiCount = 20;
+    const progressWrapper = document.querySelector(".phone-label");
+
+    for (let i = 0; i < emojiCount; i++) {
+        const emoji = document.createElement("div");
+        emoji.className = "emoji-burst";
+        emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+
+        const angle = Math.random() * 2 * Math.PI; // Full circle
+        const distance = 100 + Math.random() * 50;
+        const x = Math.cos(angle) * distance;
+        const y = Math.sin(angle) * distance * -1;
+
+        emoji.style.setProperty('--x', `${x}px`);
+        emoji.style.setProperty('--y', `${y}px`);
+        emoji.style.left = `${Math.random() * 80 + 10}%`;
+
+        setTimeout(() => {
+            progressWrapper.appendChild(emoji);
+            setTimeout(() => emoji.remove(), 1200);
+        }, i * 50);
+    }
+}
+
+
+
+
+
+//Functions defined for the button movemements 
+
+// -------- Tilt (axis 0) --------
+function tiltUp(buttonEl) {
+    if (checkMoveError(0, buttonEl)) return;
+    if (position.y < 2) position.y += 1;
+    setView();
+    checkOptimized();
+}
+
+function tiltDown(buttonEl) {
+    if (checkMoveError(0, buttonEl)) return;
+    if (position.y > 0) position.y -= 1;
+    setView();
+    checkOptimized();
+}
+
+// -------- Fan (axis 1) --------
+function fanAnt(buttonEl) {
+    if (checkMoveError(1, buttonEl)) return;
+    if (position.y < 2) position.y += 1;
+    setView();
+    checkOptimized();
+}
+
+function fanPost(buttonEl) {
+    if (checkMoveError(1, buttonEl)) return;
+    if (position.y > 0) position.y -= 1;
+    setView();
+    checkOptimized();
+}
+
+// -------- Slide Up/Down (axis 2) --------
+function slideUp(buttonEl) {
+    if (checkMoveError(2, buttonEl)) return;
+    if (position.y < 2) position.y += 1;
+    setView();
+    checkOptimized();
+}
+
+function slideDown(buttonEl) {
+    if (checkMoveError(2, buttonEl)) return;
+    if (position.y > 0) position.y -= 1;
+    setView();
+    checkOptimized();
+}
+
+// -------- Slide Left/Right (axis 3) --------
+function slideLeft(buttonEl) {
+    if (checkMoveError(3, buttonEl)) return;
+    if (position.y > 0) position.y -= 1;
+    setView();
+    checkOptimized();
+}
+
+function slideRight(buttonEl) {
+    if (checkMoveError(3, buttonEl)) return;
+    if (position.y < 2) position.y += 1;
+    setView();
+    checkOptimized();
+}
+
+// -------- Rotate (axis 4) --------
+function rotateClockwise(buttonEl) {
+    if (checkMoveError(4, buttonEl)) return;
+    if (position.y < 2) position.y += 1;
+    setView();
+    checkOptimized();
+}
+
+function rotateCounterClockwise(buttonEl) {
+    if (checkMoveError(4, buttonEl)) return;
+    if (position.y > 0) position.y -= 1;
+    setView();
+    checkOptimized();
+}
+
+
+
+
+// Randomizes the current video position
+function randomizePosition() {
+    // Pick a random axis (0–4)
+    position.x = Math.floor(Math.random() * tensor.length);
+
+    // Pick a random offset (either 0 or 2, not the center)
+    position.y = Math.random() < 0.5 ? 0 : 2;
+
+    // Store current position
+    currentPosition = [position.x, position.y];
+
+    // Reset history and moves
+    startPosition = tensor[position.x][position.y];
+    moveHistory = [startPosition];
+    totalMoves = 0;
+}
+
+//re-sets all the red buttons with each randomize 
+function resetWrongButtons() {
+    wrongButtons.forEach(btn => {
+        btn.style.backgroundColor = ""; // revert to original
+    });
+    wrongButtons = [];
+}
+
+
+// Function called when the "Randomize View" button is pressed
+function handleRandomize() {
+    // Increment counter
+    randomizeButtonPresses++; 
+
+    // Update scoreboard
+    const scoreEl = document.getElementById('score-count');
+    if (scoreEl) scoreEl.textContent = randomizeButtonPresses;
+
+    // Submit data, reset positions, and buttons
+    submitRandomizeData(); 
+    randomizePosition();
+    resetWrongButtons();
+    updateVideo(); 
+
+    // Show control blocks again
+    const controlBlocks = document.querySelectorAll('.control-block');
+    controlBlocks.forEach(block => block.style.display = 'flex'); // or 'block'
+
+    // Hide randomize button until next optimization
+    const randomizeBtn = document.getElementById('randomize-button');
+    if (randomizeBtn) randomizeBtn.style.display = 'none';
+}
+
+
+
+
+
+// ---------- DATA SUBMISSION FUNCTION (Called by handleRandomize) ----------
+async function submitRandomizeData() {
+    const dataToSubmit = {
+        medicalTraining: localStorage.getItem('medicalTraining'),
+        pocusFrequency: localStorage.getItem('pocusFrequency'),
+        toolUsage: localStorage.getItem('toolUsage'),
+        randomizeButtonPresses: 2,
+        startingPosition: startPosition,
+        numberOfMoves: totalMoves,
+        moveHistory: moveHistory
+    };
+  
+    console.log("📤 Sending expanded data:", dataToSubmit);
+
+    try {
+        const GOOGLE_URL = "https://script.google.com/macros/s/AKfycbxoSX0wr1wFpAUv7BEqKj9XXNGKfexDLqASKpHcRwTepI5MKjvBuzPbAvXaf1PwxO2d/exec";
+
+        const response = await fetch(GOOGLE_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataToSubmit),
+            mode: 'no-cors'
+        });
+
+        console.log('✅ Full data sent (no-cors mode, response not visible).');
+    } catch (error) {
+        console.error('❌ Submission failed:', error);
+        alert('Submission failed. Check console for details.');
+    }
+}
+
+  // attempt to make the demo video play automatically on iphone ----------->
+function enableSecondVideoPlayback() {
+  const secondVideo = document.getElementById("second-video");
+  if (secondVideo) {
+    secondVideo.muted = true; // Required for autoplay
+    secondVideo.playsInline = true; // Redundant safeguard
+    secondVideo.load(); // Ensure it's initialized
+    secondVideo.play().catch(err => {
+      console.warn("Second video play failed:", err);
+    });
+  }
+
+  // Remove listeners after one attempt
+  document.body.removeEventListener("click", enableSecondVideoPlayback);
+  document.body.removeEventListener("touchstart", enableSecondVideoPlayback);
+}
+
+// Add the trigger listener
+document.body.addEventListener("click", enableSecondVideoPlayback);
+document.body.addEventListener("touchstart", enableSecondVideoPlayback);
+
+
+// ---------- MAIN INITIALIZATION (Ensures DOM is ready before manipulating it) ----------
+document.addEventListener('DOMContentLoaded', (event) => {
+    const overlay = document.getElementById('welcomeOverlay');
+    const submitButton = document.getElementById('submitSurvey');
+    const randomizeButton = document.getElementById('randomize-button'); // Get reference to the randomize button
+
+    // --- Survey Overlay Logic ---
+    submitButton.addEventListener('click', () => {
+        const medicalTraining = document.getElementById('medicalTraining').value;
+        const pocusFrequency = document.getElementById('pocusFrequency').value;
+        const toolUsage = document.getElementById('toolUsage').value;
+
+        if (medicalTraining && pocusFrequency && toolUsage) {
+            overlay.style.display = 'none'; // Hide the overlay
+            // Store survey answers for later submission
+            localStorage.setItem('medicalTraining', medicalTraining);
+            localStorage.setItem('pocusFrequency', pocusFrequency);
+            localStorage.setItem('toolUsage', toolUsage);
+        } else {
+            alert('please fill out those questions');
+        }
+    });
+
+    // Check if survey already answered in localStorage to skip the overlay
+    if (localStorage.getItem('medicalTraining') && localStorage.getItem('pocusFrequency') && localStorage.getItem('toolUsage')) {
+        overlay.style.display = 'none';
+    }
+
+    // --- Initial Video & Progress Setup ---
+    // These calls ensure the video and progress bar are set up when the page loads,
+    // regardless of whether the survey was skipped or completed.
+    randomizePosition(); // Set initial random position
+    updateVideo();       // Load the video for that position
+});
+
+
+
+</script>
+  
+</body>
+</html>

@@ -71,8 +71,8 @@
       <div class="control-block rotation full-height">
         <div class="title-box">Rotate</div>
         <div class="full-button-stack">
-          <button onclick="rotateClockwise(this)">Rotate CW</button>
-          <button onclick="rotateCounterClockwise(this)">Rotate CCW</button>
+          <button onclick="rotateClockwise(this)"></button>
+          <button onclick="rotateCounterClockwise(this)"></button>
         </div>
       </div>
     
@@ -80,16 +80,16 @@
       <!-- Tilting Controls -->
       <div class="control-block tilting">
         <div class="title-box">Tilt</div>
-        <button onclick="tiltUp(this)">Tilt Up</button>
-        <button onclick="tiltDown(this)">Tilt Down</button>
+        <button onclick="tiltUp(this)"></button>
+        <button onclick="tiltDown(this)"></button>
       </div>
       
       <!-- Rocking Controls -->
       <div class="control-block rocking full-height">
         <div class="title-box">Rock</div>
         <div class="full-button-stack">
-          <button onclick="fanAnt(this)">Fan Ant</button>
-          <button onclick="fanPost(this)">Fan Post</button>
+          <button onclick="fanAnt(this)"></button>
+          <button onclick="fanPost(this)"></button>
         </div>
       </div>
 
@@ -500,7 +500,7 @@ function handleRandomize() {
     if (scoreEl) scoreEl.textContent = randomizeButtonPresses;
 
     // Submit data, reset positions, and buttons
-    submitRandomizeData(); 
+    
     randomizePosition();
     resetWrongButtons();
     updateVideo(); 
@@ -518,38 +518,7 @@ function handleRandomize() {
 
 
 
-// ---------- DATA SUBMISSION FUNCTION (Called by handleRandomize) ----------
-async function submitRandomizeData() {
-    const dataToSubmit = {
-        medicalTraining: localStorage.getItem('medicalTraining'),
-        pocusFrequency: localStorage.getItem('pocusFrequency'),
-        toolUsage: localStorage.getItem('toolUsage'),
-        randomizeButtonPresses: 2,
-        startingPosition: startPosition,
-        numberOfMoves: totalMoves,
-        moveHistory: moveHistory
-    };
-  
-    console.log("📤 Sending expanded data:", dataToSubmit);
 
-    try {
-        const GOOGLE_URL = "https://script.google.com/macros/s/AKfycbxoSX0wr1wFpAUv7BEqKj9XXNGKfexDLqASKpHcRwTepI5MKjvBuzPbAvXaf1PwxO2d/exec";
-
-        const response = await fetch(GOOGLE_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(dataToSubmit),
-            mode: 'no-cors'
-        });
-
-        console.log('✅ Full data sent (no-cors mode, response not visible).');
-    } catch (error) {
-        console.error('❌ Submission failed:', error);
-        alert('Submission failed. Check console for details.');
-    }
-}
 
   // attempt to make the demo video play automatically on iphone ----------->
 function enableSecondVideoPlayback() {
@@ -574,39 +543,9 @@ document.body.addEventListener("touchstart", enableSecondVideoPlayback);
 
 
 // ---------- MAIN INITIALIZATION (Ensures DOM is ready before manipulating it) ----------
-document.addEventListener('DOMContentLoaded', (event) => {
-    const overlay = document.getElementById('welcomeOverlay');
-    const submitButton = document.getElementById('submitSurvey');
-    const randomizeButton = document.getElementById('randomize-button'); // Get reference to the randomize button
 
-    // --- Survey Overlay Logic ---
-    submitButton.addEventListener('click', () => {
-        const medicalTraining = document.getElementById('medicalTraining').value;
-        const pocusFrequency = document.getElementById('pocusFrequency').value;
-        const toolUsage = document.getElementById('toolUsage').value;
-
-        if (medicalTraining && pocusFrequency && toolUsage) {
-            overlay.style.display = 'none'; // Hide the overlay
-            // Store survey answers for later submission
-            localStorage.setItem('medicalTraining', medicalTraining);
-            localStorage.setItem('pocusFrequency', pocusFrequency);
-            localStorage.setItem('toolUsage', toolUsage);
-        } else {
-            alert('please fill out those questions');
-        }
-    });
-
-    // Check if survey already answered in localStorage to skip the overlay
-    if (localStorage.getItem('medicalTraining') && localStorage.getItem('pocusFrequency') && localStorage.getItem('toolUsage')) {
-        overlay.style.display = 'none';
-    }
-
-    // --- Initial Video & Progress Setup ---
-    // These calls ensure the video and progress bar are set up when the page loads,
-    // regardless of whether the survey was skipped or completed.
-    randomizePosition(); // Set initial random position
-    updateVideo();       // Load the video for that position
-});
+randomizePosition(); // Set initial random position
+updateVideo();       // Load the video for that position
 
 
 
